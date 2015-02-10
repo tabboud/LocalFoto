@@ -34,9 +34,50 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Get users current location
-        // !!NOTE: Must modify info.plist for location to work!
-        getUserLocation();
+        // Set users location on map
+        
+        // Get coordinates from NSUserDefaults
+        let coordinateData: NSData = NSUserDefaults.standardUserDefaults().objectForKey("userLocation") as NSData
+        var userLocation: CLLocationCoordinate2D!
+        coordinateData.getBytes(&userLocation, length: sizeofValue(userLocation))
+        
+        let center = CLLocationCoordinate2D(latitude: userLocation.latitude, longitude: userLocation.longitude)
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        
+        self.map.setRegion(region, animated: true)
+        
+        // Create the location point
+        var point = MKPointAnnotation()
+        point.coordinate = userLocation
+        self.map.addAnnotation(point)
+        
+        
+        // Create searchURL
+        self.latitudeCoord  = NSString(format: "%f", userLocation.latitude)
+        self.longitudeCoord = NSString(format: "%f", userLocation.longitude)
+        searchURL = searchURL + "lat=" + self.latitudeCoord + "&lng=" + self.longitudeCoord + searchURLEnd + strAccTok
+        DataManager.getDataFromInstagramWithSuccess({(instagramData: NSData!)-> Void in
+            let json = JSON(data: instagramData, options: nil, error: nil)
+            
+            if let postsArray = json["data"].array{
+                
+                for val in postsArray {
+                    var userName = val["user"]["username"].string
+                    var fullName = val["user"]["full_name"].string
+                    var thumbnailURL = val["images"]["thumbnail"]["url"].string
+                    var highResURL = val["images"]["standard_resolution"]["url"].string
+                    var caption = val["caption"]["text"].string
+                    
+                    self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption))
+                    
+                }
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.collectionView.reloadData()
+                })
+                
+            }
+            
+            }, URL: searchURL)
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,30 +94,13 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
         }
     }
     
-    
-// My methods
-    func getUserLocation() -> Void{
-        // For use in the foreground
-        self.locationManager.requestWhenInUseAuthorization()
-        
-        // Check if location services are enabled
-        if(CLLocationManager.locationServicesEnabled()){
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.requestAlwaysAuthorization()
-            // Start getting location
-            locationManager.startUpdatingLocation()
-        }else{
-            println("Location Services Disabled!")
-        }
-    }
 
 // UICollectionView - DataSource Methods
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
         if(posts.count > 0){
             return posts.count
         }else{
-            return 2
+            return 0
         }
     }
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
@@ -107,61 +131,5 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 1
     }
-    
-// CLLocation - Delegate methods
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!){
-        var locValue: CLLocationCoordinate2D = manager.location.coordinate
-        self.currentCoordinates = locValue
-        
-        println("locations = \(locValue.latitude) \(locValue.longitude)")
-        let latitudeCoordinate  = NSString(format: "%.8f", locValue.latitude)
-        let longitudeCoordinate = NSString(format: "%.8f", locValue.longitude)
-        
-        let center = CLLocationCoordinate2D(latitude: locValue.latitude, longitude: locValue.longitude)
-        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-        
-        self.map.setRegion(region, animated: true)
-        
-        // Create the location point
-        var point = MKPointAnnotation()
-        point.coordinate = locValue
-        self.map.addAnnotation(point)
-        
-        // Stop getting users location
-        locationManager.stopUpdatingLocation()
-        
-// TESTING
-        // We have location, now call api to get photos
-        // Construct searchURL
-        searchURL = searchURL + "lat=" + latitudeCoordinate + "&lng=" + longitudeCoordinate + searchURLEnd + strAccTok
-        DataManager.getDataFromInstagramWithSuccess({(instagramData: NSData!)-> Void in
-            let json = JSON(data: instagramData, options: nil, error: nil)
-
-            if let postsArray = json["data"].array{
-
-                for val in postsArray {
-                    var userName = val["user"]["username"].string
-                    var fullName = val["user"]["full_name"].string
-                    var thumbnailURL = val["images"]["thumbnail"]["url"].string
-                    var highResURL = val["images"]["standard_resolution"]["url"].string
-                    var caption = val["caption"]["text"].string
-
-                    self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption))
-
-                }
-//                println(self.posts)
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.collectionView.reloadData()
-                })
-                
-            }
-        
-        }, URL: searchURL)
-    }
-    
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!){
-        println("Error updating the location")
-    }
-    
     
 }
