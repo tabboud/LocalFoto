@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE88AA751A89B1080023AC24 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88AA741A89B1080023AC24 /* SwiftyJSON.swift */; };
+		CE88AA771A89B2550023AC24 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88AA761A89B2550023AC24 /* PostModel.swift */; };
+		CE88AA791A89B42D0023AC24 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88AA781A89B42D0023AC24 /* DataManager.swift */; };
+		CE88AAAD1A8A758B0023AC24 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE88AAAC1A8A758B0023AC24 /* MapKit.framework */; };
+		CE88AAAF1A8A75920023AC24 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE88AAAE1A8A75920023AC24 /* CoreLocation.framework */; };
+		CE88AAB31A8A77460023AC24 /* MainScreen_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88AAB21A8A77460023AC24 /* MainScreen_ViewController.swift */; };
+		CE88AAB51A8A8B4F0023AC24 /* photo_CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88AAB41A8A8B4F0023AC24 /* photo_CollectionViewCell.swift */; };
+		CE88AAB71A8A8F320023AC24 /* LargePhoto_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88AAB61A8A8F320023AC24 /* LargePhoto_ViewController.swift */; };
 		CED3E7291A869E2A00F26AFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED3E7281A869E2A00F26AFE /* AppDelegate.swift */; };
 		CED3E72B1A869E2A00F26AFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED3E72A1A869E2A00F26AFE /* ViewController.swift */; };
 		CED3E72E1A869E2A00F26AFE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CED3E72C1A869E2A00F26AFE /* Main.storyboard */; };
@@ -26,6 +34,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE88AA741A89B1080023AC24 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		CE88AA761A89B2550023AC24 /* PostModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		CE88AA781A89B42D0023AC24 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		CE88AAAC1A8A758B0023AC24 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		CE88AAAE1A8A75920023AC24 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		CE88AAB21A8A77460023AC24 /* MainScreen_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainScreen_ViewController.swift; path = ../MainScreen_ViewController.swift; sourceTree = "<group>"; };
+		CE88AAB41A8A8B4F0023AC24 /* photo_CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = photo_CollectionViewCell.swift; sourceTree = "<group>"; };
+		CE88AAB61A8A8F320023AC24 /* LargePhoto_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LargePhoto_ViewController.swift; sourceTree = "<group>"; };
 		CED3E7231A869E2A00F26AFE /* Local_Foto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Local_Foto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CED3E7271A869E2A00F26AFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CED3E7281A869E2A00F26AFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE88AAAF1A8A75920023AC24 /* CoreLocation.framework in Frameworks */,
+				CE88AAAD1A8A758B0023AC24 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +77,8 @@
 		CED3E71A1A869E2A00F26AFE = {
 			isa = PBXGroup;
 			children = (
+				CE88AAAE1A8A75920023AC24 /* CoreLocation.framework */,
+				CE88AAAC1A8A758B0023AC24 /* MapKit.framework */,
 				CED3E7251A869E2A00F26AFE /* Local_Foto */,
 				CED3E73B1A869E2A00F26AFE /* Local_FotoTests */,
 				CED3E7241A869E2A00F26AFE /* Products */,
@@ -77,9 +97,15 @@
 		CED3E7251A869E2A00F26AFE /* Local_Foto */ = {
 			isa = PBXGroup;
 			children = (
+				CE88AA761A89B2550023AC24 /* PostModel.swift */,
 				CED3E7281A869E2A00F26AFE /* AppDelegate.swift */,
+				CE88AA741A89B1080023AC24 /* SwiftyJSON.swift */,
+				CE88AA781A89B42D0023AC24 /* DataManager.swift */,
+				CE88AAB21A8A77460023AC24 /* MainScreen_ViewController.swift */,
+				CE88AAB61A8A8F320023AC24 /* LargePhoto_ViewController.swift */,
 				CED3E72A1A869E2A00F26AFE /* ViewController.swift */,
 				CED3E72C1A869E2A00F26AFE /* Main.storyboard */,
+				CE88AAB41A8A8B4F0023AC24 /* photo_CollectionViewCell.swift */,
 				CED3E72F1A869E2A00F26AFE /* Images.xcassets */,
 				CED3E7311A869E2A00F26AFE /* LaunchScreen.xib */,
 				CED3E7261A869E2A00F26AFE /* Supporting Files */,
@@ -212,7 +238,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE88AA751A89B1080023AC24 /* SwiftyJSON.swift in Sources */,
+				CE88AAB31A8A77460023AC24 /* MainScreen_ViewController.swift in Sources */,
+				CE88AA791A89B42D0023AC24 /* DataManager.swift in Sources */,
+				CE88AA771A89B2550023AC24 /* PostModel.swift in Sources */,
 				CED3E72B1A869E2A00F26AFE /* ViewController.swift in Sources */,
+				CE88AAB71A8A8F320023AC24 /* LargePhoto_ViewController.swift in Sources */,
+				CE88AAB51A8A8B4F0023AC24 /* photo_CollectionViewCell.swift in Sources */,
 				CED3E7291A869E2A00F26AFE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -337,6 +369,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Local_Foto/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -347,6 +380,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Local_Foto/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -405,6 +439,7 @@
 				CED3E7441A869E2A00F26AFE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CED3E7451A869E2A00F26AFE /* Build configuration list for PBXNativeTarget "Local_FotoTests" */ = {
 			isa = XCConfigurationList;
@@ -413,6 +448,7 @@
 				CED3E7471A869E2A00F26AFE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
