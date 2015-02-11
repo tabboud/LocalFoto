@@ -14,13 +14,16 @@ class LargePhoto_ViewController: UIViewController {
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var userName: UILabel!
     @IBOutlet var caption: UILabel!
+    @IBOutlet var timeTaken: UILabel!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.imageView.image = post.getStandardResPhoto()
+        self.imageView.setImageWithURL(NSURL(string: post.highResPhotoURL))
         self.userName.text = post.userName
         self.caption.text = post.caption
+        self.timeTaken.text = post.timeTaken
     }
 
     override func didReceiveMemoryWarning() {

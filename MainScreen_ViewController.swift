@@ -8,34 +8,51 @@
 
 import UIKit
 import MapKit
-import CoreLocation
 
-
+//var searchLocationURL = "https://api.instagram.com/v1/locations/search?lat=39.2902778&lng=-76.6125&distance=1000"
 //var searchURL = "https://api.instagram.com/v1/media/search?lat=39.2833&lng=-76.6167&distance=5000&access_token="
 var searchURL = "https://api.instagram.com/v1/media/search?"
 let searchURLEnd = "&distance=2000&access_token="
 
+var searchLocationURL = "https://api.instagram.com/v1/locations/search?"
+
+
 class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CLLocationManagerDelegate {
 // Local variables
-    let locationManager = CLLocationManager()
-    var currentCoordinates: CLLocationCoordinate2D!
-    
-//    var accessToken: String!      //Store globally in strAccTok
     var latitudeCoord: String!
     var longitudeCoord: String!
     var posts = [PostModel]()
+    let locationManager = CLLocationManager()
     
     
 // Actions & Outlets
     @IBOutlet var map: MKMapView!
     @IBOutlet var collectionView: UICollectionView!
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Set users location on map
+/*  1. Check authorization, and load webView if needed
+    2. Load coordinates, check changes in viewWillAppear
+    3. update the map 
+    4. request data from API
+    5. reload cells
+  */
+    // Loading view for the first time, so get coordinates
+    self.getUserLocation()
+    
+    // Check authorization access token
+        if let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as? String{
+            // We have accessToken, so update view
+        }else{
+            // No accessToken available so present webview for login
+        }
         
+    //CHECK TO SEE IF WE HAVE ACCESS TOKEN
+    if(!strAccessToken.isEmpty){
+        // Set users location on map
+    
         // Get coordinates from NSUserDefaults
         let coordinateData: NSData = NSUserDefaults.standardUserDefaults().objectForKey("userLocation") as NSData
         var userLocation: CLLocationCoordinate2D!
@@ -55,7 +72,8 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
         // Create searchURL
         self.latitudeCoord  = NSString(format: "%f", userLocation.latitude)
         self.longitudeCoord = NSString(format: "%f", userLocation.longitude)
-        searchURL = searchURL + "lat=" + self.latitudeCoord + "&lng=" + self.longitudeCoord + searchURLEnd + strAccTok
+        searchURL = searchURL + "lat=" + self.latitudeCoord + "&lng=" + self.longitudeCoord + searchURLEnd + strAccessToken
+        searchLocationURL = searchLocationURL + "lat=" + self.latitudeCoord + "&lng=" + self.longitudeCoord + searchURLEnd + strAccessToken
         DataManager.getDataFromInstagramWithSuccess({(instagramData: NSData!)-> Void in
             let json = JSON(data: instagramData, options: nil, error: nil)
             
@@ -67,17 +85,23 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
                     var thumbnailURL = val["images"]["thumbnail"]["url"].string
                     var highResURL = val["images"]["standard_resolution"]["url"].string
                     var caption = val["caption"]["text"].string
+                    var timeTaken = self.unixTimeConvert(val["created_time"].string)
                     
-                    self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption))
+                    self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken))
                     
                 }
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.collectionView.reloadData()
-                })
-                
+                self.collectionView.reloadData()
             }
             
             }, URL: searchURL)
+        
+        }else{
+            // Havent loaded the access token yet! present view controller
+            // Display webView and request authorization
+            let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            var webViewController: ViewController = storyboard.instantiateViewControllerWithIdentifier("myWebView") as ViewController
+            self.presentViewController(webViewController, animated: true, completion: nil)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -89,7 +113,6 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
         if(segue.identifier == "viewLargePhoto"){
             let controller: LargePhoto_ViewController = segue.destinationViewController as LargePhoto_ViewController
             let indexPath: NSIndexPath = self.collectionView.indexPathForCell(sender as UICollectionViewCell)!
-//            controller.photoURL = self.posts[indexPath.row].highResPhotoURL
             controller.post = self.posts[indexPath.row]
         }
     }
@@ -106,13 +129,10 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
         let reuseIdentifier = "cellReuseID"
         let cell: photo_CollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as photo_CollectionViewCell
-//        let cell: UICollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as UICollectionViewCell
+
         if(self.posts.count > 0){
             var thumbnailURL = self.posts[indexPath.row].thumbnailPhotoURL
-
-            dispatch_async(dispatch_get_main_queue(), {
-                cell.setThumbnailImage(self.posts[indexPath.row].getThumbnailPhoto())
-            })
+            cell.setThumbnailImage(NSURL(string: thumbnailURL))
         }else{
             cell.backgroundColor = UIColor.redColor()
         }
@@ -130,6 +150,58 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
     }
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 1
+    }
+    
+    
+// CLLocationManager - Delegate methods
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!){
+        var locValue: CLLocationCoordinate2D = manager.location.coordinate
+        
+        // Stop updating location
+        locationManager.stopUpdatingLocation()
+        
+        // Save location data into NSUserDefaults
+        let data: NSData = NSData(bytes: &locValue, length: sizeofValue(locValue))
+        
+        NSUserDefaults.standardUserDefaults().setObject(data, forKey: "userLocation")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        println("Got users location...Saved it")
+    }
+    
+    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!){
+        println("Error updating the location: \(error)\n\n")
+    }
+
+    
+// My methods
+    func unixTimeConvert(unixTime: NSString!)->NSString{
+        let timeStamp = unixTime.doubleValue
+        let date: NSDate = NSDate(timeIntervalSince1970: timeStamp)
+        
+        var estDF = NSDateFormatter()
+        estDF.setLocalizedDateFormatFromTemplate("YYYY-MM-dd HH:mm:ss Z")
+        let estDateStr = estDF.stringFromDate(date)
+        
+        let timeZoneOffset = NSTimeZone(abbreviation: "EST")?.secondsFromGMT
+        let estTimeInterval:NSTimeInterval = date.timeIntervalSinceReferenceDate + NSTimeInterval(timeZoneOffset!)
+        let estDate = NSDate(timeIntervalSinceReferenceDate: estTimeInterval)
+        return estDate.description
+    }
+    
+    func getUserLocation() -> Void{
+        // For use in the foreground, not background gps
+        self.locationManager.requestWhenInUseAuthorization()
+
+        // Check if location services are enabled
+        if(CLLocationManager.locationServicesEnabled()){
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.requestAlwaysAuthorization()
+            // Start getting location
+            locationManager.startUpdatingLocation()
+        }else{
+            println("Location Services Disabled!")
+        }
     }
     
 }

@@ -13,7 +13,7 @@ class photo_CollectionViewCell: UICollectionViewCell {
     @IBOutlet var imageView: UIImageView!
     
     
-    func setThumbnailImage(thumbnailImage: UIImage){
-        self.imageView.image = thumbnailImage
+    func setThumbnailImage(thumbnailImageURL: NSURL!){
+        self.imageView.setImageWithURL(thumbnailImageURL)
     }
 }
