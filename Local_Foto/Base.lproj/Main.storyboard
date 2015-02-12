@@ -100,7 +100,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Local Fotos" id="HCI-X3-Kk2"/>
+                    <navigationItem key="navigationItem" title="Local Fotos" id="HCI-X3-Kk2">
+                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="c5t-AT-BeZ">
+                            <connections>
+                                <action selector="refreshBtn:" destination="WAD-Vi-Gm8" id="AsV-fW-uhU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="ugE-85-VCE" id="lQL-SG-Vvp"/>

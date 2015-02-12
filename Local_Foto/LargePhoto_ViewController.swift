@@ -20,7 +20,7 @@ class LargePhoto_ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.imageView.setImageWithURL(NSURL(string: post.highResPhotoURL))
+        self.imageView.setImageWithURL(NSURL(string: post.highResPhotoURL), placeholderImage: UIImage(named: "AvatarPlaceholder@2x.png"))
         self.userName.text = post.userName
         self.caption.text = post.caption
         self.timeTaken.text = post.timeTaken

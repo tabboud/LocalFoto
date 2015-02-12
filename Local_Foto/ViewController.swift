@@ -29,7 +29,11 @@ class ViewController: UIViewController, UIWebViewDelegate {
 // Outlets
     @IBOutlet var myWebView: UIWebView!
     @IBAction func cancelBtn(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        let alert: UIAlertController = UIAlertController(title: "OAuth2 Required", message: "Authorization is required to use the Instagram API", preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: {(action: UIAlertAction!)->Void in
+            alert.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     

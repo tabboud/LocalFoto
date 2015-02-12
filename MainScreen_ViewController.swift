@@ -13,14 +13,11 @@ import MapKit
 //var searchURL = "https://api.instagram.com/v1/media/search?lat=39.2833&lng=-76.6167&distance=5000&access_token="
 var searchURL = "https://api.instagram.com/v1/media/search?"
 let searchURLEnd = "&distance=2000&access_token="
-
 var searchLocationURL = "https://api.instagram.com/v1/locations/search?"
 
 
 class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CLLocationManagerDelegate, ViewControllerDelegate {
 // Local variables
-    var latitudeCoord: String!
-    var longitudeCoord: String!
     var posts = [PostModel]()
     var locationManager = CLLocationManager()
     var coordinatesSet = false
@@ -28,6 +25,20 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
 // Actions & Outlets
     @IBOutlet var map: MKMapView!
     @IBOutlet var collectionView: UICollectionView!
+    @IBAction func refreshBtn(sender: AnyObject) {
+        // !! can figure out how to move photos, if any new ones are there, without deleting ALL posts
+        if(self.coordinatesSet == false){
+            println("Coordinates not set")
+        }else{
+            println("refreshing photos")
+            println("current posts: \(posts)")
+            
+            posts.removeAll(keepCapacity: false)
+            self.getDataFromInstagram()
+        }
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +56,6 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
         }
         self.getUserLocation()
     }
-
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -114,7 +124,6 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
         println("Location saved")
         // Only set coordinates if not set already
         if(self.coordinatesSet == false){
-            self.coordinatesSet = true
             self.setCoordinates()
         }
     }
@@ -128,18 +137,13 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
         self.dismissViewControllerAnimated(true, completion: nil)
         
         // we have accessToken, now check for Coordinates then display
-        if let locValue = NSUserDefaults.standardUserDefaults().objectForKey("userLocation") as? NSData{
+        if (self.coordinatesSet == true){
             println("Inside delegate, requesting data")
-            var coordinate: CLLocationCoordinate2D!
-            locValue.getBytes(&coordinate, length: sizeofValue(coordinate))
-
-            let strLat  = NSString(format: "%f", coordinate.latitude)
-            let strLong = NSString(format: "%f", coordinate.longitude)
-            
-            self.getDataFromInstagram(strLat, longitude: strLong)
+            self.getDataFromInstagram()
         }else{
             println("have token, but not coordinates!")
         }
+
     }
     
     
@@ -167,15 +171,12 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
             self.locationManager.delegate = self
             self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             self.locationManager.distanceFilter = 500   // 500 meters until another update
-//            self.locationManager.requestAlwaysAuthorization()
             // Start getting location
             self.locationManager.startUpdatingLocation()
             
-            // If we have a coordinate, then update right away
-            if let coordinate = self.locationManager.location?.coordinate{
-                self.coordinatesSet = true
-                self.setCoordinates()
-            }
+            // Try to set the current coordinates
+            self.setCoordinates()
+            
         }else{
             println("Location Services Disabled!")
         }
@@ -183,13 +184,12 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
     
     func setCoordinates(){
         if let coordinate = self.locationManager.location?.coordinate{
-                    println("setCoordinates")
-            let latitudeCoordinate  = NSString(format: "%f", coordinate.latitude)
-            let longitudeCoordinate = NSString(format: "%f", coordinate.longitude)
+            println("setCoordinates")
             
+            self.coordinatesSet = true
             // If there is an access token, then request data
             if let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as? String{
-                self.getDataFromInstagram(latitudeCoordinate, longitude: longitudeCoordinate)
+                self.getDataFromInstagram()
             }
             
             let locValue: CLLocationCoordinate2D = self.locationManager.location.coordinate
@@ -207,9 +207,13 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
         }
     }
     
-    func getDataFromInstagram(latitude: NSString!, longitude: NSString!){
+    func getDataFromInstagram(){
+        let coordinate: CLLocationCoordinate2D = self.locationManager.location.coordinate
+        let lat  = NSString(format: "%f", coordinate.latitude)
+        let long = NSString(format: "%f", coordinate.longitude)
+        
         // Create searchURL
-        searchURL = searchURL + "lat=" + latitude + "&lng=" + longitude + searchURLEnd + strAccessToken
+        searchURL = searchURL + "lat=" + lat + "&lng=" + long + searchURLEnd + strAccessToken
         
         DataManager.getDataFromInstagramWithSuccess({(instagramData: NSData!)-> Void in
             let json = JSON(data: instagramData, options: nil, error: nil)
