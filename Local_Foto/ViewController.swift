@@ -7,6 +7,7 @@
 //
 
 //Leave this to strictly getting authorization. I will implement the pop up webview if needed.
+//!!Protocol tutorial: http://sledgedev.com/create-custom-delegate-and-protocol-ios-swift-objective-c/#comment-232
 
 import UIKit
 import CoreLocation
@@ -16,24 +17,25 @@ let AUTHURL        = "https://api.instagram.com/oauth/authorize/"       // Used 
 let CLIENTID       = "db65495f5ece4a4aac490ccc13963c05"
 let REDIRECTURL    = "http://AbboudsCorner.wordpress.com"
 
+// Set up ViewControllerDelegate protocol with access token received method, Made optional so it does not have to be implemented
+@objc protocol ViewControllerDelegate{
+    func accessTokenReceived()
+}
+
 class ViewController: UIViewController, UIWebViewDelegate {
     let fullURL = NSString(format: "%@?client_id=%@&redirect_uri=%@&response_type=token", AUTHURL, CLIENTID, REDIRECTURL)
-
+    var delegate: ViewControllerDelegate? = nil
     
 // Outlets
     @IBOutlet var myWebView: UIWebView!
+    @IBAction func cancelBtn(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as? String{
-            println("Already have Token")
-            // Set global access Token
-            strAccessToken = accessToken
-        }else{
-            self.loadURL()
-        }
-//        self.getUserLocation()
+        self.loadURL()
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,17 +62,22 @@ class ViewController: UIViewController, UIWebViewDelegate {
             
             // Access token is stored in strAccessTok
             strAccessToken = strAccessTok
-            println("Acc Tok: \(strAccessToken)")
             
             // Store key in NSUserDefaults
             NSUserDefaults.standardUserDefaults().setObject(strAccessTok, forKey: "accessToken")
             NSUserDefaults.standardUserDefaults().synchronize()
             println("Stored key in NSUserDefaults")
-            
-            self.view.viewWithTag(3)?.removeFromSuperview()
+//            self.dismissViewControllerAnimated(true, completion: nil)
+
+            // Delegate method called, implemented on MainScreen_ViewController
+            if let del = delegate{
+                del.accessTokenReceived()
+//                self.dismissViewControllerAnimated(true, completion: nil)
+            }else{
+                println("delegate is nil")
+            }
             return false
         }
-        
         return true
     }
     

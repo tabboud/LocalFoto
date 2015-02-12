@@ -18,7 +18,7 @@ class DataManager {
             if let urlData = data {
                 success(instagramData: urlData)
             }else{
-                println("Cannot get data from URL")
+                println("Cannot get data from URL, here is the error:\n\(error)")
             }
         })
     }

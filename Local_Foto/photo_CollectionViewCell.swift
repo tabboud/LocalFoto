@@ -14,6 +14,7 @@ class photo_CollectionViewCell: UICollectionViewCell {
     
     
     func setThumbnailImage(thumbnailImageURL: NSURL!){
-        self.imageView.setImageWithURL(thumbnailImageURL)
+//        self.imageView.setImageWithURL(thumbnailImageURL)
+        self.imageView.setImageWithURL(thumbnailImageURL, placeholderImage: UIImage(named: "AvatarPlaceholder@2x.png"))
     }
 }

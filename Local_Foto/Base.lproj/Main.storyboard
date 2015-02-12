@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="yoF-Cz-txL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="w7N-Ut-bsK">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
@@ -17,24 +17,26 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <webView tag="3" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pQ4-VH-JG7">
-                                <rect key="frame" x="16" y="90" width="288" height="370"/>
+                                <rect key="frame" x="-6" y="65" width="326" height="415"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Authorized!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w2j-pn-vlp">
-                                <rect key="frame" x="87" y="199" width="146" height="21"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XyO-dY-M9F">
+                                <rect key="frame" x="0.0" y="21" width="320" height="44"/>
+                                <items>
+                                    <navigationItem title="OAuth2" id="J39-Q8-IfL">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Elg-4h-98c">
+                                            <connections>
+                                                <action selector="cancelBtn:" destination="vXZ-lx-hvc" id="xqH-EP-7ie"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Get OAuth2" id="guV-qx-raO">
-                        <barButtonItem key="rightBarButtonItem" title="Fotos" id="jS8-lm-41s">
-                            <connections>
-                                <segue destination="WAD-Vi-Gm8" kind="show" id="mZR-UI-uXf"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Fotos" id="jS8-lm-41s"/>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
@@ -43,7 +45,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4768" y="235"/>
+            <point key="canvasLocation" x="5928" y="814"/>
         </scene>
         <!--Local Fotos-->
         <scene sceneID="5vu-sD-lCV">
@@ -103,11 +105,12 @@
                     <connections>
                         <outlet property="collectionView" destination="ugE-85-VCE" id="lQL-SG-Vvp"/>
                         <outlet property="map" destination="BaF-bu-byc" id="41P-Yt-0TJ"/>
+                        <segue destination="vXZ-lx-hvc" kind="presentation" identifier="presentWebView" modalPresentationStyle="overCurrentContext" id="jBY-4C-Ht7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JGI-Ug-w3e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5116" y="235"/>
+            <point key="canvasLocation" x="5928" y="235"/>
         </scene>
         <!--Large Photo View Controller-->
         <scene sceneID="ZNA-fN-Ef0">
@@ -167,26 +170,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gl8-mN-37R" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5492" y="235"/>
+            <point key="canvasLocation" x="6304" y="235"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="uLo-ez-WT7">
+        <scene sceneID="H7A-V3-wNX">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yoF-Cz-txL" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="w7N-Ut-bsK" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="QQ7-px-kx0">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="QEd-qG-EGR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="Xl7-cQ-mpo"/>
+                        <segue destination="WAD-Vi-Gm8" kind="relationship" relationship="rootViewController" id="BOB-Wf-pUT"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7TO-2D-OJL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NRd-tJ-hka" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4413" y="235"/>
+            <point key="canvasLocation" x="5564" y="235"/>
         </scene>
     </scenes>
 </document>

@@ -22,6 +22,7 @@
 		CED3E7301A869E2A00F26AFE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CED3E72F1A869E2A00F26AFE /* Images.xcassets */; };
 		CED3E7331A869E2A00F26AFE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CED3E7311A869E2A00F26AFE /* LaunchScreen.xib */; };
 		CED3E73F1A869E2A00F26AFE /* Local_FotoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED3E73E1A869E2A00F26AFE /* Local_FotoTests.swift */; };
+		CED514A51A8BE2FD00626C7E /* AvatarPlaceholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CED514A41A8BE2FD00626C7E /* AvatarPlaceholder@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		CED3E7381A869E2A00F26AFE /* Local_FotoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Local_FotoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CED3E73D1A869E2A00F26AFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CED3E73E1A869E2A00F26AFE /* Local_FotoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Local_FotoTests.swift; sourceTree = "<group>"; };
+		CED514A41A8BE2FD00626C7E /* AvatarPlaceholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AvatarPlaceholder@2x.png"; sourceTree = "<group>"; };
 		CEE0007F1A8B185D000D0CA6 /* Local_Foto-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Local_Foto-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -125,6 +127,7 @@
 		CED3E7261A869E2A00F26AFE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CED514A41A8BE2FD00626C7E /* AvatarPlaceholder@2x.png */,
 				CED3E7271A869E2A00F26AFE /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -249,6 +252,7 @@
 				CED3E72E1A869E2A00F26AFE /* Main.storyboard in Resources */,
 				CED3E7331A869E2A00F26AFE /* LaunchScreen.xib in Resources */,
 				CED3E7301A869E2A00F26AFE /* Images.xcassets in Resources */,
+				CED514A51A8BE2FD00626C7E /* AvatarPlaceholder@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
