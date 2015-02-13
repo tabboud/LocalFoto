@@ -48,6 +48,7 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
             // We have accessToken, so update view
             println("have token")
             strAccessToken = accessToken
+            println("TOKEN: \(accessToken)")
         }else{
             // No accessToken available so present webview for login
             println("presenting webview")
