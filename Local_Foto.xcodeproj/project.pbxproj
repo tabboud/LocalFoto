@@ -23,6 +23,7 @@
 		CED3E7331A869E2A00F26AFE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CED3E7311A869E2A00F26AFE /* LaunchScreen.xib */; };
 		CED3E73F1A869E2A00F26AFE /* Local_FotoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED3E73E1A869E2A00F26AFE /* Local_FotoTests.swift */; };
 		CED514A51A8BE2FD00626C7E /* AvatarPlaceholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CED514A41A8BE2FD00626C7E /* AvatarPlaceholder@2x.png */; };
+		CED514A71A8D771100626C7E /* LocalPins_TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED514A61A8D771100626C7E /* LocalPins_TableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		CED3E73D1A869E2A00F26AFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CED3E73E1A869E2A00F26AFE /* Local_FotoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Local_FotoTests.swift; sourceTree = "<group>"; };
 		CED514A41A8BE2FD00626C7E /* AvatarPlaceholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AvatarPlaceholder@2x.png"; sourceTree = "<group>"; };
+		CED514A61A8D771100626C7E /* LocalPins_TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalPins_TableViewController.swift; sourceTree = "<group>"; };
 		CEE0007F1A8B185D000D0CA6 /* Local_Foto-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Local_Foto-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,6 +117,7 @@
 				CE88AAB21A8A77460023AC24 /* MainScreen_ViewController.swift */,
 				CED3E72A1A869E2A00F26AFE /* ViewController.swift */,
 				CED3E72C1A869E2A00F26AFE /* Main.storyboard */,
+				CED514A61A8D771100626C7E /* LocalPins_TableViewController.swift */,
 				CE88AAB41A8A8B4F0023AC24 /* photo_CollectionViewCell.swift */,
 				CED3E72F1A869E2A00F26AFE /* Images.xcassets */,
 				CED3E7311A869E2A00F26AFE /* LaunchScreen.xib */,
@@ -309,6 +312,7 @@
 				CE88AA771A89B2550023AC24 /* PostModel.swift in Sources */,
 				CED3E72B1A869E2A00F26AFE /* ViewController.swift in Sources */,
 				CE88AAB71A8A8F320023AC24 /* LargePhoto_ViewController.swift in Sources */,
+				CED514A71A8D771100626C7E /* LocalPins_TableViewController.swift in Sources */,
 				CE88AAB51A8A8B4F0023AC24 /* photo_CollectionViewCell.swift in Sources */,
 				CED3E7291A869E2A00F26AFE /* AppDelegate.swift in Sources */,
 			);

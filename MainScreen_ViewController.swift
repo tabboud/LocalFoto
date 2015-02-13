@@ -37,13 +37,12 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
             self.getDataFromInstagram()
         }
     }
-    
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         println("viewDidLoad")
-
+        
     // Check authorization access token
         if let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as? String{
             // We have accessToken, so update view
