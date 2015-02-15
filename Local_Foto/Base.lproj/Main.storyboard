@@ -45,7 +45,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6787" y="864"/>
+            <point key="canvasLocation" x="6787" y="901"/>
         </scene>
         <!--Local Fotos-->
         <scene sceneID="5vu-sD-lCV">
@@ -63,7 +63,7 @@
                                 <rect key="frame" x="8" y="64" width="304" height="120"/>
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ugE-85-VCE">
-                                <rect key="frame" x="8" y="192" width="304" height="288"/>
+                                <rect key="frame" x="8" y="192" width="304" height="239"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="nqK-w8-JNq">
                                     <size key="itemSize" width="100" height="100"/>
@@ -101,7 +101,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Local Fotos" id="HCI-X3-Kk2">
-                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="c5t-AT-BeZ">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="c5t-AT-BeZ">
                             <connections>
                                 <action selector="refreshBtn:" destination="WAD-Vi-Gm8" id="AsV-fW-uhU"/>
                             </connections>
@@ -116,7 +116,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JGI-Ug-w3e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6787" y="294"/>
+            <point key="canvasLocation" x="6787" y="330"/>
         </scene>
         <!--Local Pins-->
         <scene sceneID="sP6-j6-KHm">
@@ -143,30 +143,12 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="myTableView" destination="9Iz-es-RHt" id="Vuw-ho-scI"/>
-                        <segue destination="dGj-Jg-YZI" kind="show" identifier="showLocalPinPhotos" id="gCB-f5-IlN"/>
+                        <segue destination="WAD-Vi-Gm8" kind="show" identifier="showLocalPinPhotos" id="tGW-uE-1ot"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="smJ-e4-GVP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7154" y="-298"/>
-        </scene>
-        <!--Local Pin Photos View Controller-->
-        <scene sceneID="hrY-cB-Vhy">
-            <objects>
-                <viewController id="dGj-Jg-YZI" customClass="LocalPinPhotos_ViewController" customModule="Local_Foto" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="xZL-tg-Ak5"/>
-                        <viewControllerLayoutGuide type="bottom" id="Vgl-MH-bBC"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="k4O-1T-cqK">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uk2-G1-UGf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="7526" y="-298"/>
+            <point key="canvasLocation" x="6787" y="-230"/>
         </scene>
         <!--Large Photo View Controller-->
         <scene sceneID="ZNA-fN-Ef0">
@@ -180,39 +162,50 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aYo-Fe-BmY">
-                                <rect key="frame" x="0.0" y="64" width="320" height="300"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v1F-zy-FRa">
-                                <rect key="frame" x="16" y="372" width="84" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Caption:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EbY-yK-XZM">
-                                <rect key="frame" x="16" y="394" width="66" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2XA-5x-85v">
-                                <rect key="frame" x="108" y="372" width="196" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="label" lineBreakMode="wordWrap" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h7w-22-IkE">
-                                <rect key="frame" x="16" y="411" width="288" height="61"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nkN-nY-Hiz">
-                                <rect key="frame" x="108" y="394" width="196" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Rh-Mm-s2j">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="432"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v1F-zy-FRa">
+                                        <rect key="frame" x="8" y="325" width="84" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Caption:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EbY-yK-XZM">
+                                        <rect key="frame" x="8" y="350" width="66" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="66" id="sch-Lb-A6l"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2XA-5x-85v">
+                                        <rect key="frame" x="100" y="324" width="196" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="label" lineBreakMode="wordWrap" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h7w-22-IkE">
+                                        <rect key="frame" x="16" y="363" width="288" height="61"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nkN-nY-Hiz">
+                                        <rect key="frame" x="100" y="349" width="196" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aYo-Fe-BmY">
+                                        <rect key="frame" x="0.0" y="8" width="320" height="252"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="252" id="OPw-15-4BB"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -220,13 +213,14 @@
                     <connections>
                         <outlet property="caption" destination="h7w-22-IkE" id="U7M-S8-yJM"/>
                         <outlet property="imageView" destination="aYo-Fe-BmY" id="oIS-El-UsU"/>
+                        <outlet property="scrollView" destination="9Rh-Mm-s2j" id="xf6-w9-uS6"/>
                         <outlet property="timeTaken" destination="nkN-nY-Hiz" id="0ok-7G-nFT"/>
                         <outlet property="userName" destination="2XA-5x-85v" id="6Tc-QO-eJd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gl8-mN-37R" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7147" y="294"/>
+            <point key="canvasLocation" x="7147" y="330"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="rOH-Vs-vTC">
@@ -247,7 +241,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p65-ac-by6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6068" y="235"/>
+            <point key="canvasLocation" x="5992" y="-15"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="POc-bh-Xno">
@@ -266,7 +260,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vnG-AT-A8c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6428" y="294"/>
+            <point key="canvasLocation" x="6428" y="330"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Mcd-bm-08b">
@@ -285,7 +279,10 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xkp-va-2rI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6787" y="-298"/>
+            <point key="canvasLocation" x="6428" y="-230"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="tGW-uE-1ot"/>
+    </inferredMetricsTieBreakers>
 </document>

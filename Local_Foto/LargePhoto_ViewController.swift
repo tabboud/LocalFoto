@@ -15,15 +15,22 @@ class LargePhoto_ViewController: UIViewController {
     @IBOutlet var userName: UILabel!
     @IBOutlet var caption: UILabel!
     @IBOutlet var timeTaken: UILabel!
+    @IBOutlet var scrollView: UIScrollView!
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // setup scroll view
+        self.scrollView.pagingEnabled = false
+        let screenSize = UIScreen.mainScreen().bounds.size
+        self.scrollView.contentSize = CGSize(width: screenSize.width, height: screenSize.height*1.5)
+        
+        
         self.imageView.setImageWithURL(NSURL(string: post.highResPhotoURL), placeholderImage: UIImage(named: "AvatarPlaceholder@2x.png"))
         self.userName.text = post.userName
         self.caption.text = post.caption
-        self.timeTaken.text = post.timeTaken
+        self.navigationItem.title = post.timeTaken
     }
 
     override func didReceiveMemoryWarning() {

@@ -12,14 +12,13 @@
 import UIKit
 import CoreLocation
 
-var strAccessToken = ""
 let AUTHURL        = "https://api.instagram.com/oauth/authorize/"       // Used for Oauth
 let CLIENTID       = "db65495f5ece4a4aac490ccc13963c05"
 let REDIRECTURL    = "http://AbboudsCorner.wordpress.com"
 
 // Set up ViewControllerDelegate protocol with access token received method, Made optional so it does not have to be implemented
 @objc protocol ViewControllerDelegate{
-    func accessTokenReceived()
+    func accessTokenReceived(accessToken: String!)
 }
 
 class ViewController: UIViewController, UIWebViewDelegate {
@@ -64,18 +63,14 @@ class ViewController: UIViewController, UIWebViewDelegate {
             let accessTok: NSRange = urlString.rangeOfString("#access_token=")
             let strAccessTok: String = urlString.substringFromIndex(NSMaxRange(accessTok))
             
-            // Access token is stored in strAccessTok
-            strAccessToken = strAccessTok
-            
             // Store key in NSUserDefaults
             NSUserDefaults.standardUserDefaults().setObject(strAccessTok, forKey: "accessToken")
             NSUserDefaults.standardUserDefaults().synchronize()
             println("Stored key in NSUserDefaults")
-//            self.dismissViewControllerAnimated(true, completion: nil)
 
             // Delegate method called, implemented on MainScreen_ViewController
             if let del = delegate{
-                del.accessTokenReceived()
+                del.accessTokenReceived(strAccessTok)
 //                self.dismissViewControllerAnimated(true, completion: nil)
             }else{
                 println("delegate is nil")

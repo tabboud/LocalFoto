@@ -30,8 +30,9 @@ class LocalPins_TableViewController: UITableViewController {
             let lat  = NSString(format: "%f", coordinate.latitude)
             let long = NSString(format: "%f", coordinate.longitude)
             
+            let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as NSString
             // getDataFromInstagram
-       let locationURL = NSString(format: "https://api.instagram.com/v1/locations/search?lat=%@&lng=%@&distance=1000&access_token=%@",lat, long, strAccessToken)
+       let locationURL = NSString(format: "https://api.instagram.com/v1/locations/search?lat=%@&lng=%@&distance=4000&access_token=%@",lat, long, accessToken)
             let url = NSURL(string: locationURL)
             let request = NSURLRequest(URL: url!)
             
@@ -94,7 +95,6 @@ class LocalPins_TableViewController: UITableViewController {
 
         cell.textLabel?.text = localPins[indexPath.row].name
 
-
         return cell
     }
 
@@ -102,6 +102,22 @@ class LocalPins_TableViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
         self.performSegueWithIdentifier("showLocalPinPhotos", sender: indexPath)
     }
+
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
+        if(segue.identifier == "showLocalPinPhotos"){
+            let destVC: MainScreen_ViewController = segue.destinationViewController as MainScreen_ViewController
+            let indexPath: NSIndexPath = (sender as NSIndexPath)
+            destVC.requestedPin = localPins[indexPath.row]
+            destVC.controllerState = .Pin
+        }
+    }
+    
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -139,18 +155,7 @@ class LocalPins_TableViewController: UITableViewController {
     */
 
 
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-        if(segue.identifier == "showLocalPinPhotos"){
-            let destVC: LocalPinPhotos_ViewController = segue.destinationViewController as LocalPinPhotos_ViewController
-            let indexPath: NSIndexPath = (sender as NSIndexPath)
-            destVC.requestedPin = localPins[indexPath.row]
-        }
-    }
 
 
 }
