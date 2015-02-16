@@ -17,25 +17,28 @@ class LargePhoto_ViewController: UIViewController {
     @IBOutlet var caption: UILabel!
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var userNameBtn: UIButton!
+    @IBOutlet var timeSincePosted: UILabel!
+    @IBOutlet var profilePicture: UIImageView!
 
     
     override func viewWillAppear(animated: Bool) {
         // setup scroll view
         self.scrollView.pagingEnabled = false
-        let screenSize = UIScreen.mainScreen().bounds.size
-        let scrollHeight = self.imageView.frame.height + self.caption.frame.height
-        self.scrollView.contentSize = CGSize(width: screenSize.width, height: scrollHeight)
+//        let screenSize = UIScreen.mainScreen().bounds.size
+//        let scrollHeight = self.imageView.frame.height + self.caption.frame.height
+//        
+//        self.scrollView.contentSize = CGSize(width: screenSize.width, height: scrollHeight)
         
         
         self.imageView.setImageWithURL(NSURL(string: post.highResPhotoURL), placeholderImage: UIImage(named: "AvatarPlaceholder@2x.png"))
         self.userNameBtn.titleLabel?.text = post.userName
-        
         self.caption.text = post.caption
-        self.navigationItem.title = self.timeSinceTaken()
+        self.timeSincePosted.text = self.timeSinceTaken()
+        self.profilePicture.setImageWithURL(NSURL(string: self.post.profilePictureURL))
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.navigationItem.title = "Photo"
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,28 +68,28 @@ class LargePhoto_ViewController: UIViewController {
         if let estDate = dateFormatter.dateFromString(photoTimeTaken){
             // subtract two dates
             let c = NSCalendar.currentCalendar()
-            let calendarFlags: NSCalendarUnit = .HourCalendarUnit | .MinuteCalendarUnit | .SecondCalendarUnit | .DayCalendarUnit | .MonthCalendarUnit | .YearCalendarUnit
+            let calendarFlags: NSCalendarUnit = .HourCalendarUnit | .MinuteCalendarUnit | .SecondCalendarUnit | .DayCalendarUnit | .MonthCalendarUnit | .YearCalendarUnit | .WeekOfYearCalendarUnit
             let components:NSDateComponents = c.components(calendarFlags, fromDate: curTime, toDate: estDate, options: nil)
             
             let year = components.year
-            let month = components.month
+            let weeks = components.weekOfYear
             let day = components.day
             let hours = components.hour
             let minutes = components.minute
             let seconds = components.second
             
             if(year != 0){
-                return String(abs(year)) + " Year ago"
-            }else if(month != 0){
-                return String(abs(month)) + " Months ago"
+                return String(abs(year)) + "Y ago"
+            }else if(weeks != 0){
+                return String(abs(weeks)) + "w ago"
             }else if(day != 0){
-                return String(abs(day)) + " d ago"
+                return String(abs(day)) + "d ago"
             }else if(hours != 0){
-                return String(abs(hours)) + " h ago"
+                return String(abs(hours)) + "h ago"
             }else if(minutes != 0){
-                return String(abs(minutes)) + " m ago"
+                return String(abs(minutes)) + "m ago"
             }else if(seconds != 0){
-                return String(abs(seconds)) + " s ago"
+                return String(abs(seconds)) + "s ago"
             }else{
                 return "just now"
             }
