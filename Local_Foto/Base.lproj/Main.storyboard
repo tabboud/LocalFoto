@@ -171,33 +171,26 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aYo-Fe-BmY">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aYo-Fe-BmY">
                                         <rect key="frame" x="0.0" y="8" width="320" height="252"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="252" id="OPw-15-4BB"/>
                                         </constraints>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MBJ-hG-FvQ">
-                                        <rect key="frame" x="57" y="270" width="247" height="30"/>
-                                        <state key="normal">
-                                            <attributedString key="attributedTitle">
-                                                <fragment content="username">
-                                                    <attributes>
-                                                        <font key="NSFont" size="15" name="HelveticaNeue-Bold"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
-                                        </state>
-                                        <connections>
-                                            <segue destination="ekW-3I-Yft" kind="show" identifier="showUserProfile" id="cUJ-m5-wRG"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="label" lineBreakMode="wordWrap" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h7w-22-IkE">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Caption" lineBreakMode="wordWrap" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h7w-22-IkE">
                                         <rect key="frame" x="16" y="308" width="288" height="83"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MBJ-hG-FvQ">
+                                        <rect key="frame" x="57" y="268" width="247" height="30"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                                        <state key="normal" title="username"/>
+                                        <connections>
+                                            <segue destination="ekW-3I-Yft" kind="show" identifier="showUserProfile" id="cUJ-m5-wRG"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </scrollView>
                         </subviews>
@@ -261,6 +254,7 @@
                                         </view>
                                         <connections>
                                             <outlet property="imageView" destination="1nY-bE-5Xz" id="bCU-gf-Clk"/>
+                                            <segue destination="vaK-FX-MPl" kind="show" identifier="showUserPhotoLarge" id="XYl-sm-gVd"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -352,5 +346,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="tGW-uE-1ot"/>
+        <segue reference="w5r-cu-syg"/>
     </inferredMetricsTieBreakers>
 </document>

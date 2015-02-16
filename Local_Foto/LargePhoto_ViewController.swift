@@ -20,7 +20,6 @@ class LargePhoto_ViewController: UIViewController {
 
     
     override func viewWillAppear(animated: Bool) {
-        
         // setup scroll view
         self.scrollView.pagingEnabled = false
         let screenSize = UIScreen.mainScreen().bounds.size

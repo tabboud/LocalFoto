@@ -54,7 +54,7 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         println("viewDidLoad")
-        
+
     // Check authorization access token
         if let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as? String{
             // We have accessToken, so update view
@@ -65,12 +65,10 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
             println("presenting webview")
             self.performSegueWithIdentifier("presentWebView", sender: self)
         }
-        
         // Only request location when checking for local
         if(controllerState == .Local){
             self.getUserLocation()
         }else{
-            
             // Send API request for photos near pin
             // Set coordinates on map
             self.setCoordinates(CLLocationCoordinate2D(latitude: (requestedPin.latitude as NSString).doubleValue, longitude: (requestedPin.longitude as NSString).doubleValue))
@@ -95,6 +93,8 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
     }
     
 
+
+    
 // UICollectionView - DataSource Methods
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
         return (posts.count > 0) ? posts.count : 0
@@ -150,8 +150,6 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
         
         // we have accessToken, now check for Coordinates then display
         if (self.coordinatesSet == true){
-            println("Inside delegate, requesting data")
-            
             // Fetch Coordinates
             let curLoc = NSUserDefaults.standardUserDefaults().objectForKey("userLocation") as NSData
             var coordinate: CLLocationCoordinate2D!
@@ -213,7 +211,7 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
                 if(controllerState == .Local){
                     self.getDataFromInstagram(accessToken, latitude: coordinate.latitude, longitude: coordinate.longitude)
                 }else{
-                    self.getData2FromInstagram(accessToken)
+                    self.getDataFromInstagram(accessToken, latitude: nil, longitude: nil)
                 }
             }
 
@@ -230,95 +228,57 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
     }
     
     func getDataFromInstagram(accessToken: String!, latitude: CLLocationDegrees!, longitude: CLLocationDegrees!){
-        let lat  = NSString(format: "%f", latitude)
-        let long = NSString(format: "%f", longitude)
+        var endpointURL: NSString!
         
-        // Create searchURL
-        let mySearchURL = searchURL + "lat=" + lat + "&lng=" + long + searchURLEnd + accessToken
-        
-        let url = NSURL(string: mySearchURL)
-        let request = NSURLRequest(URL: url!)
-        
-        let operation: AFHTTPRequestOperation = AFHTTPRequestOperation(request: request)
-        operation.responseSerializer = AFJSONResponseSerializer()
-        operation.setCompletionBlockWithSuccess({(operation, responseObject: AnyObject!)-> Void in
-             let json = JSON(responseObject)
-
-            if let postsArray = json["data"].array{
-                
-                for val in postsArray {
-                    var userName = val["user"]["username"].string
-                    var fullName = val["user"]["full_name"].string
-                    var thumbnailURL = val["images"]["thumbnail"]["url"].string
-                    var highResURL = val["images"]["standard_resolution"]["url"].string
-                    var caption = val["caption"]["text"].string
-                    var timeTaken = self.unixTimeConvert(val["created_time"].string)
-                    var userID = val["user"]["id"].string
-                    var profilePicURL = val["user"]["profile_picture"].string
+        if(controllerState == .Local){
+            let lat  = NSString(format: "%f", latitude)
+            let long = NSString(format: "%f", longitude)
+            // Create searchURL
+//            let endpointURL = searchURL + "lat=" + lat + "&lng=" + long + searchURLEnd + accessToken
+            endpointURL = NSString(format: "https://api.instagram.com/v1/media/search?lat=%@&lng=%@&distance=4000&access_token=%@",lat, long, accessToken )
+        }else{
+            endpointURL = NSString(format: "https://api.instagram.com/v1/locations/%@/media/recent?access_token=%@", requestedPin.id, accessToken)
+        }
+        DataManager.getDataFromInstagramWithSuccess(endpointURL, success: {(instagramData, error)->Void in
+            if (error != nil){
+                println("Error occured getting data!")
+            }else{
+                if let postsArray = instagramData["data"].array{
                     
-                    self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken, ID: userID, profilePic: profilePicURL))
-                }
-                println("Reloading collection view")
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.collectionView.reloadData()
-                })
-            }
-            }, failure: {(operation, error)->Void in
-                println("Some error occured in AFNEtworking: \(error)")
-            })
-        operation.start()
-    }
-    
-    func getData2FromInstagram(accessToken: String!){
-        // We have coordinates for map, and location id for photo request
-        
-        // getDataFromInstagram
-        let photosURL = NSString(format: "https://api.instagram.com/v1/locations/%@/media/recent?access_token=%@", requestedPin.id, accessToken)
-        
-        let url = NSURL(string: photosURL)
-        let request = NSURLRequest(URL: url!)
-        
-        let operation: AFHTTPRequestOperation = AFHTTPRequestOperation(request: request)
-        operation.responseSerializer = AFJSONResponseSerializer()
-        operation.setCompletionBlockWithSuccess({(operation, responseObject: AnyObject!)-> Void in
-            println("JSON received from IG")
-            
-            let json = JSON(responseObject)
-            
-            if let pinsArray = json["data"].array{
-                for val in pinsArray {
-                    var userName = val["user"]["username"].string
-                    var fullName = val["user"]["full_name"].string
-                    var thumbnailURL = val["images"]["thumbnail"]["url"].string
-                    var highResURL = val["images"]["standard_resolution"]["url"].string
-                    var caption = val["caption"]["text"].string
-                    var timeTaken = self.unixTimeConvert(val["created_time"].string)
-                    var userID = val["user"]["id"].string
-                    var profilePicURL = val["user"]["profile_picture"].string
-                    
-                    self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken, ID: userID, profilePic: profilePicURL))
-                }
-                if(self.posts.count == 0){
-                    let alert = UIAlertController(title: "No Photos", message: "No photos were taken at this location", preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: "Okay", style: .Default, handler: {(action)->Void in
-                        alert.dismissViewControllerAnimated(true, completion: nil)
-                    }))
-                    self.presentViewController(alert, animated: true, completion: nil)
-                }else{
-                    println("Reloading collection view")
+                    for val in postsArray {
+                        var userName        = val["user"]["username"].string
+                        var fullName        = val["user"]["full_name"].string
+                        var thumbnailURL    = val["images"]["thumbnail"]["url"].string
+                        var highResURL      = val["images"]["standard_resolution"]["url"].string
+                        var caption         = val["caption"]["text"].string
+                        var timeTaken       = self.unixTimeConvert(val["created_time"].string)
+                        var userID          = val["user"]["id"].string
+                        var profilePicURL   = val["user"]["profile_picture"].string
+                        
+                        self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken, ID: userID, profilePic: profilePicURL))
+                    }
+                    if(self.posts.count == 0 && self.controllerState == .Pin){
+                        let alert = UIAlertController(title: "No Photos", message: "No photos were taken at this location", preferredStyle: .Alert)
+                        alert.addAction(UIAlertAction(title: "Okay", style: .Default, handler: {(action)->Void in
+                            alert.dismissViewControllerAnimated(true, completion: nil)
+                        }))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
                     dispatch_async(dispatch_get_main_queue(), {
                         self.collectionView.reloadData()
                     })
                 }
-                
-            }else{
-                println("No photos at this location")
             }
-            
-            }, failure: {(operation, error)->Void in
-                println("Some error occured in AFNEtworking: \(error)")
         })
-        
-        operation.start()
+
     }
 }
+
+
+
+
+
+
+
+
+

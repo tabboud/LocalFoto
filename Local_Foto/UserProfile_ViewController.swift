@@ -32,13 +32,13 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
 
         // Request user info for bio
         self.getUserBio()
-        //Request posts (i.e. photos) from API
-        self.getDataFromInstagram()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Request posts (i.e. photos) from API
+        self.getDataFromInstagram()
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,10 +59,7 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
         if(self.posts.count > 0){
             var thumbnailURL = self.posts[indexPath.row].thumbnailPhotoURL
             cell.setThumbnailImage(NSURL(string: thumbnailURL))
-        }else{
-            cell.backgroundColor = UIColor.redColor()
         }
-        
         return cell
     }
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int{
@@ -77,15 +74,15 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
         return 1
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if(segue.identifier == "showUserPhotoLarge"){
+            let destVC: LargePhoto_ViewController = segue.destinationViewController as LargePhoto_ViewController
+            let indexPath: NSIndexPath = self.collectionView.indexPathForCell(sender as UICollectionViewCell)!
+            destVC.post = self.posts[indexPath.row]
+        }
     }
-    */
+
     
 // My methods
     func getDataFromInstagram(){
@@ -93,44 +90,35 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
         let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as String
 
         // Create URL
-        let apiURL = NSString(format: "https://api.instagram.com/v1/users/%@/media/recent/?access_token=%@", self.userInfo.userId, accessToken)
+        let requestURL = NSString(format: "https://api.instagram.com/v1/users/%@/media/recent/?access_token=%@", self.userInfo.userId, accessToken)
         
-        let url = NSURL(string: apiURL)
-        let request = NSURLRequest(URL: url!)
-        
-        let operation: AFHTTPRequestOperation = AFHTTPRequestOperation(request: request)
-        operation.responseSerializer = AFJSONResponseSerializer()
-        operation.setCompletionBlockWithSuccess({(operation, responseObject: AnyObject!)-> Void in
-            let json = JSON(responseObject)
-            if let postsArray = json["data"].array{
-                
-                for val in postsArray {
-                    var userName = val["user"]["username"].string
-                    var fullName = val["user"]["full_name"].string
-                    var thumbnailURL = val["images"]["thumbnail"]["url"].string
-                    var highResURL = val["images"]["standard_resolution"]["url"].string
-                    var caption = val["caption"]["text"].string
-                    var timeTaken = self.unixTimeConvert(val["created_time"].string)
-                    var userID = val["user"]["id"].string
-                    var profilePicURL = val["user"]["profile_picture"].string
+        DataManager.getDataFromInstagramWithSuccess(requestURL, success: {(instagramData, error)->Void in
+            if(error != nil){
+                println("Error getting data!")
+            }else{
+                if let postsArray = instagramData["data"].array{
+                    for val in postsArray {
+                        var userName        = val["user"]["username"].string
+                        var fullName        = val["user"]["full_name"].string
+                        var thumbnailURL    = val["images"]["thumbnail"]["url"].string
+                        var highResURL      = val["images"]["standard_resolution"]["url"].string
+                        var caption         = val["caption"]["text"].string
+                        var timeTaken       = self.unixTimeConvert(val["created_time"].string)
+                        var userID          = val["user"]["id"].string
+                        var profilePicURL   = val["user"]["profile_picture"].string
+                        
+                        self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken, ID: userID, profilePic: profilePicURL))
+                    }
                     
-                    self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken, ID: userID, profilePic: profilePicURL))
-
+                    //TODO: Handle Pagination here
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.collectionView.reloadData()
+                        self.txtFullName.text = self.posts[0].fullName
+                    })
                 }
-                
-                //TODO: Handle Pagination here
-                
-                
-                println("Reloading collection view")
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.collectionView.reloadData()
-                    self.txtFullName.text = self.posts[0].fullName
-                })
             }
-            }, failure: {(operation, error)->Void in
-                println("Some error occured in AFNEtworking: \(error)")
         })
-        operation.start()
     }
     
     func getUserBio(){
@@ -138,23 +126,17 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
         let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as String
         
         // Create URL
-        let apiURL = NSString(format: "https://api.instagram.com/v1/users/%@/?access_token=%@", self.userInfo.userId, accessToken)
+        let requestURL = NSString(format: "https://api.instagram.com/v1/users/%@/?access_token=%@", self.userInfo.userId, accessToken)
         
-        let url = NSURL(string: apiURL)
-        let request = NSURLRequest(URL: url!)
-        
-        let operation: AFHTTPRequestOperation = AFHTTPRequestOperation(request: request)
-        operation.responseSerializer = AFJSONResponseSerializer()
-        operation.setCompletionBlockWithSuccess({(operation, responseObject: AnyObject!)-> Void in
-            let json = JSON(responseObject)
-
-            dispatch_async(dispatch_get_main_queue(), {
-                self.txtBio.text = json["data"]["bio"].string
-            })
-            }, failure: {(operation, error)->Void in
-                println("Some error occured in AFNEtworking: \(error)")
+        DataManager.getDataFromInstagramWithSuccess(requestURL, success: {(instagramData, error)->Void in
+            if(error != nil){
+                println("Some error occured")
+            }else{
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.txtBio.text = instagramData["data"]["bio"].string
+                })
+            }
         })
-        operation.start()
         
     }
     

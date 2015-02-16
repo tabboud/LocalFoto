@@ -70,8 +70,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
 
             // Delegate method called, implemented on MainScreen_ViewController
             if let del = delegate{
-                del.accessTokenReceived(strAccessTok)
-//                self.dismissViewControllerAnimated(true, completion: nil)
+                del.accessTokenReceived(strAccessTok) 
             }else{
                 println("delegate is nil")
             }
