@@ -253,8 +253,10 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
                     var highResURL = val["images"]["standard_resolution"]["url"].string
                     var caption = val["caption"]["text"].string
                     var timeTaken = self.unixTimeConvert(val["created_time"].string)
+                    var userID = val["user"]["id"].string
+                    var profilePicURL = val["user"]["profile_picture"].string
                     
-                    self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken))
+                    self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken, ID: userID, profilePic: profilePicURL))
                 }
                 println("Reloading collection view")
                 dispatch_async(dispatch_get_main_queue(), {
@@ -291,8 +293,10 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
                     var highResURL = val["images"]["standard_resolution"]["url"].string
                     var caption = val["caption"]["text"].string
                     var timeTaken = self.unixTimeConvert(val["created_time"].string)
+                    var userID = val["user"]["id"].string
+                    var profilePicURL = val["user"]["profile_picture"].string
                     
-                    self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken))
+                    self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken, ID: userID, profilePic: profilePicURL))
                 }
                 if(self.posts.count == 0){
                     let alert = UIAlertController(title: "No Photos", message: "No photos were taken at this location", preferredStyle: .Alert)

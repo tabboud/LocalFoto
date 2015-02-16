@@ -17,18 +17,22 @@ class PostModel: NSObject, Printable {
     let highResPhotoURL: String
     let caption: String
     let timeTaken: String
+    let userId: String
+    let profilePictureURL: String
 
     
     override var description: String {
         return "User Name: \(userName), Full Name: \(fullName), URL: \(thumbnailPhotoURL)\n"
     }
     
-    init(userName: String?, fullName: String?, thumbPhotoURL: String?, highPhotoURL: String?, caption: String?, timeTaken: String?) {
+    init(userName: String?, fullName: String?, thumbPhotoURL: String?, highPhotoURL: String?, caption: String?, timeTaken: String?, ID: String?, profilePic: String?) {
         self.userName = userName ?? ""
         self.fullName = fullName ?? ""
         self.thumbnailPhotoURL = thumbPhotoURL ?? ""
         self.highResPhotoURL = highPhotoURL ?? ""
         self.caption = caption ?? ""
         self.timeTaken = timeTaken ?? ""
+        self.userId = ID ?? ""
+        self.profilePictureURL = profilePic ?? ""
     }
 }
