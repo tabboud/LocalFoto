@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Abbouds Corner. All rights reserved.
 //
 
-//TODO: possibly make getDataWithInstagram with a callback, to then be able to set UILabels and such in the completion handler
-//TODO: Combine all getDatawithInstagram and unix converter code into one file, just pass url to set?
 //Must search for user by id to get their bio / profile picture (can get this from either)
 //then send request to get recent media (has pagination, and profile pic)
 import UIKit

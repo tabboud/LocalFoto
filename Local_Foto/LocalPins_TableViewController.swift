@@ -15,19 +15,15 @@ class LocalPins_TableViewController: UITableViewController {
     
 // Outlets and Actions
     @IBOutlet var myTableView: UITableView!
-
-
-    override func viewWillAppear(animated: Bool) {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         // If location is saved then
         if let curLoc = NSUserDefaults.standardUserDefaults().objectForKey("userLocation") as? NSData{
             var coordinate: CLLocationCoordinate2D!
             curLoc.getBytes(&coordinate, length: sizeofValue(coordinate))
             self.getDataFromInstagram(coordinate.latitude, longitude: coordinate.longitude)
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
     }
 
     override func didReceiveMemoryWarning() {

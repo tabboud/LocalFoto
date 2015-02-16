@@ -13,6 +13,7 @@ import UIKit
 class LargePhoto_ViewController: UIViewController {
     var post: PostModel!
     
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var caption: UILabel!
     @IBOutlet var scrollView: UIScrollView!
@@ -29,8 +30,16 @@ class LargePhoto_ViewController: UIViewController {
 //        
 //        self.scrollView.contentSize = CGSize(width: screenSize.width, height: scrollHeight)
         
-        
-        self.imageView.setImageWithURL(NSURL(string: post.highResPhotoURL), placeholderImage: UIImage(named: "AvatarPlaceholder@2x.png"))
+        self.activityIndicator.hidden = false
+        self.activityIndicator.startAnimating()
+        self.imageView.setImageWithURLRequest(NSURLRequest(URL: NSURL(string: post.highResPhotoURL)!), placeholderImage: nil, success: {(request, response, image)->Void in
+            self.activityIndicator.stopAnimating()
+            self.activityIndicator.hidden = true
+            self.imageView.image = image
+            }, failure: {(request, response, error)->Void in
+                self.imageView.image = UIImage(named: "AvatarPlaceholder@2x.png")
+                println("failed to get photo")
+        })
         self.userNameBtn.titleLabel?.text = post.userName
         self.caption.text = post.caption
         self.timeSincePosted.text = self.timeSinceTaken()
