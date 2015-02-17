@@ -14,6 +14,9 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
     var userInfo: PostModel!
     var posts = [PostModel]()
     let refreshControl = UIRefreshControl()
+    var paginationURL: String? = nil
+    var isFetchingData: Bool = false    //flag for fetching pagination data
+    
 // Actions & Outlets
     @IBOutlet var collectionView: UICollectionView!
     
@@ -21,14 +24,23 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
         self.navigationItem.title = userInfo.userName
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        //Fixes UIScrollView EXC_Bad_Access code, viewDidScroll was trying to access objects in this class, but this class was already deallocated
+        
+        //attempting to move collection view below nav bar where button is
+        self.collectionView.delegate = nil
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //Request posts (i.e. photos) from API
-        self.getDataFromInstagram()
+        self.getDataFromInstagram("user")
         
         // Add refresh control to screen
         refreshControl.addTarget(self, action: "startRefresh", forControlEvents: .ValueChanged)
         self.collectionView.addSubview(refreshControl)
+        
     }
     func startRefresh(){
         println("REFRESHING")
@@ -102,20 +114,42 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
             destVC.post = self.posts[indexPath.row]
         }
     }
-
+    
+// UIScrollView - Delegate Methods
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if(self.isFetchingData == false){
+            if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
+                //reached bottom
+                if let pagURL = self.paginationURL{
+                    self.isFetchingData = true
+                    self.getDataFromInstagram("pagination")
+                }
+            }
+        }
+    }
+    
     
 // My methods
-    func getDataFromInstagram(){
-        // Fetch AccessToken
-        let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as String
-
-        // Create URL
-        let requestURL = NSString(format: "https://api.instagram.com/v1/users/%@/media/recent/?access_token=%@", self.userInfo.userId, accessToken)
+    func getDataFromInstagram(request: String!){
+        var requestURL: String!
         
+        if(request == "pagination"){
+            requestURL = self.paginationURL
+        }else{
+        let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as String
+            requestURL = NSString(format: "https://api.instagram.com/v1/users/%@/media/recent/?access_token=%@", self.userInfo.userId, accessToken)
+        }
         DataManager.getDataFromInstagramWithSuccess(requestURL, success: {(instagramData, error)->Void in
             if(error != nil){
                 println("Error getting data!")
             }else{
+                if let pagURL = instagramData["pagination"]["next_url"].string{
+                    self.isFetchingData = false
+                    self.paginationURL = pagURL
+                }else{
+                    self.paginationURL = nil
+                }
+                
                 if let postsArray = instagramData["data"].array{
                     for val in postsArray {
                         var userName        = val["user"]["username"].string
@@ -129,9 +163,7 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
                         
                         self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken, ID: userID, profilePic: profilePicURL))
                     }
-                    
-                    //TODO: Handle Pagination here
-                    
+
                     dispatch_async(dispatch_get_main_queue(), {
                         self.collectionView.reloadData()
                     })
@@ -140,7 +172,6 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
         })
     }
 
-    
     func unixTimeConvert(unixTime: NSString!)->NSString{
         let timeStamp = unixTime.doubleValue
         let date: NSDate = NSDate(timeIntervalSince1970: timeStamp)

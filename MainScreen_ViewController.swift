@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Abbouds Corner. All rights reserved.
 //
 
-//TODO: Fix username on LargePhoto_VC
 //TODO: Add pagination code for user_profile
 
 

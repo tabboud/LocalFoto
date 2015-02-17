@@ -10,7 +10,7 @@
 
 import UIKit
 
-class LargePhoto_ViewController: UIViewController {
+class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
     var post: PostModel!
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
@@ -23,12 +23,37 @@ class LargePhoto_ViewController: UIViewController {
 
     
     override func viewWillAppear(animated: Bool) {
-// setup scroll view
+//// setup scroll view
+//        self.scrollView.pagingEnabled = false
+//        let screenSize = UIScreen.mainScreen().bounds.size
+//        let scrollHeight = self.imageView.frame.height + self.caption.frame.height
+//        self.scrollView.contentSize = CGSize(width: screenSize.width, height: scrollHeight+40)
+//        
+//        
+//        self.activityIndicator.hidden = false
+//        self.activityIndicator.startAnimating()
+//        self.imageView.setImageWithURLRequest(NSURLRequest(URL: NSURL(string: post.highResPhotoURL)!), placeholderImage: nil, success: {(request, response, image)->Void in
+//            self.activityIndicator.stopAnimating()
+//            self.activityIndicator.hidden = true
+//            self.imageView.image = image
+//            }, failure: {(request, response, error)->Void in
+//                self.imageView.image = UIImage(named: "AvatarPlaceholder@2x.png")
+//                println("failed to get photo")
+//        })
+//        self.userNameBtn.setTitle(post.userName, forState: UIControlState.Normal)
+//        self.caption.text = post.caption
+//        self.timeSincePosted.text = self.timeSinceTaken()
+//        self.profilePicture.setImageWithURL(NSURL(string: self.post.profilePictureURL))
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationItem.title = "Photo"
+
+        // setup scroll view
         self.scrollView.pagingEnabled = false
         let screenSize = UIScreen.mainScreen().bounds.size
         let scrollHeight = self.imageView.frame.height + self.caption.frame.height
-        self.scrollView.contentSize = CGSize(width: screenSize.width, height: scrollHeight+20)
-        self.scrollView.contentOffset = CGPointMake(0, 0)
+        self.scrollView.contentSize = CGSize(width: screenSize.width, height: scrollHeight+40)
         
         
         self.activityIndicator.hidden = false
@@ -42,14 +67,9 @@ class LargePhoto_ViewController: UIViewController {
                 println("failed to get photo")
         })
         self.userNameBtn.setTitle(post.userName, forState: UIControlState.Normal)
-//        self.userNameBtn.titleLabel?.text = post.userName
         self.caption.text = post.caption
         self.timeSincePosted.text = self.timeSinceTaken()
         self.profilePicture.setImageWithURL(NSURL(string: self.post.profilePictureURL))
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationItem.title = "Photo"
     }
 
     override func didReceiveMemoryWarning() {
