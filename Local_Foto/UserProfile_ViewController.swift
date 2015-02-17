@@ -13,39 +13,26 @@ import UIKit
 class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     var userInfo: PostModel!
     var posts = [PostModel]()
-
+    let refreshControl = UIRefreshControl()
 // Actions & Outlets
-    @IBOutlet var profilePicture: UIImageView!
-    
-    @IBOutlet var txtFullName: UILabel!
-    @IBOutlet var txtBio: UILabel!
     @IBOutlet var collectionView: UICollectionView!
-    @IBOutlet var myScrollView: UIScrollView!
-    
     
     override func viewWillAppear(animated: Bool) {
-        // Set name and username
-        self.txtFullName.text = userInfo.fullName
         self.navigationItem.title = userInfo.userName
-        self.profilePicture.setImageWithURL(NSURL(string: userInfo.profilePictureURL), placeholderImage: UIImage(named: "AvatarPlaceholder@2x.png"))
-
-        // Request user info for bio
-        self.getUserBio()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // setup scroll view
-        self.myScrollView.pagingEnabled = false
-        let screenSize = UIScreen.mainScreen().bounds.size
-        let scrollHeight = self.profilePicture.frame.height + self.collectionView.frame.height
-        self.myScrollView.contentSize = CGSize(width: screenSize.width, height: scrollHeight+20)
-        self.myScrollView.contentOffset = CGPointMake(0, 0)
-        
-        
-        
         //Request posts (i.e. photos) from API
         self.getDataFromInstagram()
+        
+        // Add refresh control to screen
+        refreshControl.addTarget(self, action: "startRefresh", forControlEvents: .ValueChanged)
+        self.collectionView.addSubview(refreshControl)
+    }
+    func startRefresh(){
+        println("REFRESHING")
+        refreshControl.endRefreshing()
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,7 +45,6 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
         return (posts.count > 0) ? posts.count : 0
     }
     
-    // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
         
         let cell: UserPhotosCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("userPhotosCell", forIndexPath: indexPath) as UserPhotosCollectionViewCell
@@ -71,6 +57,33 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
     }
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int{
         return 1
+    }
+    
+// UICollectionView - Delegate Methods
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        var userHeader: UserProfile_CollectionReusableView!
+        if(kind == UICollectionElementKindSectionHeader){
+            userHeader = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "userProfileHeaderID", forIndexPath: indexPath) as UserProfile_CollectionReusableView
+            userHeader.setFullName(userInfo.fullName)
+            userHeader.setImage(userInfo.profilePictureURL)
+            
+            // Fetch AccessToken
+            let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as String
+            
+            // Create URL
+            let requestURL = NSString(format: "https://api.instagram.com/v1/users/%@/?access_token=%@", self.userInfo.userId, accessToken)
+            
+            DataManager.getDataFromInstagramWithSuccess(requestURL, success: {(instagramData, error)->Void in
+                if(error != nil){
+                    println("Some error occured")
+                }else{
+                    dispatch_async(dispatch_get_main_queue(), {
+                        userHeader.setBio(instagramData["data"]["bio"].string)
+                    })
+                }
+            })
+        }
+        return userHeader
     }
     
     // UICollectionViewFlowLayout - Delegate Methods
@@ -121,31 +134,12 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
                     
                     dispatch_async(dispatch_get_main_queue(), {
                         self.collectionView.reloadData()
-                        self.txtFullName.text = self.posts[0].fullName
                     })
                 }
             }
         })
     }
-    
-    func getUserBio(){
-        // Fetch AccessToken
-        let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as String
-        
-        // Create URL
-        let requestURL = NSString(format: "https://api.instagram.com/v1/users/%@/?access_token=%@", self.userInfo.userId, accessToken)
-        
-        DataManager.getDataFromInstagramWithSuccess(requestURL, success: {(instagramData, error)->Void in
-            if(error != nil){
-                println("Some error occured")
-            }else{
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.txtBio.text = instagramData["data"]["bio"].string
-                })
-            }
-        })
-        
-    }
+
     
     func unixTimeConvert(unixTime: NSString!)->NSString{
         let timeStamp = unixTime.doubleValue

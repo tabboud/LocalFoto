@@ -41,7 +41,8 @@ class LargePhoto_ViewController: UIViewController {
                 self.imageView.image = UIImage(named: "AvatarPlaceholder@2x.png")
                 println("failed to get photo")
         })
-        self.userNameBtn.titleLabel?.text = post.userName
+        self.userNameBtn.setTitle(post.userName, forState: UIControlState.Normal)
+//        self.userNameBtn.titleLabel?.text = post.userName
         self.caption.text = post.caption
         self.timeSincePosted.text = self.timeSinceTaken()
         self.profilePicture.setImageWithURL(NSURL(string: self.post.profilePictureURL))

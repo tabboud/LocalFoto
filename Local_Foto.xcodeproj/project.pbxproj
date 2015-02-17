@@ -17,6 +17,7 @@
 		CE88AAB71A8A8F320023AC24 /* LargePhoto_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88AAB61A8A8F320023AC24 /* LargePhoto_ViewController.swift */; };
 		CE99B7931A918DCA008CB41A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE99B7921A918DCA008CB41A /* DataManager.swift */; };
 		CE99B79B1A939006008CB41A /* MapView_CollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE99B79A1A939006008CB41A /* MapView_CollectionReusableView.swift */; };
+		CE99B79E1A93992B008CB41A /* UserProfile_CollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE99B79D1A93992B008CB41A /* UserProfile_CollectionReusableView.swift */; };
 		CED3E7291A869E2A00F26AFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED3E7281A869E2A00F26AFE /* AppDelegate.swift */; };
 		CED3E72B1A869E2A00F26AFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED3E72A1A869E2A00F26AFE /* ViewController.swift */; };
 		CED3E72E1A869E2A00F26AFE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CED3E72C1A869E2A00F26AFE /* Main.storyboard */; };
@@ -52,7 +53,8 @@
 		CE88AAB41A8A8B4F0023AC24 /* photo_CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = photo_CollectionViewCell.swift; sourceTree = "<group>"; };
 		CE88AAB61A8A8F320023AC24 /* LargePhoto_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LargePhoto_ViewController.swift; sourceTree = "<group>"; };
 		CE99B7921A918DCA008CB41A /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		CE99B79A1A939006008CB41A /* MapView_CollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView_CollectionReusableView.swift; sourceTree = "<group>"; };
+		CE99B79A1A939006008CB41A /* MapView_CollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapView_CollectionReusableView.swift; path = Local_Foto/MapView_CollectionReusableView.swift; sourceTree = "<group>"; };
+		CE99B79D1A93992B008CB41A /* UserProfile_CollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile_CollectionReusableView.swift; sourceTree = "<group>"; };
 		CED3E7231A869E2A00F26AFE /* Local_Foto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Local_Foto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CED3E7271A869E2A00F26AFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CED3E7281A869E2A00F26AFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +94,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE99B79C1A9398F2008CB41A /* Reusable Views */ = {
+			isa = PBXGroup;
+			children = (
+				CE99B79A1A939006008CB41A /* MapView_CollectionReusableView.swift */,
+				CE99B79D1A93992B008CB41A /* UserProfile_CollectionReusableView.swift */,
+			);
+			name = "Reusable Views";
+			path = ..;
+			sourceTree = "<group>";
+		};
 		CED3E71A1A869E2A00F26AFE = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +129,7 @@
 		CED3E7251A869E2A00F26AFE /* Local_Foto */ = {
 			isa = PBXGroup;
 			children = (
+				CE99B79C1A9398F2008CB41A /* Reusable Views */,
 				CED514AA1A8DAD7B00626C7E /* Data Models */,
 				CED3E7281A869E2A00F26AFE /* AppDelegate.swift */,
 				CE88AA741A89B1080023AC24 /* SwiftyJSON.swift */,
@@ -129,7 +142,6 @@
 				CEF10E481A90677E00FA97BC /* UserProfile_ViewController.swift */,
 				CED3E72A1A869E2A00F26AFE /* ViewController.swift */,
 				CED3E72C1A869E2A00F26AFE /* Main.storyboard */,
-				CE99B79A1A939006008CB41A /* MapView_CollectionReusableView.swift */,
 				CED3E72F1A869E2A00F26AFE /* Images.xcassets */,
 				CED3E7311A869E2A00F26AFE /* LaunchScreen.xib */,
 				CED3E7261A869E2A00F26AFE /* Supporting Files */,
@@ -330,6 +342,7 @@
 				CE88AA751A89B1080023AC24 /* SwiftyJSON.swift in Sources */,
 				CE99B7931A918DCA008CB41A /* DataManager.swift in Sources */,
 				CE88AAB31A8A77460023AC24 /* MainScreen_ViewController.swift in Sources */,
+				CE99B79E1A93992B008CB41A /* UserProfile_CollectionReusableView.swift in Sources */,
 				CE88AA771A89B2550023AC24 /* PostModel.swift in Sources */,
 				CED3E72B1A869E2A00F26AFE /* ViewController.swift in Sources */,
 				CEF10E491A90677E00FA97BC /* UserProfile_ViewController.swift in Sources */,

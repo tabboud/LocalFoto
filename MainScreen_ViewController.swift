@@ -28,12 +28,21 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
     var coordinatesSet = false
     var accessToken: String? = nil
     
+    let refreshControl = UIRefreshControl()
     var controllerState = displayState.Local
     
 // Actions & Outlets
     @IBOutlet var collectionView: UICollectionView!
-    @IBAction func refreshBtn(sender: AnyObject) {
-        // !! can figure out how to move photos, if any new ones are there, without deleting ALL posts
+
+    override func viewWillAppear(animated: Bool) {
+        // Add refresh control to screen
+        
+        refreshControl.addTarget(self, action: "startRefresh", forControlEvents: .ValueChanged)
+        refreshControl.attributedTitle = NSAttributedString(string: "Keep Pulling")
+        self.collectionView.addSubview(refreshControl)
+    }
+    
+    func startRefresh(){
         if(self.coordinatesSet == false){
             println("Coordinates not set")
         }else{
@@ -44,11 +53,11 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
             let curLoc = NSUserDefaults.standardUserDefaults().objectForKey("userLocation") as NSData
             var coordinate: CLLocationCoordinate2D!
             curLoc.getBytes(&coordinate, length: sizeofValue(coordinate))
-
+            
             self.getDataFromInstagram(accessToken, latitude: coordinate.latitude, longitude: coordinate.longitude)
         }
+        refreshControl.endRefreshing()
     }
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
