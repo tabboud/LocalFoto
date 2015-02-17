@@ -6,20 +6,21 @@
 //  Copyright (c) 2015 Abbouds Corner. All rights reserved.
 //
 
+//TODO: Fix username on LargePhoto_VC
+//TODO: Add pagination code for user_profile
+
+
 import UIKit
 import MapKit
 
 //var searchLocationURL = "https://api.instagram.com/v1/locations/search?lat=39.2902778&lng=-76.6125&distance=1000"
 //var searchURL         = "https://api.instagram.com/v1/media/search?lat=39.2833&lng=-76.6167&distance=5000&access_token="
-var searchURL           = "https://api.instagram.com/v1/media/search?"
-let searchURLEnd        = "&distance=4000&access_token="
-var searchLocationURL   = "https://api.instagram.com/v1/locations/search?"
 
 enum displayState{
     case Local
     case Pin
 }
-class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CLLocationManagerDelegate, ViewControllerDelegate {
+class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CLLocationManagerDelegate, ViewControllerDelegate, UIScrollViewDelegate {
 // Local variables
     var posts = [PostModel]()
     var requestedPin: LocalPinsModel!
@@ -30,7 +31,6 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
     var controllerState = displayState.Local
     
 // Actions & Outlets
-    @IBOutlet var map: MKMapView!
     @IBOutlet var collectionView: UICollectionView!
     @IBAction func refreshBtn(sender: AnyObject) {
         // !! can figure out how to move photos, if any new ones are there, without deleting ALL posts
@@ -38,7 +38,6 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
             println("Coordinates not set")
         }else{
             println("refreshing photos")
-            println("current posts: \(posts)")
             
             posts.removeAll(keepCapacity: false)
             // Fetch Coordinates
@@ -69,6 +68,7 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
         if(controllerState == .Local){
             self.getUserLocation()
         }else{
+            self.navigationItem.title = requestedPin.name
             // Send API request for photos near pin
             // Set coordinates on map
             self.setCoordinates(CLLocationCoordinate2D(latitude: (requestedPin.latitude as NSString).doubleValue, longitude: (requestedPin.longitude as NSString).doubleValue))
@@ -119,6 +119,32 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 1
     }
+    
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        var map: MapView_CollectionReusableView!
+        
+        if(kind == UICollectionElementKindSectionHeader){
+            map = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "mapHeaderID", forIndexPath: indexPath) as MapView_CollectionReusableView
+            if self.coordinatesSet == true{
+                let coordinate = self.coordinates
+                // Set region for map and add pin
+                let center = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+                
+                map.setRegion(region)
+                
+                // Create the location point
+                var point = MKPointAnnotation()
+                point.coordinate = coordinate
+                point.title = (controllerState == .Local) ? "Your Location" : requestedPin.name
+                map.addAnnotation(point)
+            }
+
+        }
+
+        return map
+    }
+    
     
     
 // CLLocationManager - Delegate methods
@@ -200,11 +226,12 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
             println("Location Services Disabled!")
         }
     }
-    
+
+    var coordinates: CLLocationCoordinate2D!
     func setCoordinates(coordinate: CLLocationCoordinate2D!){
             println("setCoordinates")
-            
             self.coordinatesSet = true
+        self.coordinates = coordinate
             // If there is an access token, then request data
             if let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as? String{
                 println("getting data")
@@ -214,19 +241,9 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
                     self.getDataFromInstagram(accessToken, latitude: nil, longitude: nil)
                 }
             }
-
-            // Set region for map and add pin
-            let center = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-            self.map.setRegion(region, animated: true)
-            
-            // Create the location point
-            var point = MKPointAnnotation()
-            point.coordinate = coordinate
-            point.title = (controllerState == .Local) ? "Your Location" : requestedPin.name
-            self.map.addAnnotation(point)
+        //!!Had coordinates being set here
     }
-    
+
     func getDataFromInstagram(accessToken: String!, latitude: CLLocationDegrees!, longitude: CLLocationDegrees!){
         var endpointURL: NSString!
         

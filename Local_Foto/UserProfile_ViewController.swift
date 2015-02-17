@@ -20,6 +20,7 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
     @IBOutlet var txtFullName: UILabel!
     @IBOutlet var txtBio: UILabel!
     @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet var myScrollView: UIScrollView!
     
     
     override func viewWillAppear(animated: Bool) {
@@ -34,6 +35,14 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // setup scroll view
+        self.myScrollView.pagingEnabled = false
+        let screenSize = UIScreen.mainScreen().bounds.size
+        let scrollHeight = self.profilePicture.frame.height + self.collectionView.frame.height
+        self.myScrollView.contentSize = CGSize(width: screenSize.width, height: scrollHeight+20)
+        self.myScrollView.contentOffset = CGPointMake(0, 0)
+        
+        
         
         //Request posts (i.e. photos) from API
         self.getDataFromInstagram()

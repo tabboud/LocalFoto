@@ -23,12 +23,13 @@ class LargePhoto_ViewController: UIViewController {
 
     
     override func viewWillAppear(animated: Bool) {
-        // setup scroll view
+// setup scroll view
         self.scrollView.pagingEnabled = false
-//        let screenSize = UIScreen.mainScreen().bounds.size
-//        let scrollHeight = self.imageView.frame.height + self.caption.frame.height
-//        
-//        self.scrollView.contentSize = CGSize(width: screenSize.width, height: scrollHeight)
+        let screenSize = UIScreen.mainScreen().bounds.size
+        let scrollHeight = self.imageView.frame.height + self.caption.frame.height
+        self.scrollView.contentSize = CGSize(width: screenSize.width, height: scrollHeight+20)
+        self.scrollView.contentOffset = CGPointMake(0, 0)
+        
         
         self.activityIndicator.hidden = false
         self.activityIndicator.startAnimating()
