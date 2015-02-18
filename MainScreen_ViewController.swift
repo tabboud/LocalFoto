@@ -271,16 +271,22 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
                 if let postsArray = instagramData["data"].array{
                     
                     for val in postsArray {
-                        var userName        = val["user"]["username"].string
-                        var fullName        = val["user"]["full_name"].string
-                        var thumbnailURL    = val["images"]["thumbnail"]["url"].string
-                        var highResURL      = val["images"]["standard_resolution"]["url"].string
-                        var caption         = val["caption"]["text"].string
-                        var timeTaken       = self.unixTimeConvert(val["created_time"].string)
-                        var userID          = val["user"]["id"].string
-                        var profilePicURL   = val["user"]["profile_picture"].string
+                        let userName        = val["user"]["username"].string
+                        let fullName        = val["user"]["full_name"].string
+                        let thumbnailURL    = val["images"]["thumbnail"]["url"].string
+                        let highResURL      = val["images"]["standard_resolution"]["url"].string
+                        let caption         = val["caption"]["text"].string
+                        let timeTaken       = self.unixTimeConvert(val["created_time"].string)
+                        let userID          = val["user"]["id"].string
+                        let profilePicURL   = val["user"]["profile_picture"].string
+                        let mediaType       = val["type"].string
                         
-                        self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken, ID: userID, profilePic: profilePicURL))
+                        var videoURL: String? = nil
+                        if(mediaType == "video"){
+                            videoURL = val["videos"]["low_bandwidth"]["url"].string
+                        }
+                        
+                        self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken, ID: userID, profilePic: profilePicURL, type: mediaType, vidURL: videoURL))
                     }
                     if(self.posts.count == 0 && self.controllerState == .Pin){
                         let alert = UIAlertController(title: "No Photos", message: "No photos were taken at this location", preferredStyle: .Alert)

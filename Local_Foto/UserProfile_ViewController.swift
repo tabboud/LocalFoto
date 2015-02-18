@@ -160,8 +160,14 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
                         var timeTaken       = self.unixTimeConvert(val["created_time"].string)
                         var userID          = val["user"]["id"].string
                         var profilePicURL   = val["user"]["profile_picture"].string
+                        var mediaType       = val["type"].string
                         
-                        self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken, ID: userID, profilePic: profilePicURL))
+                        var videoURL: String? = nil
+                        if(mediaType == "video"){
+                            videoURL = val["videos"]["low_bandwidth"]["url"].string
+                        }
+                        
+                        self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken, ID: userID, profilePic: profilePicURL, type: mediaType, vidURL: videoURL))
                     }
 
                     dispatch_async(dispatch_get_main_queue(), {

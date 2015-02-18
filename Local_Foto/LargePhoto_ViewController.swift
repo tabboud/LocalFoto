@@ -9,9 +9,14 @@
 //TODO: add date taken by time (i.e. 3h ago, 2w ago, etc)
 
 import UIKit
+import MediaPlayer
+import AVKit
+import AVFoundation
 
 class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
     var post: PostModel!
+    var moviePlayer: MPMoviePlayerViewController!
+    var myplayer: AVPlayerViewController!
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var imageView: UIImageView!
@@ -21,30 +26,8 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet var timeSincePosted: UILabel!
     @IBOutlet var profilePicture: UIImageView!
 
-    
-    override func viewWillAppear(animated: Bool) {
-//// setup scroll view
-//        self.scrollView.pagingEnabled = false
-//        let screenSize = UIScreen.mainScreen().bounds.size
-//        let scrollHeight = self.imageView.frame.height + self.caption.frame.height
-//        self.scrollView.contentSize = CGSize(width: screenSize.width, height: scrollHeight+40)
-//        
-//        
-//        self.activityIndicator.hidden = false
-//        self.activityIndicator.startAnimating()
-//        self.imageView.setImageWithURLRequest(NSURLRequest(URL: NSURL(string: post.highResPhotoURL)!), placeholderImage: nil, success: {(request, response, image)->Void in
-//            self.activityIndicator.stopAnimating()
-//            self.activityIndicator.hidden = true
-//            self.imageView.image = image
-//            }, failure: {(request, response, error)->Void in
-//                self.imageView.image = UIImage(named: "AvatarPlaceholder@2x.png")
-//                println("failed to get photo")
-//        })
-//        self.userNameBtn.setTitle(post.userName, forState: UIControlState.Normal)
-//        self.caption.text = post.caption
-//        self.timeSincePosted.text = self.timeSinceTaken()
-//        self.profilePicture.setImageWithURL(NSURL(string: self.post.profilePictureURL))
-    }
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Photo"
@@ -58,14 +41,32 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
         
         self.activityIndicator.hidden = false
         self.activityIndicator.startAnimating()
-        self.imageView.setImageWithURLRequest(NSURLRequest(URL: NSURL(string: post.highResPhotoURL)!), placeholderImage: nil, success: {(request, response, image)->Void in
-            self.activityIndicator.stopAnimating()
-            self.activityIndicator.hidden = true
-            self.imageView.image = image
-            }, failure: {(request, response, error)->Void in
-                self.imageView.image = UIImage(named: "AvatarPlaceholder@2x.png")
-                println("failed to get photo")
-        })
+        println(self.post.mediaType)
+        // Check media type
+        if(post.mediaType == "image"){
+            println("inside")
+            self.imageView.setImageWithURLRequest(NSURLRequest(URL: NSURL(string: post.highResPhotoURL)!), placeholderImage: nil, success: {(request, response, image)->Void in
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.hidden = true
+                self.imageView.image = image
+                }, failure: {(request, response, error)->Void in
+                    self.imageView.image = UIImage(named: "AvatarPlaceholder@2x.png")
+                    println("failed to get photo")
+            })
+        }else if(post.mediaType == "video"){
+            // set up a video in the same frame as imageView
+            let videoURL = NSURL(string: self.post.videoURL)
+            // Use either MPMoviePlayer or AVPlayer (ios8 and up)
+//            self.moviePlayer = MPMoviePlayerViewController(contentURL: videoURL)
+//            self.moviePlayer.view.frame = self.imageView.frame
+//            self.scrollView.addSubview(self.moviePlayer.view)
+//            self.moviePlayer.moviePlayer.controlStyle = MPMovieControlStyle.Embedded
+//            self.moviePlayer.moviePlayer.play()
+            self.myplayer = AVPlayerViewController()
+            self.myplayer.view.frame = self.imageView.frame
+            self.scrollView.addSubview(self.myplayer.view)
+            self.myplayer.player = AVPlayer(URL: videoURL)
+        }
         self.userNameBtn.setTitle(post.userName, forState: UIControlState.Normal)
         self.caption.text = post.caption
         self.timeSincePosted.text = self.timeSinceTaken()

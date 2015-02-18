@@ -18,6 +18,9 @@
 		CE99B7931A918DCA008CB41A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE99B7921A918DCA008CB41A /* DataManager.swift */; };
 		CE99B79B1A939006008CB41A /* MapView_CollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE99B79A1A939006008CB41A /* MapView_CollectionReusableView.swift */; };
 		CE99B79E1A93992B008CB41A /* UserProfile_CollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE99B79D1A93992B008CB41A /* UserProfile_CollectionReusableView.swift */; };
+		CE99B7A21A9409F6008CB41A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE99B7A11A9409F6008CB41A /* MediaPlayer.framework */; };
+		CE99B7A41A940E93008CB41A /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE99B7A31A940E93008CB41A /* AVKit.framework */; };
+		CE99B7A61A940F62008CB41A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE99B7A51A940F62008CB41A /* AVFoundation.framework */; };
 		CED3E7291A869E2A00F26AFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED3E7281A869E2A00F26AFE /* AppDelegate.swift */; };
 		CED3E72B1A869E2A00F26AFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED3E72A1A869E2A00F26AFE /* ViewController.swift */; };
 		CED3E72E1A869E2A00F26AFE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CED3E72C1A869E2A00F26AFE /* Main.storyboard */; };
@@ -55,6 +58,9 @@
 		CE99B7921A918DCA008CB41A /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		CE99B79A1A939006008CB41A /* MapView_CollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapView_CollectionReusableView.swift; path = Local_Foto/MapView_CollectionReusableView.swift; sourceTree = "<group>"; };
 		CE99B79D1A93992B008CB41A /* UserProfile_CollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile_CollectionReusableView.swift; sourceTree = "<group>"; };
+		CE99B7A11A9409F6008CB41A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		CE99B7A31A940E93008CB41A /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		CE99B7A51A940F62008CB41A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		CED3E7231A869E2A00F26AFE /* Local_Foto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Local_Foto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CED3E7271A869E2A00F26AFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CED3E7281A869E2A00F26AFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +84,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE99B7A61A940F62008CB41A /* AVFoundation.framework in Frameworks */,
+				CE99B7A41A940E93008CB41A /* AVKit.framework in Frameworks */,
+				CE99B7A21A9409F6008CB41A /* MediaPlayer.framework in Frameworks */,
 				CE88AAAF1A8A75920023AC24 /* CoreLocation.framework in Frameworks */,
 				CE88AAAD1A8A758B0023AC24 /* MapKit.framework in Frameworks */,
 				5A74CC52E434940603CBB9F5 /* libPods.a in Frameworks */,
@@ -107,8 +116,6 @@
 		CED3E71A1A869E2A00F26AFE = {
 			isa = PBXGroup;
 			children = (
-				CE88AAAE1A8A75920023AC24 /* CoreLocation.framework */,
-				CE88AAAC1A8A758B0023AC24 /* MapKit.framework */,
 				CED3E7251A869E2A00F26AFE /* Local_Foto */,
 				CED3E73B1A869E2A00F26AFE /* Local_FotoTests */,
 				CED3E7241A869E2A00F26AFE /* Products */,
@@ -197,6 +204,11 @@
 		F554735A142FB3A93AB7069C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE99B7A51A940F62008CB41A /* AVFoundation.framework */,
+				CE99B7A31A940E93008CB41A /* AVKit.framework */,
+				CE99B7A11A9409F6008CB41A /* MediaPlayer.framework */,
+				CE88AAAE1A8A75920023AC24 /* CoreLocation.framework */,
+				CE88AAAC1A8A758B0023AC24 /* MapKit.framework */,
 				8C018B7336D557537B4EB9EA /* libPods.a */,
 			);
 			name = Frameworks;
