@@ -21,6 +21,8 @@
 		CE99B7A21A9409F6008CB41A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE99B7A11A9409F6008CB41A /* MediaPlayer.framework */; };
 		CE99B7A41A940E93008CB41A /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE99B7A31A940E93008CB41A /* AVKit.framework */; };
 		CE99B7A61A940F62008CB41A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE99B7A51A940F62008CB41A /* AVFoundation.framework */; };
+		CE99B7A81A943025008CB41A /* Location_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE99B7A71A943025008CB41A /* Location_ViewController.swift */; };
+		CE99B7AA1A945928008CB41A /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE99B7A91A945928008CB41A /* AddressBookUI.framework */; };
 		CED3E7291A869E2A00F26AFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED3E7281A869E2A00F26AFE /* AppDelegate.swift */; };
 		CED3E72B1A869E2A00F26AFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED3E72A1A869E2A00F26AFE /* ViewController.swift */; };
 		CED3E72E1A869E2A00F26AFE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CED3E72C1A869E2A00F26AFE /* Main.storyboard */; };
@@ -61,6 +63,8 @@
 		CE99B7A11A9409F6008CB41A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		CE99B7A31A940E93008CB41A /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		CE99B7A51A940F62008CB41A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		CE99B7A71A943025008CB41A /* Location_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location_ViewController.swift; sourceTree = "<group>"; };
+		CE99B7A91A945928008CB41A /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		CED3E7231A869E2A00F26AFE /* Local_Foto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Local_Foto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CED3E7271A869E2A00F26AFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CED3E7281A869E2A00F26AFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE99B7AA1A945928008CB41A /* AddressBookUI.framework in Frameworks */,
 				CE99B7A61A940F62008CB41A /* AVFoundation.framework in Frameworks */,
 				CE99B7A41A940E93008CB41A /* AVKit.framework in Frameworks */,
 				CE99B7A21A9409F6008CB41A /* MediaPlayer.framework in Frameworks */,
@@ -149,6 +154,7 @@
 				CEF10E481A90677E00FA97BC /* UserProfile_ViewController.swift */,
 				CED3E72A1A869E2A00F26AFE /* ViewController.swift */,
 				CED3E72C1A869E2A00F26AFE /* Main.storyboard */,
+				CE99B7A71A943025008CB41A /* Location_ViewController.swift */,
 				CED3E72F1A869E2A00F26AFE /* Images.xcassets */,
 				CED3E7311A869E2A00F26AFE /* LaunchScreen.xib */,
 				CED3E7261A869E2A00F26AFE /* Supporting Files */,
@@ -204,6 +210,7 @@
 		F554735A142FB3A93AB7069C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE99B7A91A945928008CB41A /* AddressBookUI.framework */,
 				CE99B7A51A940F62008CB41A /* AVFoundation.framework */,
 				CE99B7A31A940E93008CB41A /* AVKit.framework */,
 				CE99B7A11A9409F6008CB41A /* MediaPlayer.framework */,
@@ -353,6 +360,7 @@
 				CE99B79B1A939006008CB41A /* MapView_CollectionReusableView.swift in Sources */,
 				CE88AA751A89B1080023AC24 /* SwiftyJSON.swift in Sources */,
 				CE99B7931A918DCA008CB41A /* DataManager.swift in Sources */,
+				CE99B7A81A943025008CB41A /* Location_ViewController.swift in Sources */,
 				CE88AAB31A8A77460023AC24 /* MainScreen_ViewController.swift in Sources */,
 				CE99B79E1A93992B008CB41A /* UserProfile_CollectionReusableView.swift in Sources */,
 				CE88AA771A89B2550023AC24 /* PostModel.swift in Sources */,

@@ -218,7 +218,7 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
         // Check if location services are enabled
         if(CLLocationManager.locationServicesEnabled()){
             self.locationManager.delegate = self
-            self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            self.locationManager.desiredAccuracy = kCLLocationAccuracyBest //kCLLocationAccuracyNearestTenMeters
             self.locationManager.distanceFilter = 500   // 500 meters until another update
             // Start getting location
             self.locationManager.startUpdatingLocation()
