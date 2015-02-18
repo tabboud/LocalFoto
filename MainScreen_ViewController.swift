@@ -53,6 +53,8 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
             var coordinate: CLLocationCoordinate2D!
             curLoc.getBytes(&coordinate, length: sizeofValue(coordinate))
             
+            // Reset map coordinates from disk and get new data
+            self.coordinates = coordinate
             self.getDataFromInstagram(accessToken, latitude: coordinate.latitude, longitude: coordinate.longitude)
         }
         refreshControl.endRefreshing()
@@ -130,7 +132,7 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDataSource, U
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         var map: MapView_CollectionReusableView!
-        
+        println("view for supplementary called")
         if(kind == UICollectionElementKindSectionHeader){
             map = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "mapHeaderID", forIndexPath: indexPath) as MapView_CollectionReusableView
             if self.coordinatesSet == true{

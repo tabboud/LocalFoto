@@ -25,6 +25,16 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="WLt-Tk-kVj">
                                 <rect key="frame" x="0.0" y="64" width="320" height="256"/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="xpF-4e-k4K">
+                                <rect key="frame" x="231" y="347" width="73" height="58"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                                <state key="normal" title="Use This Location">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnUseLocation:" destination="B4V-9Q-1Fq" eventType="touchUpInside" id="WAI-Wy-gzC"/>
+                                </connections>
+                            </button>
                             <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Search for a Location" translatesAutoresizingMaskIntoConstraints="NO" id="X4p-8g-zUV">
                                 <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
@@ -36,17 +46,6 @@
                                     <outlet property="delegate" destination="B4V-9Q-1Fq" id="fe8-La-xFi"/>
                                 </connections>
                             </searchBar>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NDA-CE-RP0">
-                                <rect key="frame" x="282" y="323" width="22" height="22"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="xpF-4e-k4K">
-                                <rect key="frame" x="231" y="347" width="73" height="58"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
-                                <state key="normal" title="Use This Location"/>
-                                <connections>
-                                    <action selector="btnUseLocation:" destination="B4V-9Q-1Fq" eventType="touchUpInside" id="WAI-Wy-gzC"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -55,10 +54,19 @@
                     <connections>
                         <outlet property="map" destination="WLt-Tk-kVj" id="RR9-CB-Dsh"/>
                         <outlet property="searchBar" destination="X4p-8g-zUV" id="Jlj-Qt-J9p"/>
+                        <outlet property="searchDisplayController" destination="LZe-3O-Qci" id="7uJ-BS-CaT"/>
                         <outlet property="txtAddress" destination="QPd-jw-yBy" id="Jig-j7-7Pg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q51-2y-0ZZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="LZe-3O-Qci">
+                    <connections>
+                        <outlet property="delegate" destination="B4V-9Q-1Fq" id="Ydo-E4-Hyq"/>
+                        <outlet property="searchContentsController" destination="B4V-9Q-1Fq" id="0az-l7-a94"/>
+                        <outlet property="searchResultsDataSource" destination="B4V-9Q-1Fq" id="5ta-Vz-Drv"/>
+                        <outlet property="searchResultsDelegate" destination="B4V-9Q-1Fq" id="YZR-GG-jQ9"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="5992" y="567"/>
         </scene>

@@ -15,13 +15,30 @@ import AddressBookUI
 
 
 
-class Location_ViewController: UIViewController, UISearchBarDelegate, CLLocationManagerDelegate {
+class Location_ViewController: UIViewController, UISearchBarDelegate, UISearchDisplayDelegate, CLLocationManagerDelegate {
     var coordinates: CLLocationCoordinate2D? = nil
     var geocoder: CLGeocoder? = nil
+    var tempPlacemark: CLPlacemark? = nil
     
 // Actions & Outlets
     @IBOutlet var txtAddress: UILabel!
     @IBAction func btnUseLocation(sender: AnyObject) {
+        println("Use this location")
+        
+        // Check tempPlacemark for coordinates, then save
+        if let coordinate = self.tempPlacemark?.location.coordinate{
+            var locValue = coordinate
+            // Save location data into NSUserDefaults
+            let data: NSData = NSData(bytes: &locValue, length: sizeofValue(locValue))
+            NSUserDefaults.standardUserDefaults().setObject(data, forKey: "userLocation")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            let v = ABCreateStringWithAddressDictionary(self.tempPlacemark?.addressDictionary, false)
+            self.tempPlacemark = nil
+            println("saved new location -> \(v)")
+        }else{
+            println("cannot use this location->tempPlacemark = nil")
+        }
+        
     }
     @IBOutlet var map: MKMapView!
     @IBOutlet var searchBar: UISearchBar!
@@ -55,13 +72,15 @@ class Location_ViewController: UIViewController, UISearchBarDelegate, CLLocation
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         
         self.map.setRegion(region, animated: true)
-        
+
         // Create the location point
         var point = MKPointAnnotation()
         point.coordinate = coordinate
         self.map.addAnnotation(point)
     }
     
+    
+     // Reverse Geocoding -> Find Location from coordinates
     func geocodeCoordinates(coordinates: CLLocationCoordinate2D!){
         // instantiate geocoder if not done already
         if(self.geocoder == nil){
@@ -101,6 +120,8 @@ class Location_ViewController: UIViewController, UISearchBarDelegate, CLLocation
     }
     
 // UISearchBar - Delegate methods
+    
+    // Forward Geocoding -> Find coordinates from string
     func searchBarSearchButtonClicked(searchBar: UISearchBar){
         self.searchBar.resignFirstResponder()
         if (self.geocoder == nil){
@@ -126,6 +147,8 @@ class Location_ViewController: UIViewController, UISearchBarDelegate, CLLocation
                 let placemark = (placemarks as NSArray).objectAtIndex(0) as CLPlacemark
                 let coordinates: CLLocationCoordinate2D = placemark.location.coordinate
                 self.setUpMap(coordinates)
+                // Save coordinates too temporary placemark incase we want to use this location
+                self.tempPlacemark = placemark
                 
                 let address = ABCreateStringWithAddressDictionary(placemark.addressDictionary, false)
                 self.txtAddress.text = address

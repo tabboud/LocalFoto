@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 Abbouds Corner. All rights reserved.
 //
 
+//TODO: Pins are not removed and every time screen is loaded pins add to end
+
+
 import UIKit
 import CoreLocation
 
@@ -16,14 +19,18 @@ class LocalPins_TableViewController: UITableViewController {
 // Outlets and Actions
     @IBOutlet var myTableView: UITableView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(animated: Bool) {
         // If location is saved then
         if let curLoc = NSUserDefaults.standardUserDefaults().objectForKey("userLocation") as? NSData{
             var coordinate: CLLocationCoordinate2D!
             curLoc.getBytes(&coordinate, length: sizeofValue(coordinate))
             self.getDataFromInstagram(coordinate.latitude, longitude: coordinate.longitude)
         }
+
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
 
     override func didReceiveMemoryWarning() {
