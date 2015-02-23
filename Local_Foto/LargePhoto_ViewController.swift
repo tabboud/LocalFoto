@@ -95,6 +95,7 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
         if(segue.identifier == "showUserProfile"){
             let destVC: UserProfile_ViewController = segue.destinationViewController as UserProfile_ViewController
             destVC.userInfo = self.post.user
+            println("prepareforSeguw: \(self.post.user.printUserInfo())")
         }
     }
     

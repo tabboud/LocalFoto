@@ -429,14 +429,14 @@
                                     <rect key="frame" x="0.0" y="64" width="320" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Full Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkp-oW-Vdn">
-                                            <rect key="frame" x="96" y="8" width="74" height="20"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="posts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkp-oW-Vdn">
+                                            <rect key="frame" x="96" y="8" width="34" height="16"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u4a-ft-h92">
-                                            <rect key="frame" x="96" y="36" width="20" height="16"/>
+                                            <rect key="frame" x="96" y="32" width="20" height="16"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
@@ -448,24 +448,38 @@
                                                 <constraint firstAttribute="height" constant="80" id="jUa-xy-unG"/>
                                             </constraints>
                                         </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="followers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fhb-Et-DXd">
+                                            <rect key="frame" x="138" y="6" width="55" height="20"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="following" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="42l-Pk-sKJ">
+                                            <rect key="frame" x="201" y="6" width="54" height="20"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="oAA-y8-jHj" firstAttribute="top" secondItem="FOb-zD-9hT" secondAttribute="top" constant="8" id="6la-L4-nwJ"/>
+                                        <constraint firstItem="42l-Pk-sKJ" firstAttribute="top" secondItem="FOb-zD-9hT" secondAttribute="top" constant="6" id="7wA-q3-oDM"/>
                                         <constraint firstItem="u4a-ft-h92" firstAttribute="leading" secondItem="oAA-y8-jHj" secondAttribute="trailing" constant="8" id="9R5-Hj-6op"/>
+                                        <constraint firstItem="42l-Pk-sKJ" firstAttribute="leading" secondItem="Fhb-Et-DXd" secondAttribute="trailing" constant="8" id="Ghd-lD-jzE"/>
+                                        <constraint firstItem="Fhb-Et-DXd" firstAttribute="leading" secondItem="rkp-oW-Vdn" secondAttribute="trailing" constant="8" id="TT4-l3-Rk1"/>
                                         <constraint firstItem="u4a-ft-h92" firstAttribute="top" secondItem="rkp-oW-Vdn" secondAttribute="bottom" constant="8" id="b00-Fg-s9P"/>
-                                        <constraint firstItem="u4a-ft-h92" firstAttribute="leading" secondItem="FOb-zD-9hT" secondAttribute="leading" constant="96" id="j9j-Sa-wU8"/>
+                                        <constraint firstItem="Fhb-Et-DXd" firstAttribute="top" secondItem="FOb-zD-9hT" secondAttribute="top" constant="6" id="mry-85-OLO"/>
                                         <constraint firstItem="rkp-oW-Vdn" firstAttribute="leading" secondItem="FOb-zD-9hT" secondAttribute="leading" constant="96" id="pYf-mF-oXR"/>
+                                        <constraint firstItem="Fhb-Et-DXd" firstAttribute="centerY" secondItem="rkp-oW-Vdn" secondAttribute="centerY" id="rb8-7g-N98"/>
                                         <constraint firstItem="oAA-y8-jHj" firstAttribute="leading" secondItem="FOb-zD-9hT" secondAttribute="leading" constant="8" id="sWv-j3-NVn"/>
+                                        <constraint firstItem="Fhb-Et-DXd" firstAttribute="centerY" secondItem="42l-Pk-sKJ" secondAttribute="centerY" id="v7H-PC-UDc"/>
                                         <constraint firstItem="rkp-oW-Vdn" firstAttribute="top" secondItem="oAA-y8-jHj" secondAttribute="top" id="wKw-Ii-LRc"/>
                                     </constraints>
-                                    <variation key="default">
-                                        <mask key="constraints">
-                                            <exclude reference="j9j-Sa-wU8"/>
-                                        </mask>
-                                    </variation>
                                     <connections>
                                         <outlet property="bio" destination="u4a-ft-h92" id="jEV-9i-coG"/>
-                                        <outlet property="fullName" destination="rkp-oW-Vdn" id="Lwe-Kf-dAJ"/>
+                                        <outlet property="followersCount" destination="Fhb-Et-DXd" id="s0k-C9-fal"/>
+                                        <outlet property="followingCount" destination="42l-Pk-sKJ" id="mtR-Te-e6m"/>
+                                        <outlet property="posts" destination="rkp-oW-Vdn" id="G47-Oj-4A8"/>
                                         <outlet property="profilePicture" destination="oAA-y8-jHj" id="Ze9-zT-lFm"/>
                                     </connections>
                                 </collectionReusableView>
@@ -489,7 +503,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0O5-NL-WqB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8272" y="306"/>
+            <point key="canvasLocation" x="8251" y="306"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="rOH-Vs-vTC">

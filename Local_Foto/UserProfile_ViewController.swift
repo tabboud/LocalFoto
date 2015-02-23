@@ -22,22 +22,26 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
 // Actions & Outlets
     @IBOutlet var collectionView: UICollectionView!
     
+    
+    
     override func viewWillAppear(animated: Bool) {
         self.navigationItem.title = self.userInfo.username
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        //Fixes UIScrollView EXC_Bad_Access code, viewDidScroll was trying to access objects in this class, but this class was already deallocated
-        
-        //attempting to move collection view below nav bar where button is
-//        self.collectionView.delegate = nil
-        
-    }
+//    override func viewWillDisappear(animated: Bool) {
+//        //Fixes UIScrollView EXC_Bad_Access code, viewDidScroll was trying to access objects in this class, but this class was already deallocated
+//        
+//        //attempting to move collection view below nav bar where button is
+////        self.collectionView.delegate = nil
+//        
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        println("userinfo: \(self.userInfo.printUserInfo())")
+        // Fetch user information
+        self.fetchUserDetails()
+        
         // Fetch user photos
         self.fetchUserPhotos()
         
@@ -80,11 +84,13 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
         var userHeader: UserProfile_CollectionReusableView!
         if(kind == UICollectionElementKindSectionHeader){
             userHeader = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "userProfileHeaderID", forIndexPath: indexPath) as UserProfile_CollectionReusableView
-            userHeader.setFullName(self.userInfo.fullName)
+
             userHeader.setImage(self.userInfo.profilePictureURL)
             userHeader.setBio(self.userInfo.bio)
+            userHeader.setPostCount(String(self.userInfo.mediaCount))
+            userHeader.setFollowersCount(String(self.userInfo.followedByCount))
+            userHeader.setFollowingCount(String(self.userInfo.followsCount))
             println("sETUP header")
-
         }
         return userHeader
     }
@@ -135,6 +141,16 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
             }, failure: {(error)->Void in
                 self.isFetchingData = false
                 println("Loading User media failed!")
+        })
+    }
+    
+    func fetchUserDetails(){
+        println("Fetching user details")
+        self.sharedIGEngine.getUserDetails(self.userInfo, withSuccess: {(userDetails)->Void in
+            self.userInfo = userDetails as InstagramUser
+            println(self.userInfo.printUserInfo())
+            }, failure: {(error)->Void in
+                println("Error fetching user details")
         })
     }
     

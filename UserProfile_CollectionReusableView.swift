@@ -10,18 +10,28 @@ import UIKit
 
 class UserProfile_CollectionReusableView: UICollectionReusableView {
     
-    @IBOutlet var fullName: UILabel!
+    @IBOutlet var posts: UILabel!
     @IBOutlet var bio: UILabel!
     @IBOutlet var profilePicture: UIImageView!
+    @IBOutlet var followersCount: UILabel!
+    @IBOutlet var followingCount: UILabel!
     
     
     func setImage(URL: NSURL!){
         self.profilePicture.setImageWithURL(URL, placeholderImage: UIImage(named: "AvatarPlaceholder@2x.png"))
     }
     
-    func setFullName(name: String!){
-        self.fullName.text = name
+ 
+    func setPostCount(postCount: String!){
+        self.posts.text = postCount
     }
+    func setFollowersCount(followersCnt: String!){
+        self.followersCount.text = followersCnt
+    }
+    func setFollowingCount(followingCnt: String!){
+        self.followingCount.text = followingCnt
+    }
+    
     
     func setBio(bio: String!){
         self.bio.text = bio
