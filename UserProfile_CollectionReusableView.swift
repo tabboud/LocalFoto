@@ -15,8 +15,8 @@ class UserProfile_CollectionReusableView: UICollectionReusableView {
     @IBOutlet var profilePicture: UIImageView!
     
     
-    func setImage(strURL: String!){
-        self.profilePicture.setImageWithURL(NSURL(string: strURL), placeholderImage: UIImage(named: "AvatarPlaceholder@2x.png"))
+    func setImage(URL: NSURL!){
+        self.profilePicture.setImageWithURL(URL, placeholderImage: UIImage(named: "AvatarPlaceholder@2x.png"))
     }
     
     func setFullName(name: String!){

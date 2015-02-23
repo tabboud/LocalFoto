@@ -14,7 +14,9 @@ import AVKit
 import AVFoundation
 
 class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
-    var post: PostModel!
+    var post: InstagramMedia!
+    var comments = [InstagramComment]()
+    var sharedIGEngine = InstagramEngine.sharedEngine()
     var moviePlayer: MPMoviePlayerViewController!
     var myplayer: AVPlayerViewController!
     
@@ -25,27 +27,36 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet var userNameBtn: UIButton!
     @IBOutlet var timeSincePosted: UILabel!
     @IBOutlet var profilePicture: UIImageView!
+    @IBOutlet var likesLabel: UILabel!
+    @IBOutlet var commentTableView: UITableView!
 
 
+    override func viewWillAppear(animated: Bool) {
+        self.userNameBtn.setTitle(post.user.username, forState: UIControlState.Normal)
+        self.caption.text = post.caption.text
+        self.timeSincePosted.text = self.timeSinceTaken()
+        self.profilePicture.setImageWithURL(self.post.user.profilePictureURL)
+        self.likesLabel.text = NSString(format: "%d likes", self.post.likesCount)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Photo"
+
 
         // setup scroll view
         self.scrollView.pagingEnabled = false
         let screenSize = UIScreen.mainScreen().bounds.size
         let scrollHeight = self.imageView.frame.height + self.caption.frame.height
         self.scrollView.contentSize = CGSize(width: screenSize.width, height: scrollHeight+40)
-        
+
         
         self.activityIndicator.hidden = false
         self.activityIndicator.startAnimating()
-        println(self.post.mediaType)
         // Check media type
-        if(post.mediaType == "image"){
-            println("inside")
-            self.imageView.setImageWithURLRequest(NSURLRequest(URL: NSURL(string: post.highResPhotoURL)!), placeholderImage: nil, success: {(request, response, image)->Void in
+        if(post.isVideo == false){
+            self.navigationItem.title = "Photo"
+            self.imageView.setImageWithURL(post.thumbnailURL)
+            self.imageView.setImageWithURLRequest(NSURLRequest(URL: post.standardResolutionImageURL), placeholderImage: nil, success: {(request, response, image)->Void in
                 self.activityIndicator.stopAnimating()
                 self.activityIndicator.hidden = true
                 self.imageView.image = image
@@ -53,9 +64,11 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
                     self.imageView.image = UIImage(named: "AvatarPlaceholder@2x.png")
                     println("failed to get photo")
             })
-        }else if(post.mediaType == "video"){
+        }else {
+            self.navigationItem.title = "Video"
+            
             // set up a video in the same frame as imageView
-            let videoURL = NSURL(string: self.post.videoURL)
+            let videoURL = self.post.lowResolutionVideoURL
             // Use either MPMoviePlayer or AVPlayer (ios8 and up)
 //            self.moviePlayer = MPMoviePlayerViewController(contentURL: videoURL)
 //            self.moviePlayer.view.frame = self.imageView.frame
@@ -67,10 +80,10 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
             self.scrollView.addSubview(self.myplayer.view)
             self.myplayer.player = AVPlayer(URL: videoURL)
         }
-        self.userNameBtn.setTitle(post.userName, forState: UIControlState.Normal)
-        self.caption.text = post.caption
-        self.timeSincePosted.text = self.timeSinceTaken()
-        self.profilePicture.setImageWithURL(NSURL(string: self.post.profilePictureURL))
+        // Fetch comments for post
+        self.fetchComments()
+        
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -81,7 +94,7 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if(segue.identifier == "showUserProfile"){
             let destVC: UserProfile_ViewController = segue.destinationViewController as UserProfile_ViewController
-            destVC.userInfo = post
+            destVC.userInfo = self.post.user
         }
     }
     
@@ -90,28 +103,28 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
 
         let curTime = NSDate()
         
-        //Make new string for date
-        let startIndex = self.post.timeTaken.startIndex
-        let photoTimeTaken = self.post.timeTaken.substringToIndex(advance(startIndex, 20))
-        
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//        dateFormatter.timeZone = NSTimeZone(abbreviation: "EST")
-        if let estDate = dateFormatter.dateFromString(photoTimeTaken){
+//        println("Current time:     \(curTime)")
+//        println("Time Since Taken: \(self.post.createdDate)")
+        if let estDate = self.post.createdDate{
             // subtract two dates
             let c = NSCalendar.currentCalendar()
-            let calendarFlags: NSCalendarUnit = .HourCalendarUnit | .MinuteCalendarUnit | .SecondCalendarUnit | .DayCalendarUnit | .MonthCalendarUnit | .YearCalendarUnit | .WeekOfYearCalendarUnit
+            let calendarFlags: NSCalendarUnit = .HourCalendarUnit | .MinuteCalendarUnit | .SecondCalendarUnit | .DayCalendarUnit | .MonthCalendarUnit | .YearCalendarUnit | .WeekOfYearCalendarUnit | .MonthCalendarUnit
             let components:NSDateComponents = c.components(calendarFlags, fromDate: curTime, toDate: estDate, options: nil)
-            
-            let year = components.year
-            let weeks = components.weekOfYear
-            let day = components.day
-            let hours = components.hour
-            let minutes = components.minute
-            let seconds = components.second
+
+            var year = components.year
+            var month = components.month
+            var weeks = components.weekOfYear
+            var day = components.day
+            var hours = components.hour
+            var minutes = components.minute
+            var seconds = components.second
+
+//            println("Y: \(year)\nM: \(month)\nW: \(weeks)\nd: \(day)\nh: \(hours)\nm: \(minutes)\nY: \(seconds)\n\n\n")
             
             if(year != 0){
                 return String(abs(year)) + "Y ago"
+            }else if(month != 0){
+                return String(abs(month)) + "M ago"
             }else if(weeks != 0){
                 return String(abs(weeks)) + "w ago"
             }else if(day != 0){
@@ -130,5 +143,45 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    func fetchComments(){
+        println("fetching comments")
+        self.sharedIGEngine.getCommentsOnMedia(self.post, withSuccess: {(commentsArray)->Void in
+            println("Inside")
+            println(commentsArray)
+            for comment in commentsArray as [InstagramComment]{
+                self.comments.append(comment)
+                println("\(comment.user.username): \(comment.text)")
+            }
+            self.commentTableView.reloadData()
+            }, failure: {(error)->Void in
+                println("Error fetching comments")
+        })
+    }
+}
+
+extension LargePhoto_ViewController: UITableViewDataSource, UITableViewDelegate{
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+        return self.comments.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
+        let cell = tableView.dequeueReusableCellWithIdentifier("commentReuseID", forIndexPath: indexPath) as UITableViewCell
+        
+        let comment = self.comments[indexPath.row]
+        cell.textLabel?.text = comment.user.username + ": " + comment.text
+
+        
+        return cell
+    }
+    
 
 }
+
+
+
+
+
+
+
+
+

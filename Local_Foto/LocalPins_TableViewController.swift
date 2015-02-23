@@ -15,39 +15,51 @@ import CoreLocation
 class LocalPins_TableViewController: UITableViewController {
 // Local variables
     var localPins = [LocalPinsModel]()
+    var curCoordinates: CLLocationCoordinate2D? = nil
+    let ManagerSingleton = Manager.sharedInstance
     
 // Outlets and Actions
     @IBOutlet var myTableView: UITableView!
     
     override func viewWillAppear(animated: Bool) {
-        // If location is saved then
-        if let curLoc = NSUserDefaults.standardUserDefaults().objectForKey("userLocation") as? NSData{
-            var coordinate: CLLocationCoordinate2D!
-            curLoc.getBytes(&coordinate, length: sizeofValue(coordinate))
-            self.getDataFromInstagram(coordinate.latitude, longitude: coordinate.longitude)
+        //Want to update on initial load and anytime location changes
+        if let localCoord = self.curCoordinates{
+            // compare local coordinates with singleton coordinates
+            let tolerance = 0.005
+            let lat = ManagerSingleton.currentLocation.coordinate.latitude
+            let long = ManagerSingleton.currentLocation.coordinate.longitude
+            if((fabs(localCoord.latitude - lat) >= tolerance) && (fabs(localCoord.longitude - long) >= tolerance)){
+                self.curCoordinates = ManagerSingleton.currentLocation.coordinate
+                self.updateTablePins()
+            }
+        }else{
+            println("Coordinates are nil")
         }
-
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.curCoordinates = ManagerSingleton.currentLocation.coordinate
+        self.updateTablePins()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func updateTablePins(){
+        // If location is saved then
+        self.localPins.removeAll(keepCapacity: false)
+        self.getDataFromInstagram(self.curCoordinates?.latitude, longitude: self.curCoordinates?.longitude)
+    }
 
 // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
         return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
         return localPins.count
     }
 
@@ -78,7 +90,6 @@ class LocalPins_TableViewController: UITableViewController {
         let long = NSString(format: "%f", longitude)
         
         let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as NSString
-        // getDataFromInstagram
         let requestURL = NSString(format: "https://api.instagram.com/v1/locations/search?lat=%@&lng=%@&distance=4000&access_token=%@",lat, long, accessToken)
         
         DataManager.getDataFromInstagramWithSuccess(requestURL, success: {(instagramData, error)->Void in

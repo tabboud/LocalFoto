@@ -11,37 +11,40 @@
 import UIKit
 
 class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    var userInfo: PostModel!
-    var posts = [PostModel]()
+    var userInfo: InstagramUser!
+    var posts = [InstagramMedia]()
     let refreshControl = UIRefreshControl()
-    var paginationURL: String? = nil
     var isFetchingData: Bool = false    //flag for fetching pagination data
+    var sharedIGEngine = InstagramEngine.sharedEngine()
+    var currentPaginationInfo: InstagramPaginationInfo? = nil
+    var isInitialDataLoaded = false      //Stops scrollView Delegate from requesting data upon initial load
     
 // Actions & Outlets
     @IBOutlet var collectionView: UICollectionView!
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationItem.title = userInfo.userName
+        self.navigationItem.title = self.userInfo.username
     }
     
     override func viewWillDisappear(animated: Bool) {
         //Fixes UIScrollView EXC_Bad_Access code, viewDidScroll was trying to access objects in this class, but this class was already deallocated
         
         //attempting to move collection view below nav bar where button is
-        self.collectionView.delegate = nil
+//        self.collectionView.delegate = nil
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Request posts (i.e. photos) from API
-        self.getDataFromInstagram("user")
+        
+        // Fetch user photos
+        self.fetchUserPhotos()
         
         // Add refresh control to screen
         refreshControl.addTarget(self, action: "startRefresh", forControlEvents: .ValueChanged)
         self.collectionView.addSubview(refreshControl)
-        
     }
+    
     func startRefresh(){
         println("REFRESHING")
         refreshControl.endRefreshing()
@@ -54,7 +57,7 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
 
 // UICollectionView - Data Source methods
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
-        return (posts.count > 0) ? posts.count : 0
+        return self.posts.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
@@ -62,8 +65,8 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
         let cell: UserPhotosCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("userPhotosCell", forIndexPath: indexPath) as UserPhotosCollectionViewCell
         
         if(self.posts.count > 0){
-            var thumbnailURL = self.posts[indexPath.row].thumbnailPhotoURL
-            cell.setThumbnailImage(NSURL(string: thumbnailURL))
+            var thumbnailURL = self.posts[indexPath.row].thumbnailURL
+            cell.setThumbnailImage(thumbnailURL)
         }
         return cell
     }
@@ -76,29 +79,14 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
         var userHeader: UserProfile_CollectionReusableView!
         if(kind == UICollectionElementKindSectionHeader){
             userHeader = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "userProfileHeaderID", forIndexPath: indexPath) as UserProfile_CollectionReusableView
-            userHeader.setFullName(userInfo.fullName)
-            userHeader.setImage(userInfo.profilePictureURL)
-            
-            // Fetch AccessToken
-            let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as String
-            
-            // Create URL
-            let requestURL = NSString(format: "https://api.instagram.com/v1/users/%@/?access_token=%@", self.userInfo.userId, accessToken)
-            
-            DataManager.getDataFromInstagramWithSuccess(requestURL, success: {(instagramData, error)->Void in
-                if(error != nil){
-                    println("Some error occured")
-                }else{
-                    dispatch_async(dispatch_get_main_queue(), {
-                        userHeader.setBio(instagramData["data"]["bio"].string)
-                    })
-                }
-            })
+            userHeader.setFullName(self.userInfo.fullName)
+            userHeader.setImage(self.userInfo.profilePictureURL)
+            userHeader.setBio(self.userInfo.bio)
         }
         return userHeader
     }
     
-    // UICollectionViewFlowLayout - Delegate Methods
+// UICollectionViewFlowLayout - Delegate Methods
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 4
     }
@@ -117,80 +105,35 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
     
 // UIScrollView - Delegate Methods
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if(self.isFetchingData == false){
+        if(self.isFetchingData == false && self.isInitialDataLoaded == true){
             if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
                 //reached bottom
-                if let pagURL = self.paginationURL{
-                    self.isFetchingData = true
-                    self.getDataFromInstagram("pagination")
-                }
+                self.isFetchingData = true
+                println("called from scroll delegate")
+                self.fetchUserPhotos()
             }
         }
     }
     
     
-// My methods
-    func getDataFromInstagram(request: String!){
-        var requestURL: String!
-        
-        if(request == "pagination"){
-            requestURL = self.paginationURL
-        }else{
-        let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as String
-            requestURL = NSString(format: "https://api.instagram.com/v1/users/%@/media/recent/?access_token=%@", self.userInfo.userId, accessToken)
-        }
-        DataManager.getDataFromInstagramWithSuccess(requestURL, success: {(instagramData, error)->Void in
-            if(error != nil){
-                println("Error getting data!")
-            }else{
-                if let pagURL = instagramData["pagination"]["next_url"].string{
-                    self.isFetchingData = false
-                    self.paginationURL = pagURL
-                }else{
-                    self.paginationURL = nil
-                }
-                
-                if let postsArray = instagramData["data"].array{
-                    for val in postsArray {
-                        var userName        = val["user"]["username"].string
-                        var fullName        = val["user"]["full_name"].string
-                        var thumbnailURL    = val["images"]["thumbnail"]["url"].string
-                        var highResURL      = val["images"]["standard_resolution"]["url"].string
-                        var caption         = val["caption"]["text"].string
-                        var timeTaken       = self.unixTimeConvert(val["created_time"].string)
-                        var userID          = val["user"]["id"].string
-                        var profilePicURL   = val["user"]["profile_picture"].string
-                        var mediaType       = val["type"].string
-                        
-                        var videoURL: String? = nil
-                        if(mediaType == "video"){
-                            videoURL = val["videos"]["low_bandwidth"]["url"].string
-                        }
-                        
-                        self.posts.append(PostModel(userName: userName, fullName: fullName, thumbPhotoURL: thumbnailURL, highPhotoURL: highResURL, caption: caption, timeTaken: timeTaken, ID: userID, profilePic: profilePicURL, type: mediaType, vidURL: videoURL))
-                    }
-
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.collectionView.reloadData()
-                    })
-                }
+// MARK: My methods
+    func fetchUserPhotos(){
+        println("fetch user photos!")
+        self.sharedIGEngine.getMediaForUser(self.userInfo.Id, count: 15, maxId: self.currentPaginationInfo?.nextMaxId, withSuccess: {(media, paginationInfo)->Void in
+            self.isFetchingData = false
+            if(paginationInfo != nil){
+                self.currentPaginationInfo = paginationInfo
             }
+            for mediaObject in media as [InstagramMedia]{
+                self.posts.append(mediaObject)
+            }
+            self.collectionView.reloadData()
+            self.isInitialDataLoaded = true
+            }, failure: {(error)->Void in
+                self.isFetchingData = false
+                println("Loading User media failed!")
         })
     }
-
-    func unixTimeConvert(unixTime: NSString!)->NSString{
-        let timeStamp = unixTime.doubleValue
-        let date: NSDate = NSDate(timeIntervalSince1970: timeStamp)
-        
-        var estDF = NSDateFormatter()
-        estDF.setLocalizedDateFormatFromTemplate("YYYY-MM-dd HH:mm:ss Z")
-        let estDateStr = estDF.stringFromDate(date)
-        
-        let timeZoneOffset = NSTimeZone(abbreviation: "EST")?.secondsFromGMT
-        let estTimeInterval:NSTimeInterval = date.timeIntervalSinceReferenceDate + NSTimeInterval(timeZoneOffset!)
-        let estDate = NSDate(timeIntervalSinceReferenceDate: estTimeInterval)
-        return estDate.description
-    }
     
-
+    
 }

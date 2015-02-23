@@ -4,3 +4,5 @@
 
 #import <AFNetworking/AFNetworking.h>
 #import <AFNetworking/UIKit+AFNetworking.h>
+
+#import <InstagramKit/InstagramKit.h>
