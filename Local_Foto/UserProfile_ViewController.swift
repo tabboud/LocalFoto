@@ -37,6 +37,7 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        println("userinfo: \(self.userInfo.printUserInfo())")
         // Fetch user photos
         self.fetchUserPhotos()
         
@@ -82,6 +83,8 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
             userHeader.setFullName(self.userInfo.fullName)
             userHeader.setImage(self.userInfo.profilePictureURL)
             userHeader.setBio(self.userInfo.bio)
+            println("sETUP header")
+
         }
         return userHeader
     }

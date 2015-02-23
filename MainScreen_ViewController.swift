@@ -12,6 +12,10 @@
 //TODO: Add notification to top saying 'new photos available'
 //TODO: Add ability to comment, like, and follow people
 
+//TODO: Add custom label for comments, to enable clicking on user profile and multi-line comment
+//TODO: Add 'Add comment' button and view controller for all comments
+
+
 
 import UIKit
 import MapKit
