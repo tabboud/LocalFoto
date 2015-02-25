@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="qiv-Ax-NET">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Wc6-pQ-Djl">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -131,6 +131,74 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6943" y="1010"/>
+        </scene>
+        <!--Posts Table View Controller-->
+        <scene sceneID="5VU-vJ-dWP">
+            <objects>
+                <tableViewController id="Wc6-pQ-Djl" customClass="Posts_TableViewController" customModule="Local_Foto" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="250" sectionHeaderHeight="22" sectionFooterHeight="22" id="N0M-Eg-ouF">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="3Bj-CW-W9d">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="V0S-rp-VE8">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                                </mapView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="postCellReuseID" rowHeight="250" id="I1I-PO-aaM" customClass="Posts_TableViewCell" customModule="Local_Foto" customModuleProvider="target">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="I1I-PO-aaM" id="CZK-AP-ALd">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wey-IY-DuG">
+                                            <rect key="frame" x="0.0" y="51" width="600" height="190"/>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dxj-xC-A6E">
+                                            <rect key="frame" x="8" y="8" width="35" height="35"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="35" id="bm3-4c-Tdu"/>
+                                                <constraint firstAttribute="height" constant="35" id="nhe-tL-9YV"/>
+                                            </constraints>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t5h-rR-h2g">
+                                            <rect key="frame" x="51" y="11" width="72" height="30"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                                            <state key="normal" title="username"/>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="Wey-IY-DuG" secondAttribute="bottom" constant="8" id="1x3-sN-NgQ"/>
+                                        <constraint firstAttribute="trailing" secondItem="Wey-IY-DuG" secondAttribute="trailing" id="2kc-ro-tU7"/>
+                                        <constraint firstItem="dxj-xC-A6E" firstAttribute="top" secondItem="CZK-AP-ALd" secondAttribute="top" constant="8" id="Fio-m8-76T"/>
+                                        <constraint firstItem="Wey-IY-DuG" firstAttribute="leading" secondItem="CZK-AP-ALd" secondAttribute="leading" id="HeS-ak-6AG"/>
+                                        <constraint firstItem="Wey-IY-DuG" firstAttribute="top" secondItem="dxj-xC-A6E" secondAttribute="bottom" constant="8" id="IKH-bf-AAq"/>
+                                        <constraint firstItem="t5h-rR-h2g" firstAttribute="leading" secondItem="dxj-xC-A6E" secondAttribute="trailing" constant="8" id="NfY-XA-YVG"/>
+                                        <constraint firstItem="dxj-xC-A6E" firstAttribute="leading" secondItem="CZK-AP-ALd" secondAttribute="leading" constant="8" id="Y0q-PF-3eB"/>
+                                        <constraint firstItem="t5h-rR-h2g" firstAttribute="centerY" secondItem="dxj-xC-A6E" secondAttribute="centerY" constant="0.5" id="zsD-f9-4yc"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="postPhoto" destination="Wey-IY-DuG" id="iv2-P1-IaY"/>
+                                    <outlet property="profilePhoto" destination="dxj-xC-A6E" id="N2b-UK-rX1"/>
+                                    <outlet property="userName" destination="t5h-rR-h2g" id="F8W-a6-iqK"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Wc6-pQ-Djl" id="CnZ-DQ-Tgg"/>
+                            <outlet property="delegate" destination="Wc6-pQ-Djl" id="7xS-ME-MXv"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eKn-as-zgD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6943" y="-357"/>
         </scene>
         <!--Local Fotos-->
         <scene sceneID="5vu-sD-lCV">
@@ -591,6 +659,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="vhA-GC-UJu"/>
-        <segue reference="XYl-sm-gVd"/>
+        <segue reference="w5r-cu-syg"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -26,7 +26,6 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDelegate, UIS
 // Local variables
     var posts = [InstagramMedia]()
     
-    var locationManager = CLLocationManager()
     var accessToken: String? = nil
     let refreshControl = UIRefreshControl()
     var ManagerSingleton = Manager.sharedInstance
