@@ -16,6 +16,7 @@ class UserProfile_CollectionReusableView: UICollectionReusableView {
     @IBOutlet var followersCount: UILabel!
     @IBOutlet var followingCount: UILabel!
     
+    @IBOutlet var btnFollow: UIButton!
     
     func setImage(URL: NSURL!){
         self.profilePicture.setImageWithURL(URL, placeholderImage: UIImage(named: "AvatarPlaceholder@2x.png"))
@@ -32,9 +33,17 @@ class UserProfile_CollectionReusableView: UICollectionReusableView {
         self.followingCount.text = followingCnt
     }
     
-    
     func setBio(bio: String!){
         self.bio.text = bio
+    }
+    
+    func setFollowButton(label: String!){
+        self.btnFollow.setTitle(label, forState: .Normal)
+        if(label == "Follow"){
+            self.btnFollow.backgroundColor = UIColor.redColor()
+        }else{
+            self.btnFollow.backgroundColor = UIColor.purpleColor()
+        }
     }
     
 }

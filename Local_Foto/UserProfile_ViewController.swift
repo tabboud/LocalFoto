@@ -10,7 +10,7 @@
 //then send request to get recent media (has pagination, and profile pic)
 import UIKit
 
-class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     var userInfo: InstagramUser!
     var posts = [InstagramMedia]()
     let refreshControl = UIRefreshControl()
@@ -26,34 +26,28 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
     
     override func viewWillAppear(animated: Bool) {
         self.navigationItem.title = self.userInfo.username
+        self.collectionView.delegate = self
     }
     
-//    override func viewWillDisappear(animated: Bool) {
-//        //Fixes UIScrollView EXC_Bad_Access code, viewDidScroll was trying to access objects in this class, but this class was already deallocated
-//        
-//        //attempting to move collection view below nav bar where button is
-////        self.collectionView.delegate = nil
-//        
-//    }
+    override func viewWillDisappear(animated: Bool) {
+        //Fixes UIScrollView EXC_Bad_Access code, viewDidScroll was trying to access objects in this class, but this class was already deallocated
+        
+        //attempting to move collection view below nav bar where button is
+        self.collectionView.delegate = nil
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        println("viewDidLoad")
         // Fetch user information
         self.fetchUserDetails()
         
         // Fetch user photos
         self.fetchUserPhotos()
-        
-        // Add refresh control to screen
-        refreshControl.addTarget(self, action: "startRefresh", forControlEvents: .ValueChanged)
-        self.collectionView.addSubview(refreshControl)
     }
     
-    func startRefresh(){
-        println("REFRESHING")
-        refreshControl.endRefreshing()
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -90,7 +84,18 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
             userHeader.setPostCount(String(self.userInfo.mediaCount))
             userHeader.setFollowersCount(String(self.userInfo.followedByCount))
             userHeader.setFollowingCount(String(self.userInfo.followsCount))
-            println("sETUP header")
+            self.sharedIGEngine.getRelationshipStatusOfUser(self.userInfo.Id, withSuccess: {(result)->Void in
+                let status = (result as NSDictionary).objectForKey(kRelationshipOutgoingStatusKey) as String
+                if status == kRelationshipOutStatusFollows{
+                    userHeader.setFollowButton("Following")
+                }else{
+                    // Dont currently follow this user
+                    userHeader.setFollowButton("Follow")
+                }
+                }, failure: {(error)->Void in
+                    println("error getting following status: \(error.description)")
+            })
+            
         }
         return userHeader
     }
@@ -116,9 +121,8 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if(self.isFetchingData == false && self.isInitialDataLoaded == true){
             if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
-                //reached bottom
+                // Reached bottom
                 self.isFetchingData = true
-                println("called from scroll delegate")
                 self.fetchUserPhotos()
             }
         }
@@ -145,10 +149,8 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     func fetchUserDetails(){
-        println("Fetching user details")
         self.sharedIGEngine.getUserDetails(self.userInfo, withSuccess: {(userDetails)->Void in
             self.userInfo = userDetails as InstagramUser
-            println(self.userInfo.printUserInfo())
             }, failure: {(error)->Void in
                 println("Error fetching user details")
         })

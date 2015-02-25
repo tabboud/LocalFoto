@@ -72,7 +72,7 @@ extension Manager: CLLocationManagerDelegate{
         
         let location = locations.last as CLLocation
         
-        if(location.horizontalAccuracy > 0){
+        if(location.horizontalAccuracy > 0 && self.locationManager != nil){
             println("locationDelegate")
             self.locationManager.stopUpdatingLocation()
             // release location manager to force stoppage of coordinate data

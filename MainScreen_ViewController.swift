@@ -20,6 +20,7 @@
 import UIKit
 import MapKit
 
+let fetchPostsTimeInterval = 25
 
 class MainScreen_ViewController: UIViewController, UICollectionViewDelegate, UIScrollViewDelegate {
 // Local variables
@@ -43,13 +44,17 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDelegate, UIS
     override func viewDidLoad() {
         super.viewDidLoad()
         println("Viewdidload")
-
+        
         // Add observer for currentLocation value in Singleton 'Manager.swift'
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "startRefresh", name: curLocationNotificationKey, object: nil)
+        
+        // Set timer for fetching new user data every 25 seconds
+        var fetchTimer = NSTimer.scheduledTimerWithTimeInterval(25, target: self, selector: "fetchData", userInfo: nil, repeats: true)
 
         // Check authorization access token
         if let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as? String{
             self.accessToken = accessToken
+            self.sharedIGEngine.accessToken = accessToken
         }else{
             self.performSegueWithIdentifier("presentWebView", sender: self)
         }
@@ -62,7 +67,7 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDelegate, UIS
         
         // Activity indicator for fetching photos, disabled in collectionView Delegate
         fetchingPhotosSpinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
-        fetchingPhotosSpinner.center = CGPointMake(self.collectionView.bounds.width/2, self.collectionView.bounds.height/2)
+        fetchingPhotosSpinner.center = self.view.center
         fetchingPhotosSpinner.color = UIColor.blackColor()
         self.view.addSubview(fetchingPhotosSpinner)
         fetchingPhotosSpinner.startAnimating()
@@ -87,6 +92,7 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDelegate, UIS
     func startRefresh(){
         if self.accessToken != nil{
             println("inside startRefresh")
+        if(self.isPhotosAvailable == false){
             // Get instagram data
             sharedIGEngine.getMediaAtLocation(ManagerSingleton.currentLocation.coordinate, withSuccess: {(media, paginationInfo)->Void in
         
@@ -95,7 +101,6 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDelegate, UIS
                 for mediaObject in media as [InstagramMedia]{
                     self.posts.append(mediaObject)
                 }
-                
                 self.collectionView.reloadData()
                 
                 }, failure: {(error)->Void in
@@ -104,12 +109,47 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDelegate, UIS
                     }
             })
         }else{
+            // set photos to ones fetched already
+            self.posts = self.fetchedPosts
+            self.fetchedPosts.removeAll(keepCapacity: false)
+            self.isPhotosAvailable = false
+            self.collectionView.reloadData()
+            }
+            // Scroll to top of screen
+            self.collectionView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: true)
+        }else{
             println("No access Token")
         }
         refreshControl.endRefreshing()
     }
     
+    
+    
+    var isPhotosAvailable = false
+    var fetchedPosts = [InstagramMedia]()
+    func fetchData(){
+        println("Fetch Data")
+        sharedIGEngine.getMediaAtLocation(ManagerSingleton.currentLocation.coordinate, withSuccess: {(media, paginationInfo)->Void in
+            self.fetchedPosts = media as [InstagramMedia]
+            if(self.fetchedPosts.first?.link != self.posts.first?.link){
+                self.isPhotosAvailable = true
+                println("New photos ...")
+                TSMessage.showNotificationInViewController(self, title: "New Photos Available", subtitle: nil, image: nil, type: .Success, duration: -1, callback: {()->Void in
+                        self.startRefresh()
+                        TSMessage.dismissActiveNotification()
+                        self.navigationController?.popToRootViewControllerAnimated(true)
+                    }, buttonTitle: nil, buttonCallback: nil, atPosition: TSMessageNotificationPosition.Top, canBeDismissedByUser: true)
+                
+            }
 
+            }, failure: {(error)->Void in
+                if error != nil{
+                    println("error: \(error.description)")
+                }
+        })
+    
+    }
+    
 }
 
 
@@ -160,6 +200,7 @@ extension MainScreen_ViewController: ViewControllerDelegate{
     func accessTokenReceived(accessToken: String!) {
         self.dismissViewControllerAnimated(true, completion: nil)
         self.accessToken = accessToken
+        self.sharedIGEngine.accessToken = accessToken
         
         // Refresh screen or request current location, now that we have token
         if (self.ManagerSingleton.currentLocation != nil){

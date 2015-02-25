@@ -8,10 +8,22 @@
 
 import UIKit
 
+@objc protocol CommentsTableViewCellDelegate{
+    func didPressUserButton(instagramUser: InstagramUser!)
+}
 class Comments_TableViewCell: UITableViewCell {
-
+    
+    var commentUser: InstagramUser!
+    var delegate: CommentsTableViewCellDelegate? = nil
 
     @IBOutlet var commentsLabel: UILabel!
+    @IBOutlet var userButton: UIButton!
+    @IBAction func userBtnPressed(sender: AnyObject){     // Defined a target in LargePhoto_VC to handle button press
+        if let del = self.delegate{
+            del.didPressUserButton(self.commentUser)
+        }
+    }
+
     
     
     override func awakeFromNib() {
@@ -27,6 +39,15 @@ class Comments_TableViewCell: UITableViewCell {
     
     func setComment(comment: String!){
         self.commentsLabel.text = comment
+    }
+    
+    func setUser(user: String!){
+        self.userButton.setTitle(user + ":", forState: .Normal)
+        self.userButton.sizeToFit()
+    }
+    
+    func setCommentUser(user: InstagramUser!){
+        self.commentUser = user
     }
 
 }

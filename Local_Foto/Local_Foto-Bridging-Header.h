@@ -6,3 +6,4 @@
 #import <AFNetworking/UIKit+AFNetworking.h>
 
 #import <InstagramKit/InstagramKit.h>
+#import <TSMessages/TSMessage.h>

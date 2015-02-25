@@ -6,7 +6,8 @@
 //  Copyright (c) 2015 Abbouds Corner. All rights reserved.
 //
 
-//TODO: add date taken by time (i.e. 3h ago, 2w ago, etc)
+
+//TODO: User may be private so unable to load user details in UserProfile_VC. must check and display values
 
 import UIKit
 import MediaPlayer
@@ -19,6 +20,7 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
     var sharedIGEngine = InstagramEngine.sharedEngine()
     var moviePlayer: MPMoviePlayerViewController!
     var myplayer: AVPlayerViewController!
+    var commentUser: InstagramUser!
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var imageView: UIImageView!
@@ -42,6 +44,11 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        self.commentTableView.separatorColor = UIColor.clearColor()
+        
+        // Fetch comments for post
+        self.fetchComments()
 
         // setup scroll view
         self.scrollView.pagingEnabled = false
@@ -52,6 +59,7 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
         
         self.activityIndicator.hidden = false
         self.activityIndicator.startAnimating()
+        
         // Check media type
         if(post.isVideo == false){
             self.navigationItem.title = "Photo"
@@ -68,7 +76,8 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
             self.navigationItem.title = "Video"
             
             // set up a video in the same frame as imageView
-            let videoURL = self.post.lowResolutionVideoURL
+//            let videoURL = self.post.lowResolutionVideoURL
+            let vidURL = self.post.standardResolutionVideoURL
             // Use either MPMoviePlayer or AVPlayer (ios8 and up)
 //            self.moviePlayer = MPMoviePlayerViewController(contentURL: videoURL)
 //            self.moviePlayer.view.frame = self.imageView.frame
@@ -77,13 +86,10 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
 //            self.moviePlayer.moviePlayer.play()
             self.myplayer = AVPlayerViewController()
             self.myplayer.view.frame = self.imageView.frame
+            self.myplayer.view.contentMode = UIViewContentMode.ScaleToFill
             self.scrollView.addSubview(self.myplayer.view)
-            self.myplayer.player = AVPlayer(URL: videoURL)
+            self.myplayer.player = AVPlayer(URL: vidURL)
         }
-        // Fetch comments for post
-        self.fetchComments()
-        
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -95,7 +101,17 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
         if(segue.identifier == "showUserProfile"){
             let destVC: UserProfile_ViewController = segue.destinationViewController as UserProfile_ViewController
             destVC.userInfo = self.post.user
-            println("prepareforSeguw: \(self.post.user.printUserInfo())")
+        }else{
+            let destVC: UserProfile_ViewController = segue.destinationViewController as UserProfile_ViewController
+            destVC.userInfo = self.commentUser
+            println("setPrepareforsegue")
+        }
+    }
+    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+        if identifier == "showCommentUserProfile"{
+            return false
+        }else{
+            return true
         }
     }
     
@@ -145,13 +161,9 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func fetchComments(){
-        println("fetching comments")
         self.sharedIGEngine.getCommentsOnMedia(self.post, withSuccess: {(commentsArray)->Void in
-            println("Inside")
-            println(commentsArray)
             for comment in commentsArray as [InstagramComment]{
                 self.comments.append(comment)
-                println("\(comment.user.username): \(comment.text)")
             }
             self.commentTableView.reloadData()
             }, failure: {(error)->Void in
@@ -166,17 +178,29 @@ extension LargePhoto_ViewController: UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCellWithIdentifier("commentReuseID", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("commentReuseID", forIndexPath: indexPath) as Comments_TableViewCell
         
         let comment = self.comments[indexPath.row]
-        cell.textLabel?.text = comment.user.username + ": " + comment.text
-
+        cell.setComment(comment.text)
+        cell.setUser(comment.user.username)
+        cell.setCommentUser(comment.user)
+        
+        cell.selectionStyle = .None
+        cell.delegate = self
         
         return cell
     }
-    
-
 }
+
+extension LargePhoto_ViewController: CommentsTableViewCellDelegate{
+    func didPressUserButton(instagramUser: InstagramUser!) {
+        println(instagramUser.username)
+        self.commentUser = instagramUser
+        self.performSegueWithIdentifier("showCommentUserProfile", sender: nil)
+    }
+}
+
+
 
 
 
