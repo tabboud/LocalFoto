@@ -18,11 +18,13 @@ class Posts_TableViewController: UITableViewController {
     var fetchedPosts = [InstagramMedia]()
 
     
+    @IBOutlet var customMap: LocalMap_UIView!
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 
         // Add observer for currentLocation value in Singleton 'Manager.swift'
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "startRefresh", name: curLocationNotificationKey, object: nil)
@@ -43,6 +45,14 @@ class Posts_TableViewController: UITableViewController {
     func startRefresh(){
         if self.accessToken != nil{
             println("inside startRefresh")
+            
+            // Setup map
+            if(ManagerSingleton.currentLocation != nil){
+                let coordinates = ManagerSingleton.currentLocation.coordinate
+                self.customMap.setRegion(coordinates)
+                self.customMap.addAnnotation(coordinates, title: "Current Location")
+            }
+            
             if(self.isPhotosAvailable == false){
                 // Get instagram data
                 sharedIGEngine.getMediaAtLocation(ManagerSingleton.currentLocation.coordinate, withSuccess: {(media, paginationInfo)->Void in
