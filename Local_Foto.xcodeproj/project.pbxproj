@@ -167,10 +167,10 @@
 			isa = PBXGroup;
 			children = (
 				CEA1A5811A9F78BE00E03FDF /* SwiftyJSON.swift */,
+				CEA1A57B1A9F787F00E03FDF /* DataManager.swift */,
 				CEA1A57F1A9F789000E03FDF /* ExploreViewController.swift */,
 				CEA1A57D1A9F788A00E03FDF /* SearchTableViewController.swift */,
 				CEA1A5831A9F80CA00E03FDF /* SearchCell_TableViewCell.swift */,
-				CEA1A57B1A9F787F00E03FDF /* DataManager.swift */,
 				CEA1A5851A9F984800E03FDF /* venuePhoto_CollectionViewController.swift */,
 				CEA1A5871A9F989900E03FDF /* venuePhoto_CollectionViewCell.swift */,
 				CEB0D9681AA009D100DFF610 /* VenueInfo_CollectionReusableView.swift */,

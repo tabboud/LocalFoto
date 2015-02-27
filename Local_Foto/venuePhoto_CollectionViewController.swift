@@ -12,25 +12,17 @@ let reuseIdentifier = "Cell"
 
 class venuePhoto_CollectionViewController: UICollectionViewController {
 
-    var media: [InstagramMedia] = [InstagramMedia](){
-        didSet{
-            self.collectionView?.reloadData()
-        }
-    }
-    
-    var venueDetails: JSON!
+    var media: [InstagramMedia] = [InstagramMedia]()
+    var venueDetails: JSON! // This is set from other VC that performSegue to this VC
+    let sharedIGEngine = InstagramEngine.sharedEngine()
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Fetch Media based off of locationID from venueDetails
+        self.getVenuePhotos()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-//        self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "venuePhotoCell")
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,25 +30,75 @@ class venuePhoto_CollectionViewController: UICollectionViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+    
+    
+/*
+My Methods
+*/
+    func getVenuePhotos(){
+        if(self.venueDetails != nil){
+            if let locationID = self.venueDetails["id"].string{
+                self.getLocationID(locationID)
+            }
+        }
     }
-    */
+    
+    // Get Instagram locationID from Foursquare LocationID
+    func getLocationID(locationID: String!){
+        
+        let url = NSString(format: "https://api.instagram.com/v1/locations/search?foursquare_v2_id=%@&access_token=%@", locationID, sharedIGEngine.accessToken)
+        DataManager.getDataFromInstagramWithSuccess(url, success: {(data, error)->Void in
+            if error != nil{
+                println("Error getting location details")
+            }else{
+                // fetch pins about this location
+                if let dataArray = data["data"].array{
+                    let LocationID = dataArray[0]["id"].string
+                    
+                    // fetch recent media at this location
+                    self.fetchRecentMedia(LocationID)
+                }
+            }
+        })
+    }
+    
+    // Get recent media from IG at this locationID
+    func fetchRecentMedia(locationID: String!){
+        
+        let url = NSString(format: "https://api.instagram.com/v1/locations/%@/media/recent?access_token=%@", locationID, sharedIGEngine.accessToken)
+        DataManager.getDataFromInstagramWithSuccess(url, success: {(data, error)->Void in
+            if error != nil{
+                println("Error getting location details")
+            }else{
+                // fetch pins about this location
+                if let dataArray = data["data"].array{
+                    self.media.removeAll(keepCapacity: false)
+                    for post in dataArray{
+                        let mediaPost: InstagramMedia = InstagramMedia(info: post.dictionaryObject)
+                        println(mediaPost.user.username)
+                        self.media.append(mediaPost)
+                    }
+                    dispatch_async(dispatch_get_main_queue(), {
+                        if let cView = self.collectionView{
+                            cView.reloadData()
+                        }
+                    })
+                    
+                }
+            }
+        })
+    }
+    
+    
+    
+    
 
-    // MARK: UICollectionViewDataSource
-
+// MARK: UICollectionViewDataSource
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
 
-
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //#warning Incomplete method implementation -- Return the number of items in the section
         return (self.media.count > 0) ? self.media.count : 0
     }
 
@@ -95,36 +137,4 @@ class venuePhoto_CollectionViewController: UICollectionViewController {
         return venueInfo
     }
     
-    
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
-        return false
-    }
-
-    override func collectionView(collectionView: UICollectionView, performAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
-    
-    }
-    */
-
 }

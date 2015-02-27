@@ -120,12 +120,12 @@ class ExploreViewController: UITableViewController, SearchTableViewControllerDel
     func searchTableViewController(controller: SearchTableViewController, didSelectVenue venue:JSON) {
 
         self.venueInfo = venue
-        let venueID = venue["id"].string
+//        let venueID = venue["id"].string
 
         resultsTableViewController.dismissViewControllerAnimated(true, completion: nil)
 
         // call instagram to get locationID, then get the recent media at that location
-        getLocationID(venueID)
+//        getLocationID(venueID)
     }
  
     

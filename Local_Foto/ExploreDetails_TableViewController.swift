@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Abbouds Corner. All rights reserved.
 //
 
+//TODO: Make sure no segue goes from cell or photo, should go from VC to VC, then use if inside didselect or prepareForSegue to determine which to go to. Used along with performSegue
+
 import UIKit
 import MapKit
 
@@ -18,6 +20,7 @@ class ExploreDetails_TableViewController: UITableViewController {
     var location: CLLocation!
     var category: String!
     let distanceFormatter = MKDistanceFormatter()
+    var venueInfo: JSON!        //Send over to venuePhoto_collectionVC
 
     
     override func viewDidLoad() {
@@ -25,6 +28,7 @@ class ExploreDetails_TableViewController: UITableViewController {
         
         
         self.location = self.getCurrentLocation()
+        
         // Fetch Foursquare Data
         self.fetchVenueInfo()
     }
@@ -34,6 +38,10 @@ class ExploreDetails_TableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    
+/*
+My Methods
+*/
     func getCurrentLocation()->CLLocation{
         let manager = Manager.sharedInstance
         return manager.currentLocation
@@ -72,8 +80,8 @@ class ExploreDetails_TableViewController: UITableViewController {
 
     }
     
+    
 // MARK: - Table view data source
-
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -104,111 +112,22 @@ class ExploreDetails_TableViewController: UITableViewController {
         return cell
     }
     
-    var venueInfo: JSON!        //Send over to venuePhoto_collectionVC
-    let sharedIGEngine = InstagramEngine.sharedEngine()
-    var media = [InstagramMedia]()
-    
-    // Picked a search criteria
+    // Picked a search category
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         self.venueInfo = venues[indexPath.row]["venue"]
         
-        let venueID = venueInfo["id"].string
-        
-        // call instagram to get locationID, then get the recent media at that location
-        getLocationID(venueID)
+        self.performSegueWithIdentifier("showVenueInfo", sender: self)
     }
+
     
     
-    func getLocationID(locationID: String!){
-        
-        
-        let url = NSString(format: "https://api.instagram.com/v1/locations/search?foursquare_v2_id=%@&access_token=%@", locationID, sharedIGEngine.accessToken)
-        DataManager.getDataFromInstagramWithSuccess(url, success: {(data, error)->Void in
-            if error != nil{
-                println("Error getting location details")
-            }else{
-                // fetch pins about this location
-                if let dataArray = data["data"].array{
-                    let LocationID = dataArray[0]["id"].string
-                    
-                    // fetch recent media at this location
-                    self.fetchRecentMedia(LocationID)
-                }
-            }
-        })
-    }
     
-    func fetchRecentMedia(locationID: String!){
-        
-        let url = NSString(format: "https://api.instagram.com/v1/locations/%@/media/recent?access_token=%@", locationID, sharedIGEngine.accessToken)
-        DataManager.getDataFromInstagramWithSuccess(url, success: {(data, error)->Void in
-            if error != nil{
-                println("Error getting location details")
-            }else{
-                // fetch pins about this location
-                if let dataArray = data["data"].array{
-                    self.media.removeAll(keepCapacity: false)
-                    for post in dataArray{
-                        let mediaPost: InstagramMedia = InstagramMedia(info: post.dictionaryObject)
-                        println(mediaPost.user.username)
-                        self.media.append(mediaPost)
-                    }
-                    // perform the segue
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.performSegueWithIdentifier("showVenueInfo", sender: self)
-                    })
-                }
-            }
-        })
-    }
-
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-
 // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if(segue.identifier == "showVenueInfo"){
             let destVC: venuePhoto_CollectionViewController = segue.destinationViewController as venuePhoto_CollectionViewController
-            destVC.media = self.media
             destVC.venueDetails = self.venueInfo
-            
         }
     }
 
