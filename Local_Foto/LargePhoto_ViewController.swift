@@ -161,7 +161,7 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func fetchComments(){
-        self.sharedIGEngine.getCommentsOnMedia(self.post, withSuccess: {(commentsArray)->Void in
+        self.sharedIGEngine.getCommentsOnMedia(self.post.Id, withSuccess: {(commentsArray)->Void in
             for comment in commentsArray as [InstagramComment]{
                 self.comments.append(comment)
             }

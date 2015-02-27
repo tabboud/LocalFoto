@@ -149,7 +149,7 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     func fetchUserDetails(){
-        self.sharedIGEngine.getUserDetails(self.userInfo, withSuccess: {(userDetails)->Void in
+        self.sharedIGEngine.getUserDetails(self.userInfo.Id, withSuccess: {(userDetails)->Void in
             self.userInfo = userDetails as InstagramUser
             }, failure: {(error)->Void in
                 println("Error fetching user details")
