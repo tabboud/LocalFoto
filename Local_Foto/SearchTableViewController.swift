@@ -13,6 +13,7 @@ import MapKit
 
 protocol SearchTableViewControllerDelegate: class {
     func searchTableViewController(controller: SearchTableViewController, didSelectVenue venue:JSON)
+    func searchTableViewController(controller: SearchTableViewController, viewDidDisappear venueSelected: Bool!)
 }
 
 class SearchTableViewController: UITableViewController, UISearchResultsUpdating {
@@ -23,6 +24,7 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
 
     }
     
@@ -86,12 +88,29 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating 
         return 0
     }
     
-    
+    var didSelectVenue = false
     // Picked a search criteria
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        self.didSelectVenue = true
+        self.dismissViewControllerAnimated(true, completion: nil)
         let venueInfo = myVenues[indexPath.row]["venue"]
         delegate?.searchTableViewController(self, didSelectVenue: venueInfo)
+    }
+    
+    // Tell other VC that this view is gone -> then the other VC can perform a Segue
+    override func viewDidDisappear(animated: Bool) {
+        delegate?.searchTableViewController(self, viewDidDisappear: self.didSelectVenue)
+        self.didSelectVenue = false
+    }
+    
+
+}
+
+extension SearchTableViewController: UISearchBarDelegate{
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        // Send current Foursquare results for search
+        searchBar.resignFirstResponder()
     }
 
 }

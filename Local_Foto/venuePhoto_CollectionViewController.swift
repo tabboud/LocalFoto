@@ -46,63 +46,32 @@ My Methods
     // Get Instagram locationID from Foursquare LocationID
     func getLocationID(locationID: String!){
         
-        // Attempt to get from my InstagramKit addition
         self.sharedIGEngine.searchForLocationWithFoursquareID(locationID, withSuccess: {(locations, paginationInfo)->Void in
                 let foundLocation = locations as [InstagramLocation]
             
             if let locationId = foundLocation.first?.locationID{
                 self.fetchRecentMedia(locationId)
             }
-//                println("THIS IS THE RETURNED RESPONSE: \(foundLocation.first?.locationID) + \(foundLocation.first?.name) + \(foundLocation.first)")
             }, failure: {(error)->Void in})
-        
-        
-        
-//        let url = NSString(format: "https://api.instagram.com/v1/locations/search?foursquare_v2_id=%@&access_token=%@", locationID, sharedIGEngine.accessToken)
-//        DataManager.getDataFromInstagramWithSuccess(url, success: {(data, error)->Void in
-//            if error != nil{
-//                println("Error getting location details")
-//            }else{
-//                // fetch pins about this location
-//                if let dataArray = data["data"].array{
-//                    let LocationID = dataArray[0]["id"].string
-//                    
-//                    // fetch recent media at this location
-//                    self.fetchRecentMedia(LocationID)
-//                }
-//            }
-//        })
+
     }
     
     // Get recent media from IG at this locationID
     func fetchRecentMedia(locationID: String!){
         
-        let url = NSString(format: "https://api.instagram.com/v1/locations/%@/media/recent?access_token=%@", locationID, sharedIGEngine.accessToken)
-        DataManager.getDataFromInstagramWithSuccess(url, success: {(data, error)->Void in
-            if error != nil{
-                println("Error getting location details")
-            }else{
-                // fetch pins about this location
-                if let dataArray = data["data"].array{
-                    self.media.removeAll(keepCapacity: false)
-                    for post in dataArray{
-                        let mediaPost: InstagramMedia = InstagramMedia(info: post.dictionaryObject)
-                        println(mediaPost.user.username)
-                        self.media.append(mediaPost)
-                    }
-                    dispatch_async(dispatch_get_main_queue(), {
-                        if let cView = self.collectionView{
-                            cView.reloadData()
-                        }
-                    })
-                    
+        
+        self.sharedIGEngine.fetchRecentMediaAtLocation(locationID, withSuccess: {(media, paginationInfo)->Void in
+                self.media = media as [InstagramMedia]
+            dispatch_async(dispatch_get_main_queue(), {
+                if let cView = self.collectionView{
+                    cView.reloadData()
                 }
-            }
+            })
+            }, failure: {(error)->Void in
+                println("error fetching recent media at location")
         })
+
     }
-    
-    
-    
     
 
 // MARK: UICollectionViewDataSource

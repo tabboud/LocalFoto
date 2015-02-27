@@ -79,7 +79,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="5547" y="342"/>
+            <point key="canvasLocation" x="5307" y="397"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="UuI-yW-16j">
@@ -106,7 +106,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vzg-7c-bDr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6252" y="403"/>
+            <point key="canvasLocation" x="5976" y="397"/>
         </scene>
         <!--Get OAuth2-->
         <scene sceneID="ufC-wZ-h7g">
@@ -157,7 +157,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6943" y="1010"/>
+            <point key="canvasLocation" x="6943" y="380"/>
         </scene>
         <!--Local Photos-->
         <scene sceneID="5VU-vJ-dWP">
@@ -303,95 +303,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eKn-as-zgD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6943" y="-358"/>
-        </scene>
-        <!--Local Fotos-->
-        <scene sceneID="5vu-sD-lCV">
-            <objects>
-                <viewController id="WAD-Vi-Gm8" customClass="MainScreen_ViewController" customModule="Local_Foto" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="X5R-0i-uKt"/>
-                        <viewControllerLayoutGuide type="bottom" id="SXt-rm-olb"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="sZW-F8-we3">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ugE-85-VCE">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="591"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="nqK-w8-JNq">
-                                    <size key="itemSize" width="100" height="100"/>
-                                    <size key="headerReferenceSize" width="50" height="100"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="2" minY="2" maxX="2" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cellReuseID" id="cwh-6X-023" customClass="photo_CollectionViewCell" customModule="Local_Foto" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jOl-TL-uoz">
-                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                                </imageView>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="za9-Uz-XSh">
-                                                    <rect key="frame" x="40" y="40" width="20" height="20"/>
-                                                    <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </activityIndicatorView>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <size key="customSize" width="100" height="100"/>
-                                        <connections>
-                                            <outlet property="activityIndicator" destination="za9-Uz-XSh" id="G1s-bj-PH9"/>
-                                            <outlet property="imageView" destination="jOl-TL-uoz" id="910-aU-8mC"/>
-                                            <segue destination="vaK-FX-MPl" kind="show" identifier="viewLargePhoto" id="w5r-cu-syg"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                </cells>
-                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="mapViewHeader" id="hOX-VO-5jB" customClass="MapView_CollectionReusableView" customModule="Local_Foto" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="64" width="600" height="100"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gRg-tg-pRf">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
-                                        </mapView>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="gRg-tg-pRf" secondAttribute="bottom" id="3aO-PY-NfL"/>
-                                        <constraint firstItem="gRg-tg-pRf" firstAttribute="top" secondItem="hOX-VO-5jB" secondAttribute="top" id="5D1-fa-kRc"/>
-                                        <constraint firstItem="gRg-tg-pRf" firstAttribute="leading" secondItem="hOX-VO-5jB" secondAttribute="leading" id="RZD-fC-6W6"/>
-                                        <constraint firstAttribute="trailing" secondItem="gRg-tg-pRf" secondAttribute="trailing" id="pD9-kC-fzt"/>
-                                    </constraints>
-                                    <connections>
-                                        <outlet property="map" destination="gRg-tg-pRf" id="ZAb-ic-QAp"/>
-                                    </connections>
-                                </collectionReusableView>
-                                <connections>
-                                    <outlet property="dataSource" destination="WAD-Vi-Gm8" id="92N-il-Dro"/>
-                                    <outlet property="delegate" destination="WAD-Vi-Gm8" id="a4u-br-zDw"/>
-                                </connections>
-                            </collectionView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="ugE-85-VCE" firstAttribute="leading" secondItem="sZW-F8-we3" secondAttribute="leading" id="1vb-Ai-8B4"/>
-                            <constraint firstItem="ugE-85-VCE" firstAttribute="top" secondItem="sZW-F8-we3" secondAttribute="top" id="3wt-PX-Twp"/>
-                            <constraint firstAttribute="trailing" secondItem="ugE-85-VCE" secondAttribute="trailing" id="JEo-ig-mDL"/>
-                            <constraint firstAttribute="bottom" secondItem="ugE-85-VCE" secondAttribute="bottom" constant="9" id="LUN-xm-zMs"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Local Fotos" id="HCI-X3-Kk2"/>
-                    <connections>
-                        <outlet property="collectionView" destination="ugE-85-VCE" id="lQL-SG-Vvp"/>
-                        <segue destination="vXZ-lx-hvc" kind="presentation" identifier="presentWebView" modalPresentationStyle="overCurrentContext" id="jBY-4C-Ht7"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JGI-Ug-w3e" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6943" y="306"/>
         </scene>
         <!--Large Photo View Controller-->
         <scene sceneID="ZNA-fN-Ef0">
@@ -801,17 +712,11 @@
                             <outlet property="delegate" destination="kDR-e4-72s" id="dc6-w9-fOr"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Explore" id="jdH-aY-Oa1">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="5RM-fT-4CG">
-                            <connections>
-                                <action selector="btnPressed:" destination="kDR-e4-72s" id="uXB-yg-Dkn"/>
-                                <segue destination="m9v-e5-BfY" kind="show" identifier="showCollection" id="C8g-ZZ-fBi"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Explore" id="jdH-aY-Oa1"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="5lW-M3-9N2" id="Yc8-im-Kcg"/>
                         <segue destination="WaR-59-XKW" kind="show" identifier="showExploreDetails" id="qv6-NL-cRV"/>
+                        <segue destination="m9v-e5-BfY" kind="show" identifier="showCollection" id="9yK-b3-4N1"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sV2-oq-fAF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -830,6 +735,7 @@
         <!--Search Table View Controller-->
         <scene sceneID="hOQ-Nt-we7">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="alI-aC-hlG" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController storyboardIdentifier="venueSearch" id="l5l-3y-hvw" customClass="SearchTableViewController" customModule="Local_Foto" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="rzM-SA-uVv">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
@@ -873,8 +779,10 @@
                             <outlet property="delegate" destination="l5l-3y-hvw" id="cSd-JK-7To"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="m9v-e5-BfY" kind="show" identifier="showVenuePhotos" id="7GE-sC-Buo"/>
+                    </connections>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="alI-aC-hlG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6943" y="-1701"/>
         </scene>
@@ -965,7 +873,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DpG-9L-c3x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7631" y="-1038"/>
+            <point key="canvasLocation" x="7651" y="-1038"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="POc-bh-Xno">
@@ -1060,12 +968,11 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PZY-dV-ZMm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7631" y="-1701"/>
+            <point key="canvasLocation" x="7651" y="-1701"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="6vE-G8-Y1C"/>
-        <segue reference="w5r-cu-syg"/>
         <segue reference="vhA-GC-UJu"/>
+        <segue reference="7GE-sC-Buo"/>
     </inferredMetricsTieBreakers>
 </document>

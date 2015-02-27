@@ -14,6 +14,7 @@ import MapKit
 class ExploreDetails_TableViewController: UITableViewController {
     var venues: [JSON]!{
         didSet{
+            self.navigationController?.title = self.category
             self.tableView.reloadData()
         }
     }

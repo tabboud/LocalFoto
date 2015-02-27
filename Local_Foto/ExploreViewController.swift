@@ -9,7 +9,7 @@
 import UIKit
 
 /** Shows result from `explore` endpoint. And has search controller to search in nearby venues. */
-class ExploreViewController: UITableViewController, SearchTableViewControllerDelegate {
+class ExploreViewController: UITableViewController, SearchTableViewControllerDelegate, UISearchBarDelegate {
     
     private enum exploreSections: String{
         case Food = "Food"
@@ -27,8 +27,13 @@ class ExploreViewController: UITableViewController, SearchTableViewControllerDel
     }
     
     
-    var media = [InstagramMedia]()
     var category: String!
+    var venueInfo: JSON!
+    var searchController: UISearchController!
+    var resultsTableViewController: SearchTableViewController!
+    let ManagerSingleton = Manager.sharedInstance
+    let sharedIGEngine = InstagramEngine.sharedEngine()
+    
     
     @IBAction private func btnPressed(sender: AnyObject!){
         
@@ -37,21 +42,18 @@ class ExploreViewController: UITableViewController, SearchTableViewControllerDel
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showCollection"{
             let dVC = segue.destinationViewController as venuePhoto_CollectionViewController
-            dVC.media = self.media
             dVC.venueDetails = self.venueInfo
         }else if(segue.identifier == "showExploreDetails"){
             let destVC = segue.destinationViewController as ExploreDetails_TableViewController
             destVC.category = self.category
         }
     }
-    
-    var searchController: UISearchController!
-    var resultsTableViewController: SearchTableViewController!
-    let ManagerSingleton = Manager.sharedInstance
-    let sharedIGEngine = InstagramEngine.sharedEngine()
+
     
     /** Number formatter for rating. */
     let numberFormatter = NSNumberFormatter()
+
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,36 +65,16 @@ class ExploreViewController: UITableViewController, SearchTableViewControllerDel
         searchController = UISearchController(searchResultsController: resultsTableViewController)
         searchController.searchResultsUpdater = resultsTableViewController
         searchController.searchBar.sizeToFit()
+        searchController.searchBar.delegate = resultsTableViewController
         tableView.tableHeaderView = searchController.searchBar
-        definesPresentationContext = true
+        self.definesPresentationContext = true
         
     }
     
     
-    func showNoPermissionsAlert() {
-        let alertController = UIAlertController(title: "No permission", message: "In order to work, app needs your location", preferredStyle: .Alert)
-        let openSettings = UIAlertAction(title: "Open settings", style: .Default, handler: {
-            (action) -> Void in
-            let URL = NSURL(string: UIApplicationOpenSettingsURLString)
-            UIApplication.sharedApplication().openURL(URL!)
-            self.dismissViewControllerAnimated(true, completion: nil)
-        })
-        alertController.addAction(openSettings)
-        presentViewController(alertController, animated: true, completion: nil)
-    }
-    
-    func showErrorAlert(error: NSError) {
-        let alertController = UIAlertController(title: "Error", message:error.localizedDescription, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "Ok", style: .Default, handler: {
-            (action) -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
-        })
-        alertController.addAction(okAction)
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
-    
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        println("Sections count = \(exploreSections.count)")
         return exploreSections.count
     }
 
@@ -114,58 +96,17 @@ class ExploreViewController: UITableViewController, SearchTableViewControllerDel
     }
     
     
-    var venueInfo: JSON!
+
     
     // Search Delegate
     func searchTableViewController(controller: SearchTableViewController, didSelectVenue venue:JSON) {
-
         self.venueInfo = venue
-//        let venueID = venue["id"].string
-
-        resultsTableViewController.dismissViewControllerAnimated(true, completion: nil)
-
-        // call instagram to get locationID, then get the recent media at that location
-//        getLocationID(venueID)
     }
- 
-    
-    func getLocationID(locationID: String!){
-        
-        let url = NSString(format: "https://api.instagram.com/v1/locations/search?foursquare_v2_id=%@&access_token=%@", locationID, sharedIGEngine.accessToken)
-        DataManager.getDataFromInstagramWithSuccess(url, success: {(data, error)->Void in
-            if error != nil{
-                println("Error getting location details")
-            }else{
-                // fetch pins about this location
-                if let dataArray = data["data"].array{
-                    let LocationID = dataArray[0]["id"].string
-                    
-                    // fetch recent media at this location
-                    self.fetchRecentMedia(LocationID)
-                }
-            }
-        })
-    }
-    
-    func fetchRecentMedia(locationID: String!){
-        
-        let url = NSString(format: "https://api.instagram.com/v1/locations/%@/media/recent?access_token=%@", locationID, sharedIGEngine.accessToken)
-        DataManager.getDataFromInstagramWithSuccess(url, success: {(data, error)->Void in
-            if error != nil{
-                println("Error getting location details")
-            }else{
-                // fetch pins about this location
-                if let dataArray = data["data"].array{
-                    self.media.removeAll(keepCapacity: false)
-                    for post in dataArray{
-                        let mediaPost: InstagramMedia = InstagramMedia(info: post.dictionaryObject)
-                        println(mediaPost.user.username)
-                        self.media.append(mediaPost)
-                    }
-                    
-                }
-            }
-        })
+    // perform segue now that search has finished dismissing
+    func searchTableViewController(controller: SearchTableViewController, viewDidDisappear venueSelected: Bool!) {
+        if(venueSelected == true){
+            self.performSegueWithIdentifier("showCollection", sender: self)
+        }
     }
 
 }
