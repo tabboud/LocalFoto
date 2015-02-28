@@ -25,6 +25,10 @@ class Posts_TableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        self.tableView.estimatedRowHeight = 450.0
+//        self.tableView.rowHeight = UITableViewAutomaticDimension
+
+        
 
         // Add observer for currentLocation value in Singleton 'Manager.swift'
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "startRefresh", name: curLocationNotificationKey, object: nil)
