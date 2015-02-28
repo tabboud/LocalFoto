@@ -10,7 +10,7 @@ import UIKit
 
 let reuseIdentifier = "Cell"
 
-class venuePhoto_CollectionViewController: UICollectionViewController {
+class venuePhoto_CollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     var media: [InstagramMedia] = [InstagramMedia]()
     var venueDetails: JSON! // This is set from other VC that performSegue to this VC
@@ -132,6 +132,12 @@ My Methods
         
     }
     
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
+        return 4
+    }
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
+        return 1
+    }
     
     
 }

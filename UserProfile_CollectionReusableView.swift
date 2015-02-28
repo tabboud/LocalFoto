@@ -19,7 +19,8 @@ class UserProfile_CollectionReusableView: UICollectionReusableView {
     @IBOutlet var btnFollow: UIButton!
     
     func setImage(URL: NSURL!){
-        self.profilePicture.setImageWithURL(URL, placeholderImage: UIImage(named: "AvatarPlaceholder@2x.png"))
+        profilePicture.setImageWithURL(URL, placeholderImage: UIImage(named: "AvatarPlaceholder@2x.png"))
+        profilePicture.layer.cornerRadius = profilePicture.frame.size.width/2
     }
     
  

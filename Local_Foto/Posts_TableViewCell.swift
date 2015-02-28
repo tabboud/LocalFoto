@@ -49,6 +49,7 @@ class Posts_TableViewCell: UITableViewCell {
 
     func setUserProfilePhoto(profilePictureURL: NSURL!){
         self.profilePhoto.setImageWithURL(profilePictureURL)
+       profilePhoto.layer.cornerRadius = profilePhoto.frame.size.width/2
     }
     
     func setPostPhoto(thumbnailURL: NSURL!, standardResURL: NSURL!){

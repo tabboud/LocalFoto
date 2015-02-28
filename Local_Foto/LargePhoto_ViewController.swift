@@ -76,19 +76,18 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
             self.navigationItem.title = "Video"
             
             // set up a video in the same frame as imageView
-//            let videoURL = self.post.lowResolutionVideoURL
             let vidURL = self.post.standardResolutionVideoURL
             // Use either MPMoviePlayer or AVPlayer (ios8 and up)
-//            self.moviePlayer = MPMoviePlayerViewController(contentURL: videoURL)
-//            self.moviePlayer.view.frame = self.imageView.frame
-//            self.scrollView.addSubview(self.moviePlayer.view)
-//            self.moviePlayer.moviePlayer.controlStyle = MPMovieControlStyle.Embedded
-//            self.moviePlayer.moviePlayer.play()
-            self.myplayer = AVPlayerViewController()
-            self.myplayer.view.frame = self.imageView.frame
-            self.myplayer.view.contentMode = UIViewContentMode.ScaleToFill
-            self.scrollView.addSubview(self.myplayer.view)
-            self.myplayer.player = AVPlayer(URL: vidURL)
+            self.moviePlayer = MPMoviePlayerViewController(contentURL: vidURL)
+            self.moviePlayer.view.frame = self.imageView.frame
+            self.moviePlayer.moviePlayer.controlStyle = MPMovieControlStyle.Embedded
+            self.scrollView.addSubview(self.moviePlayer.view)
+            self.moviePlayer.moviePlayer.play()
+//            self.myplayer = AVPlayerViewController()
+//            self.myplayer.view.frame = self.imageView.frame
+//            self.myplayer.view.contentMode = UIViewContentMode.ScaleToFill
+//            self.scrollView.addSubview(self.myplayer.view)
+//            self.myplayer.player = AVPlayer(URL: vidURL)
         }
     }
 
@@ -120,8 +119,6 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
 
         let curTime = NSDate()
         
-//        println("Current time:     \(curTime)")
-//        println("Time Since Taken: \(self.post.createdDate)")
         if let estDate = self.post.createdDate{
             // subtract two dates
             let c = NSCalendar.currentCalendar()

@@ -12,15 +12,15 @@ import UIKit
 class ExploreViewController: UITableViewController, SearchTableViewControllerDelegate, UISearchBarDelegate {
     
     private enum exploreSections: String{
-        case Food = "Food"
-        case Drinks = "Drinks"
-        case Coffee = "Coffee"
-        case Shops = "Shops"
-        case Arts = "Arts"
-        case Outdoors = "Outdoor Sights"
-        case Trending = "Trending"
-        case Specials = "Specials"
-        case TopPicks = "Top Picks"
+        case Food       = "Food"
+        case Drinks     = "Drinks"
+        case Coffee     = "Coffee"
+        case Shops      = "Shops"
+        case Arts       = "Arts"
+        case Outdoors   = "Outdoor Sights"
+        case Trending   = "Trending"
+        case Specials   = "Specials"
+        case TopPicks   = "Top Picks"
         
         static let allValues = [Food, Drinks, Coffee, Shops, Arts, Outdoors, Trending, Specials, TopPicks]
         static let count = allValues.count
@@ -33,11 +33,9 @@ class ExploreViewController: UITableViewController, SearchTableViewControllerDel
     var resultsTableViewController: SearchTableViewController!
     let ManagerSingleton = Manager.sharedInstance
     let sharedIGEngine = InstagramEngine.sharedEngine()
+    /** Number formatter for rating. */
+    let numberFormatter = NSNumberFormatter()
     
-    
-    @IBAction private func btnPressed(sender: AnyObject!){
-        
-    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showCollection"{
@@ -50,8 +48,7 @@ class ExploreViewController: UITableViewController, SearchTableViewControllerDel
     }
 
     
-    /** Number formatter for rating. */
-    let numberFormatter = NSNumberFormatter()
+
 
     
     
@@ -59,15 +56,15 @@ class ExploreViewController: UITableViewController, SearchTableViewControllerDel
         super.viewDidLoad()
         numberFormatter.numberStyle = .DecimalStyle
         
-        resultsTableViewController = Storyboard.create("venueSearch") as SearchTableViewController
-        resultsTableViewController.delegate = self
-        resultsTableViewController.location = ManagerSingleton.currentLocation
-        searchController = UISearchController(searchResultsController: resultsTableViewController)
-        searchController.searchResultsUpdater = resultsTableViewController
-        searchController.searchBar.sizeToFit()
-        searchController.searchBar.delegate = resultsTableViewController
-        tableView.tableHeaderView = searchController.searchBar
-        self.definesPresentationContext = true
+//        resultsTableViewController = Storyboard.create("venueSearch") as SearchTableViewController
+//        resultsTableViewController.delegate = self
+//        resultsTableViewController.location = ManagerSingleton.currentLocation
+//        searchController = UISearchController(searchResultsController: resultsTableViewController)
+//        searchController.searchResultsUpdater = resultsTableViewController
+//        searchController.searchBar.sizeToFit()
+//        searchController.searchBar.delegate = resultsTableViewController
+//        tableView.tableHeaderView = searchController.searchBar
+//        self.definesPresentationContext = true
         
     }
     
@@ -79,7 +76,8 @@ class ExploreViewController: UITableViewController, SearchTableViewControllerDel
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: ExploreCell_TableViewCell = tableView.dequeueReusableCellWithIdentifier("exploreTableViewCell", forIndexPath: indexPath) as ExploreCell_TableViewCell
+        var cell: ExploreCell_TableViewCell = tableView.dequeueReusableCellWithIdentifier("exploreTableViewCell", forIndexPath: indexPath) as ExploreCell_TableViewCell
+
         
         let section: exploreSections = exploreSections.allValues[indexPath.row]
         let category = section.rawValue

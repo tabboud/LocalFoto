@@ -129,6 +129,8 @@
 		CE696C1B1A98361A009B5330 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				CEA1A5811A9F78BE00E03FDF /* SwiftyJSON.swift */,
+				CEA1A57B1A9F787F00E03FDF /* DataManager.swift */,
 				CEA3AF991A97D0A500737EB9 /* Manager.swift */,
 			);
 			name = Models;
@@ -137,6 +139,10 @@
 		CE696C1C1A98362D009B5330 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CEB0D9681AA009D100DFF610 /* VenueInfo_CollectionReusableView.swift */,
+				CEB0D96A1AA01CE100DFF610 /* ExploreCell_TableViewCell.swift */,
+				CEA1A5871A9F989900E03FDF /* venuePhoto_CollectionViewCell.swift */,
+				CEA1A5831A9F80CA00E03FDF /* SearchCell_TableViewCell.swift */,
 				CE0FC2071A999FF400183D1F /* Comments_TableViewCell.swift */,
 				CE88AAB41A8A8B4F0023AC24 /* photo_CollectionViewCell.swift */,
 				CEF10E4A1A906F0200FA97BC /* UserPhotosCollectionViewCell.swift */,
@@ -163,15 +169,9 @@
 		CEA1A57A1A9F786F00E03FDF /* Searching */ = {
 			isa = PBXGroup;
 			children = (
-				CEA1A5811A9F78BE00E03FDF /* SwiftyJSON.swift */,
-				CEA1A57B1A9F787F00E03FDF /* DataManager.swift */,
-				CEA1A57F1A9F789000E03FDF /* ExploreViewController.swift */,
 				CEA1A57D1A9F788A00E03FDF /* SearchTableViewController.swift */,
-				CEA1A5831A9F80CA00E03FDF /* SearchCell_TableViewCell.swift */,
 				CEA1A5851A9F984800E03FDF /* venuePhoto_CollectionViewController.swift */,
-				CEA1A5871A9F989900E03FDF /* venuePhoto_CollectionViewCell.swift */,
-				CEB0D9681AA009D100DFF610 /* VenueInfo_CollectionReusableView.swift */,
-				CEB0D96A1AA01CE100DFF610 /* ExploreCell_TableViewCell.swift */,
+				CEA1A57F1A9F789000E03FDF /* ExploreViewController.swift */,
 				CEB0D96C1AA0227E00DFF610 /* ExploreDetails_TableViewController.swift */,
 			);
 			name = Searching;
