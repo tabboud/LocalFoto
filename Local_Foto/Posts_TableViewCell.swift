@@ -8,13 +8,27 @@
 
 import UIKit
 
-class Posts_TableViewCell: UITableViewCell {
+@objc protocol PostsTabeViewCellDelegate{
+    func didPressUserButton(cellIndex: Int)
+}
 
+
+class Posts_TableViewCell: UITableViewCell {
+    var delegate: PostsTabeViewCellDelegate? = nil
+    var cellIndex: Int? = nil
+    
 // Actions & Outlets
     @IBOutlet var postPhoto: UIImageView!
     @IBOutlet var profilePhoto: UIImageView!
     @IBOutlet var userName: UIButton!
 
+    @IBAction func userBtnClicked(sender: AnyObject) {
+        if let index = self.cellIndex{
+            delegate?.didPressUserButton(index)
+        }else{
+            delegate?.didPressUserButton(0)
+        }
+    }
     
 
     override func awakeFromNib() {

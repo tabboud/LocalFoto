@@ -30,7 +30,15 @@ class venuePhoto_CollectionViewController: UICollectionViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showLargePhoto"{
+            let destVC = segue.destinationViewController as LargePhoto_ViewController
+            let cell = sender as venuePhoto_CollectionViewCell
+            if let indexPath = self.collectionView?.indexPathForCell(cell){
+                destVC.post = self.media[indexPath.row]
+            }
+        }
+    }
     
 /*
 My Methods
@@ -117,5 +125,13 @@ My Methods
         }
         return venueInfo
     }
+    
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        // perform segue to largePhoto to display picture
+        self.performSegueWithIdentifier("showLargePhoto", sender: collectionView.cellForItemAtIndexPath(indexPath))
+        
+    }
+    
+    
     
 }

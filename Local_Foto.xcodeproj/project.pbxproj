@@ -14,7 +14,6 @@
 		CE0FC2101A9E34D100183D1F /* LocalMap_UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0FC20F1A9E34D100183D1F /* LocalMap_UIView.swift */; };
 		CE88AAAD1A8A758B0023AC24 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE88AAAC1A8A758B0023AC24 /* MapKit.framework */; };
 		CE88AAAF1A8A75920023AC24 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE88AAAE1A8A75920023AC24 /* CoreLocation.framework */; };
-		CE88AAB31A8A77460023AC24 /* MainScreen_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88AAB21A8A77460023AC24 /* MainScreen_ViewController.swift */; };
 		CE88AAB51A8A8B4F0023AC24 /* photo_CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88AAB41A8A8B4F0023AC24 /* photo_CollectionViewCell.swift */; };
 		CE88AAB71A8A8F320023AC24 /* LargePhoto_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88AAB61A8A8F320023AC24 /* LargePhoto_ViewController.swift */; };
 		CE99B79B1A939006008CB41A /* MapView_CollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE99B79A1A939006008CB41A /* MapView_CollectionReusableView.swift */; };
@@ -66,7 +65,6 @@
 		CE0FC20F1A9E34D100183D1F /* LocalMap_UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalMap_UIView.swift; sourceTree = "<group>"; };
 		CE88AAAC1A8A758B0023AC24 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		CE88AAAE1A8A75920023AC24 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		CE88AAB21A8A77460023AC24 /* MainScreen_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainScreen_ViewController.swift; path = ../MainScreen_ViewController.swift; sourceTree = "<group>"; };
 		CE88AAB41A8A8B4F0023AC24 /* photo_CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = photo_CollectionViewCell.swift; sourceTree = "<group>"; };
 		CE88AAB61A8A8F320023AC24 /* LargePhoto_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LargePhoto_ViewController.swift; sourceTree = "<group>"; };
 		CE99B79A1A939006008CB41A /* MapView_CollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView_CollectionReusableView.swift; sourceTree = "<group>"; };
@@ -155,7 +153,6 @@
 			children = (
 				CE99B7A71A943025008CB41A /* Location_ViewController.swift */,
 				CE88AAB61A8A8F320023AC24 /* LargePhoto_ViewController.swift */,
-				CE88AAB21A8A77460023AC24 /* MainScreen_ViewController.swift */,
 				CEF10E481A90677E00FA97BC /* UserProfile_ViewController.swift */,
 				CED3E72A1A869E2A00F26AFE /* ViewController.swift */,
 				CE0FC2091A9E2A2D00183D1F /* Posts_TableViewController.swift */,
@@ -412,7 +409,6 @@
 				CEA1A5841A9F80CA00E03FDF /* SearchCell_TableViewCell.swift in Sources */,
 				CEB0D9691AA009D100DFF610 /* VenueInfo_CollectionReusableView.swift in Sources */,
 				CE0FC20A1A9E2A2D00183D1F /* Posts_TableViewController.swift in Sources */,
-				CE88AAB31A8A77460023AC24 /* MainScreen_ViewController.swift in Sources */,
 				CEA1A5821A9F78BE00E03FDF /* SwiftyJSON.swift in Sources */,
 				CE99B79E1A93992B008CB41A /* UserProfile_CollectionReusableView.swift in Sources */,
 				CED3E72B1A869E2A00F26AFE /* ViewController.swift in Sources */,

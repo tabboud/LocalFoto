@@ -20,6 +20,7 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating 
     var location: CLLocation!
     var myVenues: [JSON]!
     let distanceFormatter = MKDistanceFormatter()
+    var didSelectVenue = false
     weak var delegate: SearchTableViewControllerDelegate?
     
     override func viewDidLoad() {
@@ -88,7 +89,6 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating 
         return 0
     }
     
-    var didSelectVenue = false
     // Picked a search criteria
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)

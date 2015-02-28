@@ -209,6 +209,9 @@
                                             <rect key="frame" x="51" y="11" width="72" height="30"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                                             <state key="normal" title="username"/>
+                                            <connections>
+                                                <action selector="userBtnClicked:" destination="I1I-PO-aaM" eventType="touchUpInside" id="oqf-OD-jFB"/>
+                                            </connections>
                                         </button>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="FMu-9b-LoD">
                                             <rect key="frame" x="4" y="268" width="592" height="74"/>
@@ -298,6 +301,7 @@
                     <navigationItem key="navigationItem" title="Local Photos" id="ihn-q1-9Ye"/>
                     <connections>
                         <outlet property="customMap" destination="3Bj-CW-W9d" id="d8J-3Q-Wn0"/>
+                        <segue destination="ekW-3I-Yft" kind="show" identifier="showUserProfile" id="OIp-Kt-EGF"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eKn-as-zgD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -478,7 +482,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gl8-mN-37R" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7603" y="289"/>
+            <point key="canvasLocation" x="7723" y="-279"/>
         </scene>
         <!--User Profile View Controller-->
         <scene sceneID="hOx-Fj-tBJ">
@@ -627,7 +631,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0O5-NL-WqB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8249" y="290"/>
+            <point key="canvasLocation" x="8369" y="-278"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="rOH-Vs-vTC">
@@ -870,6 +874,9 @@
                             <outlet property="delegate" destination="m9v-e5-BfY" id="c7q-pz-YB3"/>
                         </connections>
                     </collectionView>
+                    <connections>
+                        <segue destination="vaK-FX-MPl" kind="show" identifier="showLargePhoto" id="Uk7-iF-XI3"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DpG-9L-c3x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -972,7 +979,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="vhA-GC-UJu"/>
+        <segue reference="OIp-Kt-EGF"/>
+        <segue reference="Uk7-iF-XI3"/>
         <segue reference="7GE-sC-Buo"/>
     </inferredMetricsTieBreakers>
 </document>

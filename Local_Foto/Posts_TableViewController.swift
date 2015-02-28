@@ -107,7 +107,13 @@ class Posts_TableViewController: UITableViewController {
     }
 
 
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if(segue.identifier == "showUserProfile"){
+            let destVC = segue.destinationViewController as UserProfile_ViewController
+            let index = sender as Int
+            destVC.userInfo = self.posts[index].user
+        }
+    }
     
 
     override func didReceiveMemoryWarning() {
@@ -115,8 +121,7 @@ class Posts_TableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
-
+// MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -133,7 +138,18 @@ class Posts_TableViewController: UITableViewController {
         cell.setUserName(userPost.user.username)
         cell.setPostPhoto(userPost.thumbnailURL, standardResURL: userPost.standardResolutionImageURL)
         cell.setUserProfilePhoto(userPost.user.profilePictureURL)
+        cell.delegate = self
+        cell.cellIndex = indexPath.row
 
         return cell
     }
+    
+
 }
+
+extension Posts_TableViewController: PostsTabeViewCellDelegate{
+    func didPressUserButton(cellIndex: Int) {
+        self.performSegueWithIdentifier("showUserProfile", sender: cellIndex)
+    }
+}
+

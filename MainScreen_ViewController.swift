@@ -85,9 +85,13 @@ class MainScreen_ViewController: UIViewController, UICollectionViewDelegate, UIS
         }else if(segue.identifier == "presentWebView"){
             let VC: ViewController = segue.destinationViewController as ViewController
             VC.delegate = self
+        }else if(segue.identifier == "showUserProfile"){
+            let destVC = segue.destinationViewController as UserProfile_ViewController
+//            destVC.userInfo =
         }
     }
     
+
     func startRefresh(){
         if self.accessToken != nil{
             println("inside startRefresh")
@@ -181,6 +185,10 @@ extension MainScreen_ViewController: UICollectionViewDataSource{
             map.addAnnotation(coordinates, title: "Current Location")
         }
         return map
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+
     }
 }
 
