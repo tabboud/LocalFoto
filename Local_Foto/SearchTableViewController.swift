@@ -23,10 +23,9 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating 
     var didSelectVenue = false
     weak var delegate: SearchTableViewControllerDelegate?
     
+    @IBOutlet var searchResultsTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-
     }
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
@@ -57,7 +56,9 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating 
                 if let postsArray = response["response"]["groups"][0]["items"].array{
                     self.myVenues = postsArray
                 }
-            self.tableView.reloadData()
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.searchResultsTableView.reloadData()
+                })
             }
         
         })
@@ -109,8 +110,9 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating 
 
 extension SearchTableViewController: UISearchBarDelegate{
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        // Send current Foursquare results for search
+        // Scroll to top of tableview
+        self.searchResultsTableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: true)
         searchBar.resignFirstResponder()
     }
-
 }
+

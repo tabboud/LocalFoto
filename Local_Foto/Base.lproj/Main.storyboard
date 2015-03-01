@@ -163,7 +163,7 @@
         <scene sceneID="5VU-vJ-dWP">
             <objects>
                 <tableViewController id="Wc6-pQ-Djl" customClass="Posts_TableViewController" customModule="Local_Foto" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="450" sectionHeaderHeight="22" sectionFooterHeight="22" id="N0M-Eg-ouF">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="419" sectionHeaderHeight="22" sectionFooterHeight="22" id="N0M-Eg-ouF">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -187,13 +187,14 @@
                             </connections>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="postCellReuseID" rowHeight="451" id="I1I-PO-aaM" customClass="Posts_TableViewCell" customModule="Local_Foto" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="postCellReuseID" rowHeight="411" id="I1I-PO-aaM" customClass="Posts_TableViewCell" customModule="Local_Foto" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="I1I-PO-aaM" id="CZK-AP-ALd">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wey-IY-DuG">
+                                        <imageView opaque="NO" clipsSubviews="YES" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wey-IY-DuG">
                                             <rect key="frame" x="2" y="51" width="596" height="250"/>
+                                            <gestureRecognizers/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="250" id="Y88-q9-kFT"/>
                                             </constraints>
@@ -213,32 +214,13 @@
                                                 <action selector="userBtnClicked:" destination="I1I-PO-aaM" eventType="touchUpInside" id="oqf-OD-jFB"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Likes" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8y5-7H-jha">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="0" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8y5-7H-jha">
                                             <rect key="frame" x="46" y="309" width="30" height="15"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Comment" translatesAutoresizingMaskIntoConstraints="NO" id="2LY-Vl-t46">
-                                            <rect key="frame" x="499" y="331" width="25" height="25"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="25" id="EWA-ju-UFA"/>
-                                                <constraint firstAttribute="height" constant="25" id="heR-AF-ziO"/>
-                                            </constraints>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="1000000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xqf-pl-Zv6">
-                                            <rect key="frame" x="532" y="334" width="60" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Caption" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tYx-ga-pXi">
-                                            <rect key="frame" x="13" y="334" width="54" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Like" translatesAutoresizingMaskIntoConstraints="NO" id="NdN-0B-B3v">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="Like" translatesAutoresizingMaskIntoConstraints="NO" id="NdN-0B-B3v">
                                             <rect key="frame" x="13" y="299" width="25" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="25" id="d7m-Um-ZKI"/>
@@ -257,15 +239,31 @@
                                                 </mask>
                                             </variation>
                                         </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Comment" translatesAutoresizingMaskIntoConstraints="NO" id="2LY-Vl-t46">
+                                            <rect key="frame" x="499" y="331" width="25" height="25"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="25" id="EWA-ju-UFA"/>
+                                                <constraint firstAttribute="height" constant="25" id="heR-AF-ziO"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Caption" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tYx-ga-pXi">
+                                            <rect key="frame" x="13" y="334" width="54" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="1000000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xqf-pl-Zv6">
+                                            <rect key="frame" x="532" y="334" width="60" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
+                                    <gestureRecognizers/>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="Xqf-pl-Zv6" secondAttribute="bottom" constant="8" id="0eQ-a7-h6O"/>
                                         <constraint firstItem="2LY-Vl-t46" firstAttribute="centerY" secondItem="Xqf-pl-Zv6" secondAttribute="centerY" id="1cR-Iq-Gqv"/>
-                                        <constraint firstItem="8y5-7H-jha" firstAttribute="leading" secondItem="CZK-AP-ALd" secondAttribute="leading" constant="46" id="2a7-Be-VaN"/>
                                         <constraint firstAttribute="trailing" secondItem="Wey-IY-DuG" secondAttribute="trailing" constant="2" id="2kc-ro-tU7"/>
-                                        <constraint firstItem="tYx-ga-pXi" firstAttribute="top" secondItem="NdN-0B-B3v" secondAttribute="bottom" constant="3" id="4Kc-OI-BYl">
-                                            <variation key="heightClass=regular" constant="5"/>
-                                        </constraint>
                                         <constraint firstItem="NdN-0B-B3v" firstAttribute="centerY" secondItem="8y5-7H-jha" secondAttribute="centerY" id="9VJ-l6-dwD"/>
                                         <constraint firstAttribute="centerX" secondItem="Wey-IY-DuG" secondAttribute="centerX" id="Ddy-Kq-nXV"/>
                                         <constraint firstItem="dxj-xC-A6E" firstAttribute="top" secondItem="CZK-AP-ALd" secondAttribute="top" constant="8" id="Fio-m8-76T"/>
@@ -273,14 +271,15 @@
                                         <constraint firstItem="Wey-IY-DuG" firstAttribute="leading" secondItem="CZK-AP-ALd" secondAttribute="leading" constant="2" id="HeS-ak-6AG"/>
                                         <constraint firstItem="Wey-IY-DuG" firstAttribute="top" secondItem="dxj-xC-A6E" secondAttribute="bottom" constant="8" id="IKH-bf-AAq"/>
                                         <constraint firstItem="t5h-rR-h2g" firstAttribute="leading" secondItem="dxj-xC-A6E" secondAttribute="trailing" constant="8" id="NfY-XA-YVG"/>
-                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="tYx-ga-pXi" secondAttribute="trailing" constant="5" id="REK-t6-o90">
-                                            <variation key="heightClass=regular" constant="13"/>
-                                        </constraint>
+                                        <constraint firstItem="8y5-7H-jha" firstAttribute="leading" secondItem="NdN-0B-B3v" secondAttribute="trailing" constant="8" id="Wmy-Bo-aWc"/>
                                         <constraint firstItem="dxj-xC-A6E" firstAttribute="leading" secondItem="CZK-AP-ALd" secondAttribute="leading" constant="8" id="Y0q-PF-3eB"/>
+                                        <constraint firstItem="tYx-ga-pXi" firstAttribute="top" secondItem="NdN-0B-B3v" secondAttribute="bottom" constant="5" id="YsE-BT-k8v"/>
+                                        <constraint firstItem="tYx-ga-pXi" firstAttribute="leading" secondItem="CZK-AP-ALd" secondAttribute="leadingMargin" constant="10" id="coS-Fh-DY7"/>
                                         <constraint firstItem="8y5-7H-jha" firstAttribute="top" secondItem="Wey-IY-DuG" secondAttribute="bottom" constant="8" id="fGO-e7-NiB"/>
-                                        <constraint firstItem="tYx-ga-pXi" firstAttribute="leading" secondItem="CZK-AP-ALd" secondAttribute="leading" constant="13" id="fkl-xV-gfw"/>
-                                        <constraint firstItem="Xqf-pl-Zv6" firstAttribute="leading" secondItem="2LY-Vl-t46" secondAttribute="trailing" constant="8" id="ioS-Pb-bwa"/>
-                                        <constraint firstItem="2LY-Vl-t46" firstAttribute="top" relation="greaterThanOrEqual" secondItem="tYx-ga-pXi" secondAttribute="bottom" constant="5" id="qIC-7D-ekW"/>
+                                        <constraint firstItem="Xqf-pl-Zv6" firstAttribute="leading" secondItem="2LY-Vl-t46" secondAttribute="trailing" constant="8" id="ioS-Pb-bwa">
+                                            <variation key="heightClass=regular" constant="11"/>
+                                        </constraint>
+                                        <constraint firstItem="tYx-ga-pXi" firstAttribute="trailing" secondItem="CZK-AP-ALd" secondAttribute="trailingMargin" constant="10" id="obH-d4-8D2"/>
                                         <constraint firstAttribute="trailing" secondItem="Xqf-pl-Zv6" secondAttribute="trailing" constant="8" id="sdS-yx-4jZ"/>
                                         <constraint firstItem="t5h-rR-h2g" firstAttribute="centerY" secondItem="dxj-xC-A6E" secondAttribute="centerY" constant="0.5" id="zsD-f9-4yc"/>
                                     </constraints>
@@ -288,22 +287,25 @@
                                         <mask key="constraints">
                                             <exclude reference="9VJ-l6-dwD"/>
                                             <exclude reference="GVQ-SJ-rCx"/>
-                                            <exclude reference="4Kc-OI-BYl"/>
-                                            <exclude reference="REK-t6-o90"/>
-                                            <exclude reference="qIC-7D-ekW"/>
+                                            <exclude reference="Wmy-Bo-aWc"/>
+                                            <exclude reference="YsE-BT-k8v"/>
+                                            <exclude reference="coS-Fh-DY7"/>
+                                            <exclude reference="obH-d4-8D2"/>
                                         </mask>
                                     </variation>
                                     <variation key="heightClass=regular">
                                         <mask key="constraints">
                                             <include reference="9VJ-l6-dwD"/>
                                             <include reference="GVQ-SJ-rCx"/>
-                                            <include reference="4Kc-OI-BYl"/>
-                                            <include reference="REK-t6-o90"/>
-                                            <include reference="qIC-7D-ekW"/>
+                                            <include reference="Wmy-Bo-aWc"/>
+                                            <include reference="YsE-BT-k8v"/>
+                                            <include reference="coS-Fh-DY7"/>
+                                            <include reference="obH-d4-8D2"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="likes" destination="8y5-7H-jha" id="LzG-Ja-Ndp"/>
                                     <outlet property="postPhoto" destination="Wey-IY-DuG" id="iv2-P1-IaY"/>
                                     <outlet property="profilePhoto" destination="dxj-xC-A6E" id="N2b-UK-rX1"/>
                                     <outlet property="userName" destination="t5h-rR-h2g" id="F8W-a6-iqK"/>
@@ -318,12 +320,13 @@
                     <navigationItem key="navigationItem" title="Local Photos" id="ihn-q1-9Ye"/>
                     <connections>
                         <outlet property="customMap" destination="3Bj-CW-W9d" id="d8J-3Q-Wn0"/>
+                        <outlet property="postsTableView" destination="N0M-Eg-ouF" id="lUF-Pt-qx9"/>
                         <segue destination="ekW-3I-Yft" kind="show" identifier="showUserProfile" id="OIp-Kt-EGF"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eKn-as-zgD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6943" y="-359.25"/>
+            <point key="canvasLocation" x="6943" y="-360.75"/>
         </scene>
         <!--Large Photo View Controller-->
         <scene sceneID="ZNA-fN-Ef0">
@@ -516,7 +519,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9Sh-BI-lDV">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9Sh-BI-lDV">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Vas-kB-i1k">
@@ -557,7 +560,7 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="userProfileHeaderID" id="FOb-zD-9hT" customClass="UserProfile_CollectionReusableView" customModule="Local_Foto" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="196"/>
+                                    <rect key="frame" x="0.0" y="64" width="600" height="173"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="posts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkp-oW-Vdn">
@@ -760,7 +763,7 @@
         <scene sceneID="hOQ-Nt-we7">
             <objects>
                 <tableViewController storyboardIdentifier="venueSearch" id="l5l-3y-hvw" customClass="SearchTableViewController" customModule="Local_Foto" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="rzM-SA-uVv">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="rzM-SA-uVv">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -803,6 +806,7 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="searchResultsTableView" destination="rzM-SA-uVv" id="XYz-nJ-KEc"/>
                         <segue destination="m9v-e5-BfY" kind="show" identifier="showVenuePhotos" id="7GE-sC-Buo"/>
                     </connections>
                 </tableViewController>
@@ -814,7 +818,7 @@
         <scene sceneID="ZGm-Hj-yLz">
             <objects>
                 <collectionViewController id="m9v-e5-BfY" customClass="venuePhoto_CollectionViewController" customModule="Local_Foto" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Snj-Do-RUp">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" id="Snj-Do-RUp">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -895,6 +899,7 @@
                         </connections>
                     </collectionView>
                     <connections>
+                        <outlet property="venueCollectionView" destination="Snj-Do-RUp" id="VcB-xo-VZz"/>
                         <segue destination="vaK-FX-MPl" kind="show" identifier="showLargePhoto" id="Uk7-iF-XI3"/>
                     </connections>
                 </collectionViewController>
@@ -1004,7 +1009,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="OIp-Kt-EGF"/>
-        <segue reference="6vE-G8-Y1C"/>
         <segue reference="XYl-sm-gVd"/>
+        <segue reference="7GE-sC-Buo"/>
     </inferredMetricsTieBreakers>
 </document>

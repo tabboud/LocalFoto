@@ -19,7 +19,9 @@ class photo_CollectionViewCell: UICollectionViewCell {
         self.imageView.setImageWithURLRequest(NSURLRequest(URL: thumbnailImageURL), placeholderImage: nil, success: {(request, response, image)->Void in
             self.activityIndicator.stopAnimating()
             self.activityIndicator.hidden = true
-            self.imageView.image = image
+            dispatch_async(dispatch_get_main_queue(), {
+                self.imageView.image = image
+            })
             }, failure: {(request, response, error)->Void in
                 self.imageView.image = UIImage(named: "AvatarPlaceholder@2x.png")
                 println("failed to get photos")

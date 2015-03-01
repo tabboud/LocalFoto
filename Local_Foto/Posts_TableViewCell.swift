@@ -13,20 +13,23 @@ import UIKit
 }
 
 
-class Posts_TableViewCell: UITableViewCell {
-    var delegate: PostsTabeViewCellDelegate? = nil
+class Posts_TableViewCell: MGSwipeTableCell {
+    var mdelegate: PostsTabeViewCellDelegate? = nil
     var cellIndex: Int? = nil
     
 // Actions & Outlets
     @IBOutlet var postPhoto: UIImageView!
     @IBOutlet var profilePhoto: UIImageView!
     @IBOutlet var userName: UIButton!
+    @IBOutlet var likes: UILabel!
 
+    
+    
     @IBAction func userBtnClicked(sender: AnyObject) {
         if let index = self.cellIndex{
-            delegate?.didPressUserButton(index)
+            mdelegate?.didPressUserButton(index)
         }else{
-            delegate?.didPressUserButton(0)
+            mdelegate?.didPressUserButton(0)
         }
     }
     
@@ -46,20 +49,42 @@ class Posts_TableViewCell: UITableViewCell {
     func setUserName(name: String!){
         self.userName.setTitle(name, forState: .Normal)
     }
+    
+    func setLikeCount(likes: String!){
+        self.likes.text = likes
+    }
 
     func setUserProfilePhoto(profilePictureURL: NSURL!){
-        self.profilePhoto.setImageWithURL(profilePictureURL)
        profilePhoto.layer.cornerRadius = profilePhoto.frame.size.width/2
+        self.profilePhoto.setImageWithURLRequest(NSURLRequest(URL: profilePictureURL), placeholderImage: nil, success: {(request, response, image)->Void in
+            self.profilePhoto.layer.cornerRadius = self.profilePhoto.frame.size.width/2
+            dispatch_async(dispatch_get_main_queue(), {
+                self.profilePhoto.image = image
+            })
+            }, failure: {(request, response, error)->Void in
+                println("failed to get photos")
+        })
     }
     
     func setPostPhoto(thumbnailURL: NSURL!, standardResURL: NSURL!){
         self.postPhoto.setImageWithURL(thumbnailURL)
         self.postPhoto.setImageWithURLRequest(NSURLRequest(URL: standardResURL), placeholderImage: nil, success: {(request, response, image)->Void in
-            self.postPhoto.image = image
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.postPhoto.image = image
+                })
+//                //Add gesture recognizer to this image view
+//                self.postPhoto.userInteractionEnabled = true
+//                var tapGesture = UITapGestureRecognizer(target: self, action: "LikedPhoto:")
+//                tapGesture.numberOfTapsRequired = 2
+//                self.postPhoto.addGestureRecognizer(tapGesture)
+//            
             }, failure: {(request, response, error)->Void in
-                self.postPhoto.image = UIImage(named: "AvatarPlaceholder@2x.png")
                 println("failed to get photo")
         })
     }
-
+    
+    private func LikedPhoto(sender: AnyObject!){
+        println("Liked photo")
+    }
+    
 }

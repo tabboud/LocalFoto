@@ -56,15 +56,15 @@ class ExploreViewController: UITableViewController, SearchTableViewControllerDel
         super.viewDidLoad()
         numberFormatter.numberStyle = .DecimalStyle
         
-//        resultsTableViewController = Storyboard.create("venueSearch") as SearchTableViewController
-//        resultsTableViewController.delegate = self
-//        resultsTableViewController.location = ManagerSingleton.currentLocation
-//        searchController = UISearchController(searchResultsController: resultsTableViewController)
-//        searchController.searchResultsUpdater = resultsTableViewController
-//        searchController.searchBar.sizeToFit()
-//        searchController.searchBar.delegate = resultsTableViewController
-//        tableView.tableHeaderView = searchController.searchBar
-//        self.definesPresentationContext = true
+        resultsTableViewController = Storyboard.create("venueSearch") as SearchTableViewController
+        resultsTableViewController.delegate = self
+        resultsTableViewController.location = ManagerSingleton.currentLocation
+        searchController = UISearchController(searchResultsController: resultsTableViewController)
+        searchController.searchResultsUpdater = resultsTableViewController
+        searchController.searchBar.sizeToFit()
+        searchController.searchBar.delegate = resultsTableViewController
+        tableView.tableHeaderView = searchController.searchBar
+        self.definesPresentationContext = true
         
     }
     

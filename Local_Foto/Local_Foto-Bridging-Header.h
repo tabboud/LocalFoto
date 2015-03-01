@@ -7,3 +7,6 @@
 
 #import <InstagramKit/InstagramKit.h>
 #import <TSMessages/TSMessage.h>
+
+#import <MGSwipeTableCell/MGSwipeTableCell.h>
+#import <MGSwipeTableCell/MGSwipeButton.h>

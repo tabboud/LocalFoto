@@ -17,15 +17,15 @@ class Posts_TableViewController: UITableViewController {
     var isPhotosAvailable = false
     var fetchedPosts = [InstagramMedia]()
 
+    @IBOutlet var postsTableView: UITableView!
     
     @IBOutlet var customMap: LocalMap_UIView!
-    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.tableView.estimatedRowHeight = 450.0
+//        self.tableView.estimatedRowHeight = 411.0
 //        self.tableView.rowHeight = UITableViewAutomaticDimension
 
         
@@ -142,13 +142,21 @@ class Posts_TableViewController: UITableViewController {
         cell.setUserName(userPost.user.username)
         cell.setPostPhoto(userPost.thumbnailURL, standardResURL: userPost.standardResolutionImageURL)
         cell.setUserProfilePhoto(userPost.user.profilePictureURL)
-        cell.delegate = self
+        cell.mdelegate = self
         cell.cellIndex = indexPath.row
+        
+        // Configure MGSwipe stuff, If not used set post_tableViewCell back to UItableViewCell inherited
+//        cell.rightButtons = [MGSwipeButton(title: "Like", backgroundColor: UIColor.blueColor())]
+//        cell.rightSwipeSettings.transition = .TransitionBorder
+//        cell.rightExpansion.fillOnTrigger = false
+        
 
+        
         return cell
     }
-    
 
+
+    
 }
 
 extension Posts_TableViewController: PostsTabeViewCellDelegate{

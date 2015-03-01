@@ -53,12 +53,18 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
         super.didReceiveMemoryWarning()
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if(segue.identifier == "showUserPhotoLarge"){
+            let destVC: LargePhoto_ViewController = segue.destinationViewController as LargePhoto_ViewController
+            let indexPath: NSIndexPath = self.collectionView.indexPathForCell(sender as UICollectionViewCell)!
+            destVC.post = self.posts[indexPath.row]
+        }
+    }
 
 // UICollectionView - Data Source methods
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
         return self.posts.count
     }
-    
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
         
         let cell: UserPhotosCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("userPhotosCell", forIndexPath: indexPath) as UserPhotosCollectionViewCell
@@ -72,6 +78,8 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int{
         return 1
     }
+    
+
     
 // UICollectionView - Delegate Methods
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
@@ -100,6 +108,11 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
         return userHeader
     }
     
+    // Change height for header
+//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize{
+//        return CGSizeMake(3, 3)
+//    }
+    
 // UICollectionViewFlowLayout - Delegate Methods
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 4
@@ -109,13 +122,7 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if(segue.identifier == "showUserPhotoLarge"){
-            let destVC: LargePhoto_ViewController = segue.destinationViewController as LargePhoto_ViewController
-            let indexPath: NSIndexPath = self.collectionView.indexPathForCell(sender as UICollectionViewCell)!
-            destVC.post = self.posts[indexPath.row]
-        }
-    }
+
     
 // UIScrollView - Delegate Methods
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -131,21 +138,30 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
     
 // MARK: My methods
     func fetchUserPhotos(){
-        println("fetch user photos!")
-        self.sharedIGEngine.getMediaForUser(self.userInfo.Id, count: 15, maxId: self.currentPaginationInfo?.nextMaxId, withSuccess: {(media, paginationInfo)->Void in
-            self.isFetchingData = false
-            if(paginationInfo != nil){
-                self.currentPaginationInfo = paginationInfo
-            }
-            for mediaObject in media as [InstagramMedia]{
-                self.posts.append(mediaObject)
-            }
-            self.collectionView.reloadData()
-            self.isInitialDataLoaded = true
-            }, failure: {(error)->Void in
+
+        if((self.isInitialDataLoaded == false) || (self.isInitialDataLoaded == true && self.currentPaginationInfo != nil)){
+            self.sharedIGEngine.getMediaForUser(self.userInfo.Id, count: 15, maxId: self.currentPaginationInfo?.nextMaxId, withSuccess: {(media, paginationInfo)->Void in
                 self.isFetchingData = false
-                println("Loading User media failed!")
-        })
+                self.isInitialDataLoaded = true
+                
+                if(paginationInfo != nil){
+                    self.currentPaginationInfo = paginationInfo
+                }else{
+                    self.currentPaginationInfo = nil
+                }
+                
+                for mediaObject in media as [InstagramMedia]{
+                    self.posts.append(mediaObject)
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.collectionView.reloadData()
+                })
+                }, failure: {(error)->Void in
+                    self.isFetchingData = false
+                    println("Loading User media failed!")
+            })
+        }
     }
     
     func fetchUserDetails(){

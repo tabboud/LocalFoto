@@ -12,10 +12,11 @@ let reuseIdentifier = "Cell"
 
 class venuePhoto_CollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
+    @IBOutlet var venueCollectionView: UICollectionView!
     var media: [InstagramMedia] = [InstagramMedia]()
     var venueDetails: JSON! // This is set from other VC that performSegue to this VC
     let sharedIGEngine = InstagramEngine.sharedEngine()
-
+    var IGLocationID : String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +59,7 @@ My Methods
                 let foundLocation = locations as [InstagramLocation]
             
             if let locationId = foundLocation.first?.locationID{
+                self.IGLocationID = locationId
                 self.fetchRecentMedia(locationId)
             }
             }, failure: {(error)->Void in})
@@ -67,18 +69,31 @@ My Methods
     // Get recent media from IG at this locationID
     func fetchRecentMedia(locationID: String!){
         
-        
-        self.sharedIGEngine.fetchRecentMediaAtLocation(locationID, withSuccess: {(media, paginationInfo)->Void in
-                self.media = media as [InstagramMedia]
-            dispatch_async(dispatch_get_main_queue(), {
-                if let cView = self.collectionView{
-                    cView.reloadData()
+        if((self.isInitialDataLoaded == false) || (self.isInitialDataLoaded == true && self.currentPaginationInfo != nil)){
+            self.sharedIGEngine.fetchRecentMediaAtLocation(locationID, count: -1, maxId: self.currentPaginationInfo?.nextMaxId, withSuccess: {(media, paginationInfo)->Void in
+                self.isFetchingData = false
+                self.isInitialDataLoaded = true
+                
+                if(paginationInfo != nil){
+                    self.currentPaginationInfo = paginationInfo as InstagramPaginationInfo
+                }else{
+                    self.currentPaginationInfo = nil
                 }
+                
+                
+                for mediaObj in media as [InstagramMedia]{
+                    self.media.append(mediaObj)
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.venueCollectionView.reloadData()
+                })
+                
+                }, failure: {(error)->Void in
+                    //self.isInitialDataLoaded = true
+                    println("error fetching recent media at location")
             })
-            }, failure: {(error)->Void in
-                println("error fetching recent media at location")
-        })
-
+        }
     }
     
 
@@ -138,6 +153,23 @@ My Methods
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 1
     }
+ 
+    var isFetchingData = false
+    var isInitialDataLoaded = false
+    var currentPaginationInfo: InstagramPaginationInfo? = nil
+
     
-    
+}
+
+extension venuePhoto_CollectionViewController: UIScrollViewDelegate{
+    // UIScrollView - Delegate Methods
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        if(self.isFetchingData == false && self.isInitialDataLoaded == true){
+            if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
+                // Reached bottom
+                self.isFetchingData = true
+                self.fetchRecentMedia(self.IGLocationID)
+            }
+        }
+    }
 }

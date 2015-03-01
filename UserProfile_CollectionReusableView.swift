@@ -20,7 +20,14 @@ class UserProfile_CollectionReusableView: UICollectionReusableView {
     
     func setImage(URL: NSURL!){
         profilePicture.setImageWithURL(URL, placeholderImage: UIImage(named: "AvatarPlaceholder@2x.png"))
-        profilePicture.layer.cornerRadius = profilePicture.frame.size.width/2
+        profilePicture.setImageWithURLRequest(NSURLRequest(URL: URL), placeholderImage: nil, success: {(request, response, image)->Void in
+            self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width/2
+            dispatch_async(dispatch_get_main_queue(), {
+                self.profilePicture.image = image
+            })
+            }, failure: {(request, response, error)->Void in
+                println("failed to get photos")
+        })
     }
     
  
