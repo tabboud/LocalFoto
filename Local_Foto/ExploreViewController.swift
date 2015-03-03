@@ -25,7 +25,19 @@ class ExploreViewController: UITableViewController, SearchTableViewControllerDel
         static let allValues = [Food, Drinks, Coffee, Shops, Arts, Outdoors, Trending, Specials, TopPicks]
         static let count = allValues.count
     }
-    
+
+    private let iconDictionary: [exploreSections: String] =
+    [   .Food:      "Food-48.png",
+        .Drinks:    "Drinks-64.png",
+        .Coffee:    "Coffee-64.png",
+        .Shops:     "Shop-64.png",
+        .Arts:      "Art-64.png",
+        .Outdoors:  "Outdoor-128.png",
+        .Trending:  "Trending-128.png",
+        .Specials:  "Specials-128.png",
+        .TopPicks:  "TopPicks-128.png"
+    ]
+
     
     var category: String!
     var venueInfo: JSON!
@@ -33,7 +45,7 @@ class ExploreViewController: UITableViewController, SearchTableViewControllerDel
     var resultsTableViewController: SearchTableViewController!
     let ManagerSingleton = Manager.sharedInstance
     let sharedIGEngine = InstagramEngine.sharedEngine()
-    /** Number formatter for rating. */
+
     let numberFormatter = NSNumberFormatter()
     
     
@@ -48,12 +60,11 @@ class ExploreViewController: UITableViewController, SearchTableViewControllerDel
     }
 
     
-
-
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = 44.0
+        
         numberFormatter.numberStyle = .DecimalStyle
         
         resultsTableViewController = Storyboard.create("venueSearch") as SearchTableViewController
@@ -71,7 +82,6 @@ class ExploreViewController: UITableViewController, SearchTableViewControllerDel
     
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        println("Sections count = \(exploreSections.count)")
         return exploreSections.count
     }
 
@@ -80,9 +90,10 @@ class ExploreViewController: UITableViewController, SearchTableViewControllerDel
 
         
         let section: exploreSections = exploreSections.allValues[indexPath.row]
-        let category = section.rawValue
+        let cellCategory = section.rawValue
         
-        cell.setCategoryName(category)
+        cell.setCategoryName(cellCategory)
+        cell.setCategoryPhoto(self.iconDictionary[section])
         
         return cell
     }

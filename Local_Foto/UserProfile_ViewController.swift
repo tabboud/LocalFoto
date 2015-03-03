@@ -63,6 +63,7 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
 
 // UICollectionView - Data Source methods
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
+        println("number of items in section")
         return self.posts.count
     }
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
@@ -138,11 +139,9 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
     
 // MARK: My methods
     func fetchUserPhotos(){
-
+    println("fetchuserPhotos")
         if((self.isInitialDataLoaded == false) || (self.isInitialDataLoaded == true && self.currentPaginationInfo != nil)){
             self.sharedIGEngine.getMediaForUser(self.userInfo.Id, count: 15, maxId: self.currentPaginationInfo?.nextMaxId, withSuccess: {(media, paginationInfo)->Void in
-                self.isFetchingData = false
-                self.isInitialDataLoaded = true
                 
                 if(paginationInfo != nil){
                     self.currentPaginationInfo = paginationInfo
@@ -150,13 +149,34 @@ class UserProfile_ViewController: UIViewController, UICollectionViewDataSource, 
                     self.currentPaginationInfo = nil
                 }
                 
+                
+                let prevPostCount = self.posts.count
+                
                 for mediaObject in media as [InstagramMedia]{
                     self.posts.append(mediaObject)
                 }
                 
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.collectionView.reloadData()
-                })
+                
+                // Only reload whole collection on first load of profile, else insert new cell for photo
+                if(self.isInitialDataLoaded == false){
+                    println("reload")
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.collectionView.reloadData()
+                    })
+                }else{
+                    println("insert")
+                    var arrayWithIndexPaths = [NSIndexPath]()
+                    self.collectionView.performBatchUpdates({
+                        for(var i = prevPostCount; i < self.posts.count; i++){
+                            arrayWithIndexPaths.append(NSIndexPath(forRow: i, inSection: 0))
+                        }
+                        self.collectionView.insertItemsAtIndexPaths(arrayWithIndexPaths)
+                        }, completion: nil)
+                }
+
+                self.isFetchingData = false
+                self.isInitialDataLoaded = true
+                
                 }, failure: {(error)->Void in
                     self.isFetchingData = false
                     println("Loading User media failed!")

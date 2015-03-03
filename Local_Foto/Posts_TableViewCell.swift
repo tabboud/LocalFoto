@@ -10,11 +10,12 @@ import UIKit
 
 @objc protocol PostsTabeViewCellDelegate{
     func didPressUserButton(cellIndex: Int)
+    func didPressCommentsButton(cellIndex: Int)
 }
 
 
-class Posts_TableViewCell: MGSwipeTableCell {
-    var mdelegate: PostsTabeViewCellDelegate? = nil
+class Posts_TableViewCell: UITableViewCell {
+    var delegate: PostsTabeViewCellDelegate? = nil
     var cellIndex: Int? = nil
     
 // Actions & Outlets
@@ -22,17 +23,27 @@ class Posts_TableViewCell: MGSwipeTableCell {
     @IBOutlet var profilePhoto: UIImageView!
     @IBOutlet var userName: UIButton!
     @IBOutlet var likes: UILabel!
+    @IBOutlet var timeTakenLabel: UILabel!
+    @IBOutlet var numOfComments: UILabel!
+    @IBOutlet var caption: UILabel!
 
     
     
     @IBAction func userBtnClicked(sender: AnyObject) {
         if let index = self.cellIndex{
-            mdelegate?.didPressUserButton(index)
+            delegate?.didPressUserButton(index)
         }else{
-            mdelegate?.didPressUserButton(0)
+            delegate?.didPressUserButton(0)
         }
     }
     
+    @IBAction func commentsClicked(sender: AnyObject) {
+        if let index = self.cellIndex{
+            delegate?.didPressCommentsButton(index)
+        }else{
+            delegate?.didPressCommentsButton(0)
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -45,17 +56,31 @@ class Posts_TableViewCell: MGSwipeTableCell {
         // Configure the view for the selected state
     }
 
-
+    func setTimeTakenLabel(time: String!){
+        self.timeTakenLabel.text = time
+    }
+    func setNumOfComments(count: String!){
+        self.numOfComments.text = count
+    }
+    func setCaption(caption: String!){
+        self.caption.text = caption
+    }
     func setUserName(name: String!){
         self.userName.setTitle(name, forState: .Normal)
     }
-    
     func setLikeCount(likes: String!){
         self.likes.text = likes
     }
-
     func setUserProfilePhoto(profilePictureURL: NSURL!){
-       profilePhoto.layer.cornerRadius = profilePhoto.frame.size.width/2
+        self.profilePhoto.image = nil
+        
+        // Make photo circular
+        self.profilePhoto.layer.cornerRadius = self.profilePhoto.frame.size.width / 2
+        self.profilePhoto.clipsToBounds = true
+        // Add border
+        self.profilePhoto.layer.borderWidth = 2.0
+        self.profilePhoto.layer.borderColor = UIColor.whiteColor().CGColor
+        
         self.profilePhoto.setImageWithURLRequest(NSURLRequest(URL: profilePictureURL), placeholderImage: nil, success: {(request, response, image)->Void in
             self.profilePhoto.layer.cornerRadius = self.profilePhoto.frame.size.width/2
             dispatch_async(dispatch_get_main_queue(), {
@@ -65,9 +90,8 @@ class Posts_TableViewCell: MGSwipeTableCell {
                 println("failed to get photos")
         })
     }
-    
     func setPostPhoto(thumbnailURL: NSURL!, standardResURL: NSURL!){
-        self.postPhoto.setImageWithURL(thumbnailURL)
+        self.postPhoto.image = nil
         self.postPhoto.setImageWithURLRequest(NSURLRequest(URL: standardResURL), placeholderImage: nil, success: {(request, response, image)->Void in
                 dispatch_async(dispatch_get_main_queue(), {
                     self.postPhoto.image = image

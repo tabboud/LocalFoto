@@ -12,9 +12,10 @@
 		CE0FC20A1A9E2A2D00183D1F /* Posts_TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0FC2091A9E2A2D00183D1F /* Posts_TableViewController.swift */; };
 		CE0FC20C1A9E2AFA00183D1F /* Posts_TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0FC20B1A9E2AFA00183D1F /* Posts_TableViewCell.swift */; };
 		CE0FC2101A9E34D100183D1F /* LocalMap_UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0FC20F1A9E34D100183D1F /* LocalMap_UIView.swift */; };
+		CE5BD09F1AA56D7A0083453C /* Time-24.png in Resources */ = {isa = PBXBuildFile; fileRef = CE5BD09E1AA56D7A0083453C /* Time-24.png */; };
+		CE5BD0A11AA57A9F0083453C /* Comments_TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5BD0A01AA57A9F0083453C /* Comments_TableViewController.swift */; };
 		CE88AAAD1A8A758B0023AC24 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE88AAAC1A8A758B0023AC24 /* MapKit.framework */; };
 		CE88AAAF1A8A75920023AC24 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE88AAAE1A8A75920023AC24 /* CoreLocation.framework */; };
-		CE88AAB51A8A8B4F0023AC24 /* photo_CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88AAB41A8A8B4F0023AC24 /* photo_CollectionViewCell.swift */; };
 		CE88AAB71A8A8F320023AC24 /* LargePhoto_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE88AAB61A8A8F320023AC24 /* LargePhoto_ViewController.swift */; };
 		CE99B79B1A939006008CB41A /* MapView_CollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE99B79A1A939006008CB41A /* MapView_CollectionReusableView.swift */; };
 		CE99B79E1A93992B008CB41A /* UserProfile_CollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE99B79D1A93992B008CB41A /* UserProfile_CollectionReusableView.swift */; };
@@ -41,8 +42,21 @@
 		CED3E7331A869E2A00F26AFE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CED3E7311A869E2A00F26AFE /* LaunchScreen.xib */; };
 		CED3E73F1A869E2A00F26AFE /* Local_FotoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED3E73E1A869E2A00F26AFE /* Local_FotoTests.swift */; };
 		CED514A51A8BE2FD00626C7E /* AvatarPlaceholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CED514A41A8BE2FD00626C7E /* AvatarPlaceholder@2x.png */; };
+		CEE5C8791AA664D80048EDF0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE5C8781AA664D80048EDF0 /* QuartzCore.framework */; };
 		CEF10E491A90677E00FA97BC /* UserProfile_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF10E481A90677E00FA97BC /* UserProfile_ViewController.swift */; };
 		CEF10E4B1A906F0200FA97BC /* UserPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF10E4A1A906F0200FA97BC /* UserPhotosCollectionViewCell.swift */; };
+		CEFF67591AA4085600C39546 /* Globe-64.png in Resources */ = {isa = PBXBuildFile; fileRef = CEFF67581AA4085600C39546 /* Globe-64.png */; };
+		CEFF675B1AA408B700C39546 /* Globe-48.png in Resources */ = {isa = PBXBuildFile; fileRef = CEFF675A1AA408B700C39546 /* Globe-48.png */; };
+		CEFF675D1AA4097300C39546 /* Settings-48.png in Resources */ = {isa = PBXBuildFile; fileRef = CEFF675C1AA4097300C39546 /* Settings-48.png */; };
+		CEFF675F1AA424A100C39546 /* Food-48.png in Resources */ = {isa = PBXBuildFile; fileRef = CEFF675E1AA424A100C39546 /* Food-48.png */; };
+		CEFF67611AA424F300C39546 /* Coffee-64.png in Resources */ = {isa = PBXBuildFile; fileRef = CEFF67601AA424F300C39546 /* Coffee-64.png */; };
+		CEFF67631AA4253A00C39546 /* Drinks-64.png in Resources */ = {isa = PBXBuildFile; fileRef = CEFF67621AA4253A00C39546 /* Drinks-64.png */; };
+		CEFF67651AA425A500C39546 /* Shop-64.png in Resources */ = {isa = PBXBuildFile; fileRef = CEFF67641AA425A500C39546 /* Shop-64.png */; };
+		CEFF67671AA425CE00C39546 /* Art-64.png in Resources */ = {isa = PBXBuildFile; fileRef = CEFF67661AA425CE00C39546 /* Art-64.png */; };
+		CEFF67691AA4261D00C39546 /* Outdoor-128.png in Resources */ = {isa = PBXBuildFile; fileRef = CEFF67681AA4261D00C39546 /* Outdoor-128.png */; };
+		CEFF676B1AA4265800C39546 /* TopPicks-128.png in Resources */ = {isa = PBXBuildFile; fileRef = CEFF676A1AA4265800C39546 /* TopPicks-128.png */; };
+		CEFF676E1AA426B800C39546 /* Trending-64.png in Resources */ = {isa = PBXBuildFile; fileRef = CEFF676C1AA426B800C39546 /* Trending-64.png */; };
+		CEFF676F1AA426B800C39546 /* Specials-128.png in Resources */ = {isa = PBXBuildFile; fileRef = CEFF676D1AA426B800C39546 /* Specials-128.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,9 +77,10 @@
 		CE0FC2091A9E2A2D00183D1F /* Posts_TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Posts_TableViewController.swift; sourceTree = "<group>"; };
 		CE0FC20B1A9E2AFA00183D1F /* Posts_TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Posts_TableViewCell.swift; sourceTree = "<group>"; };
 		CE0FC20F1A9E34D100183D1F /* LocalMap_UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalMap_UIView.swift; sourceTree = "<group>"; };
+		CE5BD09E1AA56D7A0083453C /* Time-24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Time-24.png"; sourceTree = "<group>"; };
+		CE5BD0A01AA57A9F0083453C /* Comments_TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comments_TableViewController.swift; sourceTree = "<group>"; };
 		CE88AAAC1A8A758B0023AC24 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		CE88AAAE1A8A75920023AC24 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		CE88AAB41A8A8B4F0023AC24 /* photo_CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = photo_CollectionViewCell.swift; sourceTree = "<group>"; };
 		CE88AAB61A8A8F320023AC24 /* LargePhoto_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LargePhoto_ViewController.swift; sourceTree = "<group>"; };
 		CE99B79A1A939006008CB41A /* MapView_CollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView_CollectionReusableView.swift; sourceTree = "<group>"; };
 		CE99B79D1A93992B008CB41A /* UserProfile_CollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserProfile_CollectionReusableView.swift; path = ../UserProfile_CollectionReusableView.swift; sourceTree = "<group>"; };
@@ -97,8 +112,21 @@
 		CED3E73E1A869E2A00F26AFE /* Local_FotoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Local_FotoTests.swift; sourceTree = "<group>"; };
 		CED514A41A8BE2FD00626C7E /* AvatarPlaceholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AvatarPlaceholder@2x.png"; sourceTree = "<group>"; };
 		CEE0007F1A8B185D000D0CA6 /* Local_Foto-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Local_Foto-Bridging-Header.h"; sourceTree = "<group>"; };
+		CEE5C8781AA664D80048EDF0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		CEF10E481A90677E00FA97BC /* UserProfile_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile_ViewController.swift; sourceTree = "<group>"; };
 		CEF10E4A1A906F0200FA97BC /* UserPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
+		CEFF67581AA4085600C39546 /* Globe-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Globe-64.png"; sourceTree = "<group>"; };
+		CEFF675A1AA408B700C39546 /* Globe-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Globe-48.png"; sourceTree = "<group>"; };
+		CEFF675C1AA4097300C39546 /* Settings-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Settings-48.png"; sourceTree = "<group>"; };
+		CEFF675E1AA424A100C39546 /* Food-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Food-48.png"; sourceTree = "<group>"; };
+		CEFF67601AA424F300C39546 /* Coffee-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Coffee-64.png"; sourceTree = "<group>"; };
+		CEFF67621AA4253A00C39546 /* Drinks-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Drinks-64.png"; sourceTree = "<group>"; };
+		CEFF67641AA425A500C39546 /* Shop-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Shop-64.png"; sourceTree = "<group>"; };
+		CEFF67661AA425CE00C39546 /* Art-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Art-64.png"; sourceTree = "<group>"; };
+		CEFF67681AA4261D00C39546 /* Outdoor-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Outdoor-128.png"; sourceTree = "<group>"; };
+		CEFF676A1AA4265800C39546 /* TopPicks-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TopPicks-128.png"; sourceTree = "<group>"; };
+		CEFF676C1AA426B800C39546 /* Trending-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Trending-64.png"; sourceTree = "<group>"; };
+		CEFF676D1AA426B800C39546 /* Specials-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Specials-128.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +134,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEE5C8791AA664D80048EDF0 /* QuartzCore.framework in Frameworks */,
 				CE99B7AA1A945928008CB41A /* AddressBookUI.framework in Frameworks */,
 				CE99B7A61A940F62008CB41A /* AVFoundation.framework in Frameworks */,
 				CE99B7A41A940E93008CB41A /* AVKit.framework in Frameworks */,
@@ -139,12 +168,11 @@
 		CE696C1C1A98362D009B5330 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CE0FC2071A999FF400183D1F /* Comments_TableViewCell.swift */,
 				CEB0D9681AA009D100DFF610 /* VenueInfo_CollectionReusableView.swift */,
 				CEB0D96A1AA01CE100DFF610 /* ExploreCell_TableViewCell.swift */,
 				CEA1A5871A9F989900E03FDF /* venuePhoto_CollectionViewCell.swift */,
 				CEA1A5831A9F80CA00E03FDF /* SearchCell_TableViewCell.swift */,
-				CE0FC2071A999FF400183D1F /* Comments_TableViewCell.swift */,
-				CE88AAB41A8A8B4F0023AC24 /* photo_CollectionViewCell.swift */,
 				CEF10E4A1A906F0200FA97BC /* UserPhotosCollectionViewCell.swift */,
 				CE99B79A1A939006008CB41A /* MapView_CollectionReusableView.swift */,
 				CE99B79D1A93992B008CB41A /* UserProfile_CollectionReusableView.swift */,
@@ -162,6 +190,7 @@
 				CEF10E481A90677E00FA97BC /* UserProfile_ViewController.swift */,
 				CED3E72A1A869E2A00F26AFE /* ViewController.swift */,
 				CE0FC2091A9E2A2D00183D1F /* Posts_TableViewController.swift */,
+				CE5BD0A01AA57A9F0083453C /* Comments_TableViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -215,6 +244,7 @@
 		CED3E7261A869E2A00F26AFE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CEFF67571AA4084C00C39546 /* Icons */,
 				CED3E7311A869E2A00F26AFE /* LaunchScreen.xib */,
 				CED3E7281A869E2A00F26AFE /* AppDelegate.swift */,
 				CED514A41A8BE2FD00626C7E /* AvatarPlaceholder@2x.png */,
@@ -240,6 +270,26 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		CEFF67571AA4084C00C39546 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				CE5BD09E1AA56D7A0083453C /* Time-24.png */,
+				CEFF67641AA425A500C39546 /* Shop-64.png */,
+				CEFF67661AA425CE00C39546 /* Art-64.png */,
+				CEFF676C1AA426B800C39546 /* Trending-64.png */,
+				CEFF676D1AA426B800C39546 /* Specials-128.png */,
+				CEFF67621AA4253A00C39546 /* Drinks-64.png */,
+				CEFF67681AA4261D00C39546 /* Outdoor-128.png */,
+				CEFF676A1AA4265800C39546 /* TopPicks-128.png */,
+				CEFF67601AA424F300C39546 /* Coffee-64.png */,
+				CEFF675E1AA424A100C39546 /* Food-48.png */,
+				CEFF675C1AA4097300C39546 /* Settings-48.png */,
+				CEFF675A1AA408B700C39546 /* Globe-48.png */,
+				CEFF67581AA4085600C39546 /* Globe-64.png */,
+			);
+			name = Icons;
+			sourceTree = "<group>";
+		};
 		F254727A088C9B0B3CE8B8C3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,6 +302,7 @@
 		F554735A142FB3A93AB7069C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CEE5C8781AA664D80048EDF0 /* QuartzCore.framework */,
 				CE99B7A91A945928008CB41A /* AddressBookUI.framework */,
 				CE99B7A51A940F62008CB41A /* AVFoundation.framework */,
 				CE99B7A31A940E93008CB41A /* AVKit.framework */,
@@ -345,10 +396,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEFF67631AA4253A00C39546 /* Drinks-64.png in Resources */,
+				CEFF676E1AA426B800C39546 /* Trending-64.png in Resources */,
+				CEFF67651AA425A500C39546 /* Shop-64.png in Resources */,
+				CEFF67691AA4261D00C39546 /* Outdoor-128.png in Resources */,
 				CED3E72E1A869E2A00F26AFE /* Main.storyboard in Resources */,
+				CEFF67671AA425CE00C39546 /* Art-64.png in Resources */,
+				CEFF67591AA4085600C39546 /* Globe-64.png in Resources */,
 				CED3E7331A869E2A00F26AFE /* LaunchScreen.xib in Resources */,
 				CED3E7301A869E2A00F26AFE /* Images.xcassets in Resources */,
+				CE5BD09F1AA56D7A0083453C /* Time-24.png in Resources */,
+				CEFF676B1AA4265800C39546 /* TopPicks-128.png in Resources */,
 				CED514A51A8BE2FD00626C7E /* AvatarPlaceholder@2x.png in Resources */,
+				CEFF675D1AA4097300C39546 /* Settings-48.png in Resources */,
+				CEFF675B1AA408B700C39546 /* Globe-48.png in Resources */,
+				CEFF67611AA424F300C39546 /* Coffee-64.png in Resources */,
+				CEFF675F1AA424A100C39546 /* Food-48.png in Resources */,
+				CEFF676F1AA426B800C39546 /* Specials-128.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,13 +478,13 @@
 				CED3E72B1A869E2A00F26AFE /* ViewController.swift in Sources */,
 				CEF10E491A90677E00FA97BC /* UserProfile_ViewController.swift in Sources */,
 				CE88AAB71A8A8F320023AC24 /* LargePhoto_ViewController.swift in Sources */,
-				CE88AAB51A8A8B4F0023AC24 /* photo_CollectionViewCell.swift in Sources */,
 				CEA1A5881A9F989900E03FDF /* venuePhoto_CollectionViewCell.swift in Sources */,
 				CE0FC2101A9E34D100183D1F /* LocalMap_UIView.swift in Sources */,
 				CED3E7291A869E2A00F26AFE /* AppDelegate.swift in Sources */,
 				CEA1A5801A9F789000E03FDF /* ExploreViewController.swift in Sources */,
 				CEA1A57E1A9F788A00E03FDF /* SearchTableViewController.swift in Sources */,
 				CEB0D96D1AA0227E00DFF610 /* ExploreDetails_TableViewController.swift in Sources */,
+				CE5BD0A11AA57A9F0083453C /* Comments_TableViewController.swift in Sources */,
 				CEF10E4B1A906F0200FA97BC /* UserPhotosCollectionViewCell.swift in Sources */,
 				CE0FC20C1A9E2AFA00183D1F /* Posts_TableViewCell.swift in Sources */,
 			);

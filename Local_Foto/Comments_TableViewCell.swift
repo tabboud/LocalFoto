@@ -9,20 +9,19 @@
 import UIKit
 
 @objc protocol CommentsTableViewCellDelegate{
-    func didPressUserButton(instagramUser: InstagramUser!)
+    optional func didPressUserButton(instagramUser: InstagramUser!)
 }
 class Comments_TableViewCell: UITableViewCell {
     
-    var commentUser: InstagramUser!
     var delegate: CommentsTableViewCellDelegate? = nil
 
-    @IBOutlet var commentsLabel: UILabel!
-    @IBOutlet var userButton: UIButton!
-    @IBAction func userBtnPressed(sender: AnyObject){     // Defined a target in LargePhoto_VC to handle button press
-        if let del = self.delegate{
-            del.didPressUserButton(self.commentUser)
-        }
+    @IBOutlet var userProfilePhoto: UIImageView!
+    @IBOutlet var commentTime: UILabel!
+    @IBOutlet var commentLabel: UILabel!
+    @IBOutlet var userNameBtn: UIButton!
+    @IBAction func pressedUserName(sender: AnyObject) {
     }
+
 
     
     
@@ -38,16 +37,27 @@ class Comments_TableViewCell: UITableViewCell {
     }
     
     func setComment(comment: String!){
-        self.commentsLabel.text = comment
+        self.commentLabel.text = comment
     }
     
-    func setUser(user: String!){
-        self.userButton.setTitle(user + ":", forState: .Normal)
-        self.userButton.sizeToFit()
+    func setUserName(user: String!){
+        self.userNameBtn.setTitle(user, forState: .Normal)
+        self.userNameBtn.sizeToFit()
+    }
+
+    func setCommentTime(time: String!){
+        self.commentTime.text = time
     }
     
-    func setCommentUser(user: InstagramUser!){
-        self.commentUser = user
+    func setProfilePhoto(URL: NSURL!){
+        // Make photo circular
+        self.userProfilePhoto.layer.cornerRadius = self.userProfilePhoto.frame.size.width / 2
+        self.userProfilePhoto.clipsToBounds = true
+        // Add border
+        self.userProfilePhoto.layer.borderWidth = 2.0
+        self.userProfilePhoto.layer.borderColor = UIColor.whiteColor().CGColor
+        
+        self.userProfilePhoto.setImageWithURL(URL)
     }
 
 }

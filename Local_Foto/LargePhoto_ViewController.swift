@@ -22,7 +22,6 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
     var myplayer: AVPlayerViewController!
     var commentUser: InstagramUser!
     
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var caption: UILabel!
     @IBOutlet var scrollView: UIScrollView!
@@ -30,7 +29,18 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet var timeSincePosted: UILabel!
     @IBOutlet var profilePicture: UIImageView!
     @IBOutlet var likesLabel: UILabel!
-    @IBOutlet var commentTableView: UITableView!
+
+    @IBAction func tappedToLike(sender: AnyObject) {
+        println("Like this photo")
+self.likesLabel.text = NSString(format: "%d likes", self.post.likesCount+1)
+//        self.sharedIGEngine.likeMedia(self.post.Id, withSuccess: {
+//                println("Successfully liked media")
+//                self.likesLabel.text = NSString(format: "%d likes", self.post.likesCount+1)
+//            }, failure: {(error)->Void in
+//            println("Error Liking media")
+//        })
+    }
+
 
 
     override func viewWillAppear(animated: Bool) {
@@ -44,12 +54,13 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Make photo circular
+        self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
+        self.profilePicture.clipsToBounds = true
+        // Add border
+        self.profilePicture.layer.borderWidth = 2.0
+        self.profilePicture.layer.borderColor = UIColor.whiteColor().CGColor
         
-        self.commentTableView.separatorColor = UIColor.clearColor()
-        
-        // Fetch comments for post
-        self.fetchComments()
-
         // setup scroll view
         self.scrollView.pagingEnabled = false
         let screenSize = UIScreen.mainScreen().bounds.size
@@ -57,23 +68,21 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
         self.scrollView.contentSize = CGSize(width: screenSize.width, height: scrollHeight+40)
 
         
-        self.activityIndicator.hidden = false
-        self.activityIndicator.startAnimating()
+
         
         // Check media type
         if(post.isVideo == false){
-            self.navigationItem.title = "Photo"
+            self.navigationItem.title = "PHOTO"
             self.imageView.setImageWithURL(post.thumbnailURL)
             self.imageView.setImageWithURLRequest(NSURLRequest(URL: post.standardResolutionImageURL), placeholderImage: nil, success: {(request, response, image)->Void in
-                self.activityIndicator.stopAnimating()
-                self.activityIndicator.hidden = true
+
                 self.imageView.image = image
                 }, failure: {(request, response, error)->Void in
                     self.imageView.image = UIImage(named: "AvatarPlaceholder@2x.png")
                     println("failed to get photo")
             })
         }else {
-            self.navigationItem.title = "Video"
+            self.navigationItem.title = "VIDEO"
             
             // set up a video in the same frame as imageView
             let vidURL = self.post.standardResolutionVideoURL
@@ -100,22 +109,16 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
         if(segue.identifier == "showUserProfile"){
             let destVC: UserProfile_ViewController = segue.destinationViewController as UserProfile_ViewController
             destVC.userInfo = self.post.user
-        }else{
+        }else if (segue.identifier == "showCommentUserProfile"){
             let destVC: UserProfile_ViewController = segue.destinationViewController as UserProfile_ViewController
             destVC.userInfo = self.commentUser
             println("setPrepareforsegue")
         }
     }
-    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
-        if identifier == "showCommentUserProfile"{
-            return false
-        }else{
-            return true
-        }
-    }
+
     
     func timeSinceTaken() -> String{
-        // Create two NSData object
+        // Create two NSDate objects
 
         let curTime = NSDate()
         
@@ -136,19 +139,19 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
 //            println("Y: \(year)\nM: \(month)\nW: \(weeks)\nd: \(day)\nh: \(hours)\nm: \(minutes)\nY: \(seconds)\n\n\n")
             
             if(year != 0){
-                return String(abs(year)) + "Y ago"
+                return String(abs(year)) + "Y"
             }else if(month != 0){
-                return String(abs(month)) + "M ago"
+                return String(abs(month)) + "M"
             }else if(weeks != 0){
-                return String(abs(weeks)) + "w ago"
+                return String(abs(weeks)) + "w"
             }else if(day != 0){
-                return String(abs(day)) + "d ago"
+                return String(abs(day)) + "d"
             }else if(hours != 0){
-                return String(abs(hours)) + "h ago"
+                return String(abs(hours)) + "h"
             }else if(minutes != 0){
-                return String(abs(minutes)) + "m ago"
+                return String(abs(minutes)) + "m"
             }else if(seconds != 0){
-                return String(abs(seconds)) + "s ago"
+                return String(abs(seconds)) + "s"
             }else{
                 return "just now"
             }
@@ -157,37 +160,8 @@ class LargePhoto_ViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    func fetchComments(){
-        self.sharedIGEngine.getCommentsOnMedia(self.post.Id, withSuccess: {(commentsArray)->Void in
-            for comment in commentsArray as [InstagramComment]{
-                self.comments.append(comment)
-            }
-            self.commentTableView.reloadData()
-            }, failure: {(error)->Void in
-                println("Error fetching comments")
-        })
-    }
 }
 
-extension LargePhoto_ViewController: UITableViewDataSource, UITableViewDelegate{
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return self.comments.count
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCellWithIdentifier("commentReuseID", forIndexPath: indexPath) as Comments_TableViewCell
-        
-        let comment = self.comments[indexPath.row]
-        cell.setComment(comment.text)
-        cell.setUser(comment.user.username)
-        cell.setCommentUser(comment.user)
-        
-        cell.selectionStyle = .None
-        cell.delegate = self
-        
-        return cell
-    }
-}
 
 extension LargePhoto_ViewController: CommentsTableViewCellDelegate{
     func didPressUserButton(instagramUser: InstagramUser!) {

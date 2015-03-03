@@ -70,7 +70,7 @@ My Methods
     func fetchRecentMedia(locationID: String!){
         
         if((self.isInitialDataLoaded == false) || (self.isInitialDataLoaded == true && self.currentPaginationInfo != nil)){
-            self.sharedIGEngine.fetchRecentMediaAtLocation(locationID, count: -1, maxId: self.currentPaginationInfo?.nextMaxId, withSuccess: {(media, paginationInfo)->Void in
+            self.sharedIGEngine.fetchRecentMediaAtLocation(locationID, maxId: self.currentPaginationInfo?.nextMaxId, withSuccess: {(media, paginationInfo)->Void in
                 self.isFetchingData = false
                 self.isInitialDataLoaded = true
                 

@@ -10,15 +10,12 @@ import UIKit
 
 class UserPhotosCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var imageView: UIImageView!
     
     func setThumbnailImage(thumbnailImageURL: NSURL!){
-        self.activityIndicator.hidden = false
-        self.activityIndicator.startAnimating()
+        self.imageView.image = nil
+
         self.imageView.setImageWithURLRequest(NSURLRequest(URL: thumbnailImageURL), placeholderImage: nil, success: {(request, response, image)->Void in
-            self.activityIndicator.stopAnimating()
-            self.activityIndicator.hidden = true
             self.imageView.contentMode = UIViewContentMode.ScaleToFill
             dispatch_async(dispatch_get_main_queue(), {
                 self.imageView.image = image

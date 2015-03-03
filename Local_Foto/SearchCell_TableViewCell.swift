@@ -27,14 +27,10 @@ class SearchCell_TableViewCell: UITableViewCell {
 
     
     func setTitle(title: String!){
-        dispatch_async(dispatch_get_main_queue(), {
-            self.titleLabel.text = title
-        })
+        self.titleLabel.text = title
     }
     
     func setSubtitle(subtitle: String!){
-        dispatch_async(dispatch_get_main_queue(), {
-            self.subtitleLabel.text = subtitle
-        })
+        self.subtitleLabel.text = subtitle
     }
 }

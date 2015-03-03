@@ -13,6 +13,7 @@ class venuePhoto_CollectionViewCell: UICollectionViewCell {
     @IBOutlet var photo: UIImageView!
     
     func setPhoto(url: NSURL!){
+        self.photo.image = nil
         self.photo.setImageWithURL(url)
     }
 }

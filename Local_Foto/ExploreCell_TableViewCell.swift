@@ -28,8 +28,9 @@ class ExploreCell_TableViewCell: UITableViewCell {
     }
     
     
-    func setCategoryPhoto(image: String!){
-
+    func setCategoryPhoto(imageName: String!){
+        self.categoryPhoto.contentMode = UIViewContentMode.ScaleAspectFit
+        self.categoryPhoto.image = UIImage(named: imageName)
     }
     
     func setCategoryName(name: String!){

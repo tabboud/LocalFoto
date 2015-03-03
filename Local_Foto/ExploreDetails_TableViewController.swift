@@ -14,7 +14,6 @@ import MapKit
 class ExploreDetails_TableViewController: UITableViewController {
     var venues: [JSON]!{
         didSet{
-            self.navigationController?.title = self.category
             self.tableView.reloadData()
         }
     }
@@ -28,8 +27,8 @@ class ExploreDetails_TableViewController: UITableViewController {
         super.viewDidLoad()
         
         
+        self.navigationItem.title = self.category
         self.location = self.getCurrentLocation()
-        
         // Fetch Foursquare Data
         self.fetchVenueInfo()
     }
