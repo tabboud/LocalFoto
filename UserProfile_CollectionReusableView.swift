@@ -31,7 +31,7 @@ class UserProfile_CollectionReusableView: UICollectionReusableView {
                 self.profilePicture.image = image
             })
             }, failure: {(request, response, error)->Void in
-                println("failed to get photos")
+                println("failed to get photos - user profile collection reusable view")
         })
     }
     

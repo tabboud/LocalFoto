@@ -15,10 +15,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let managerSingleton = Manager.sharedInstance
 
 
+
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        managerSingleton.findCurrentLocation()
+        // Check if we have the accessToken
+        
+        if let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as? String{
+            InstagramEngine.sharedEngine().accessToken = accessToken
+        }else{
+            //present login view
+            let rootController = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateViewControllerWithIdentifier("loginScreen") as Login_ViewController
+            let loginNavController = UINavigationController(rootViewController: rootController)
+            self.window?.rootViewController = loginNavController
+        }
+        
+        // Get user location
+//        managerSingleton.findCurrentLocation()
+        
         
         return true
     }
@@ -36,6 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 
+        println("Will enter foreground")
         // Fetch users location, everytime we enter foreground
         managerSingleton.findCurrentLocation()
     }

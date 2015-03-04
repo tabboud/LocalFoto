@@ -22,7 +22,7 @@ class UserPhotosCollectionViewCell: UICollectionViewCell {
             })
             }, failure: {(request, response, error)->Void in
                 self.imageView.image = UIImage(named: "AvatarPlaceholder@2x.png")
-                println("failed to get photos")
+                println("failed to get photos - user photos collection view cell")
         })
 
     }

@@ -43,6 +43,7 @@
 		CED3E73F1A869E2A00F26AFE /* Local_FotoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED3E73E1A869E2A00F26AFE /* Local_FotoTests.swift */; };
 		CED514A51A8BE2FD00626C7E /* AvatarPlaceholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CED514A41A8BE2FD00626C7E /* AvatarPlaceholder@2x.png */; };
 		CEE5C8791AA664D80048EDF0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE5C8781AA664D80048EDF0 /* QuartzCore.framework */; };
+		CEE5C87B1AA669C50048EDF0 /* Login_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE5C87A1AA669C50048EDF0 /* Login_ViewController.swift */; };
 		CEF10E491A90677E00FA97BC /* UserProfile_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF10E481A90677E00FA97BC /* UserProfile_ViewController.swift */; };
 		CEF10E4B1A906F0200FA97BC /* UserPhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF10E4A1A906F0200FA97BC /* UserPhotosCollectionViewCell.swift */; };
 		CEFF67591AA4085600C39546 /* Globe-64.png in Resources */ = {isa = PBXBuildFile; fileRef = CEFF67581AA4085600C39546 /* Globe-64.png */; };
@@ -113,6 +114,7 @@
 		CED514A41A8BE2FD00626C7E /* AvatarPlaceholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AvatarPlaceholder@2x.png"; sourceTree = "<group>"; };
 		CEE0007F1A8B185D000D0CA6 /* Local_Foto-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Local_Foto-Bridging-Header.h"; sourceTree = "<group>"; };
 		CEE5C8781AA664D80048EDF0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		CEE5C87A1AA669C50048EDF0 /* Login_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login_ViewController.swift; sourceTree = "<group>"; };
 		CEF10E481A90677E00FA97BC /* UserProfile_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile_ViewController.swift; sourceTree = "<group>"; };
 		CEF10E4A1A906F0200FA97BC /* UserPhotosCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPhotosCollectionViewCell.swift; sourceTree = "<group>"; };
 		CEFF67581AA4085600C39546 /* Globe-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Globe-64.png"; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				CED3E72A1A869E2A00F26AFE /* ViewController.swift */,
 				CE0FC2091A9E2A2D00183D1F /* Posts_TableViewController.swift */,
 				CE5BD0A01AA57A9F0083453C /* Comments_TableViewController.swift */,
+				CEE5C87A1AA669C50048EDF0 /* Login_ViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -470,6 +473,7 @@
 				CEA3AF9A1A97D0A500737EB9 /* Manager.swift in Sources */,
 				CE99B7A81A943025008CB41A /* Location_ViewController.swift in Sources */,
 				CE0FC2081A999FF400183D1F /* Comments_TableViewCell.swift in Sources */,
+				CEE5C87B1AA669C50048EDF0 /* Login_ViewController.swift in Sources */,
 				CEA1A5841A9F80CA00E03FDF /* SearchCell_TableViewCell.swift in Sources */,
 				CEB0D9691AA009D100DFF610 /* VenueInfo_CollectionReusableView.swift in Sources */,
 				CE0FC20A1A9E2A2D00183D1F /* Posts_TableViewController.swift in Sources */,

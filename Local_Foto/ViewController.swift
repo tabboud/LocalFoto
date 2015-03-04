@@ -12,33 +12,35 @@
 import UIKit
 import CoreLocation
 
-let AUTHURL        = "https://api.instagram.com/oauth/authorize/"       // Used for Oauth
-let CLIENTID       = "db65495f5ece4a4aac490ccc13963c05"
-let REDIRECTURL    = "http://AbboudsCorner.wordpress.com"
-
-// Set up ViewControllerDelegate protocol with access token received method, Made optional so it does not have to be implemented
-@objc protocol ViewControllerDelegate{
-    func accessTokenReceived(accessToken: String!)
-}
 
 class ViewController: UIViewController, UIWebViewDelegate {
-    let fullURL = NSString(format: "%@?client_id=%@&redirect_uri=%@&response_type=token", AUTHURL, CLIENTID, REDIRECTURL)
-    var delegate: ViewControllerDelegate? = nil
+    var scope: IKLoginScope!
     
-// Outlets
     @IBOutlet var myWebView: UIWebView!
-    @IBAction func cancelBtn(sender: AnyObject) {
-        let alert: UIAlertController = UIAlertController(title: "OAuth2 Required", message: "Authorization is required to use the Instagram API", preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: {(action: UIAlertAction!)->Void in
-            alert.dismissViewControllerAnimated(true, completion: nil)
-        }))
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.loadURL()
+        
+        myWebView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        myWebView.scrollView.bounces = false
+        myWebView.contentMode = .ScaleAspectFit
+        myWebView.delegate = self
+        
+        self.scope = IKLoginScope.Relationships | .Comments | .Likes
+        
+        let configuration   = InstagramEngine.sharedEngineConfiguration()
+        let urlConfigKey    = configuration[kInstagramKitAuthorizationUrlConfigurationKey] as String
+        let clientId        = configuration[kInstagramKitAppClientIdConfigurationKey] as String
+        let redirectURL     = configuration[kInstagramKitAppRedirectUrlConfigurationKey] as String
+        let scopeString     = InstagramEngine.stringForScope(self.scope)
+        
+        let urlString = NSString(format: "%@?client_id=%@&redirect_uri=%@&response_type=token&scope=%@", urlConfigKey, clientId, redirectURL, scopeString)
+        if let url = NSURL(string: urlString){
+            let requestObj: NSURLRequest = NSURLRequest(URL: url)
+            myWebView.loadRequest(requestObj)
+        }else{
+            println("Error making url object")
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,37 +48,34 @@ class ViewController: UIViewController, UIWebViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func loadURL(){
-        let url: NSURL = NSURL(string: fullURL)!
-        let requestObj: NSURLRequest = NSURLRequest(URL: url)
-        self.myWebView.loadRequest(requestObj)
-        self.myWebView.delegate = self
-        self.view.addSubview(myWebView)
-    }
-    
+
     // UIWebView - Delegate method
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool{
         var urlString:NSString = request.URL.absoluteString!
-        println("URL String : \(urlString)")
         
         if(urlString.containsString("#access_token=")){
             let accessTok: NSRange = urlString.rangeOfString("#access_token=")
             let strAccessTok: String = urlString.substringFromIndex(NSMaxRange(accessTok))
             
-            // Store key in NSUserDefaults
+            // Save access token in UserDefaults
             NSUserDefaults.standardUserDefaults().setObject(strAccessTok, forKey: "accessToken")
             NSUserDefaults.standardUserDefaults().synchronize()
-            println("Stored key in NSUserDefaults")
+            
+            
+            
+            InstagramEngine.sharedEngine().accessToken = strAccessTok
+            var appdelTemp = UIApplication.sharedApplication().delegate as AppDelegate
+            appdelTemp.window?.rootViewController = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle()).instantiateInitialViewController() as? UIViewController
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
 
-            // Delegate method called, implemented on MainScreen_ViewController
-            if let del = delegate{
-                del.accessTokenReceived(strAccessTok) 
-            }else{
-                println("delegate is nil")
-            }
             return false
         }
         return true
+    }
+    
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
+        println("Error occured loading webView")
     }
     
     

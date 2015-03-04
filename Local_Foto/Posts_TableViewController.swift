@@ -14,11 +14,13 @@ class Posts_TableViewController: UITableViewController {
     var sharedIGEngine = InstagramEngine.sharedEngine()
     var ManagerSingleton = Manager.sharedInstance
 
-    var isPhotosAvailable = false
+    var isPhotosAvailable = false               // Flag to notify if new photos are available to refresh
     var fetchedPosts = [InstagramMedia]()
+    var location: CLLocation!
+    var fetchTimer: NSTimer!
+    
 
     @IBOutlet var postsTableView: UITableView!
-    
     @IBOutlet var customMap: LocalMap_UIView!
 
 
@@ -26,38 +28,59 @@ class Posts_TableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        self.tableView.estimatedRowHeight = 418.0
-//        self.tableView.rowHeight = UITableViewAutomaticDimension
 
-        
-
+        // Add observer for state changes
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "enterBackground:", name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "enterForeground:", name: UIApplicationWillEnterForegroundNotification, object: nil)
         // Add observer for currentLocation value in Singleton 'Manager.swift'
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "startRefresh", name: curLocationNotificationKey, object: nil)
         
         // Set timer for fetching new user data every 25 seconds
-        var fetchTimer = NSTimer.scheduledTimerWithTimeInterval(25, target: self, selector: "fetchData", userInfo: nil, repeats: true)
+        self.fetchTimer = NSTimer.scheduledTimerWithTimeInterval(25, target: self, selector: "fetchData", userInfo: nil, repeats: true)
         
         // Check authorization access token
-        if let accessToken = NSUserDefaults.standardUserDefaults().objectForKey("accessToken") as? String{
+        if let accessToken = self.sharedIGEngine.accessToken{
             self.accessToken = accessToken
-            self.sharedIGEngine.accessToken = accessToken
+            self.ManagerSingleton.findCurrentLocation()
         }else{
-            self.performSegueWithIdentifier("presentWebView", sender: self)
+            println("No Access Token!")
         }
     }
     
+/*
+    State Change Methods
+*/
+    func enterBackground(note: NSNotification!){
+        // Invalidate the Timer
+        self.fetchTimer.invalidate()
+        self.fetchTimer = nil
+        TSMessage.dismissActiveNotification()
+    }
+    func enterForeground(app: NSNotification!){
+        // Instantiate Timer again
+        self.fetchTimer = NSTimer.scheduledTimerWithTimeInterval(25, target: self, selector: "fetchData", userInfo: nil, repeats: true)
+        self.navigationController?.popToRootViewControllerAnimated(true)
+    }
     
+    
+/*
+    Methods to get data from IG and refresh views
+*/
     func startRefresh(){
         if self.accessToken != nil{
             println("inside startRefresh")
             
             // Setup map
-            if(ManagerSingleton.currentLocation != nil){
-                let coordinates = ManagerSingleton.currentLocation.coordinate
-                self.customMap.setRegion(coordinates)
-                self.customMap.addAnnotation(coordinates, title: "Current Location")
+            if let currentLocation = ManagerSingleton.currentLocation{
+                if((self.location == nil) || (currentLocation != self.location)){
+                    self.location = currentLocation
+                    // Update Map
+                    let coordinates = ManagerSingleton.currentLocation.coordinate
+                    self.customMap.setRegion(coordinates)
+                    self.customMap.addAnnotation(coordinates, title: "Current Location")
+                }
             }
+
             
             if(self.isPhotosAvailable == false){
                 // Get instagram data
@@ -108,24 +131,29 @@ class Posts_TableViewController: UITableViewController {
     func fetchData(){
         if self.accessToken != nil{
             println("Fetch Data")
-            sharedIGEngine.getMediaAtLocation(ManagerSingleton.currentLocation.coordinate, withSuccess: {(media, paginationInfo)->Void in
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            
+            
+            self.sharedIGEngine.getMediaAtLocation(self.ManagerSingleton.currentLocation.coordinate, withSuccess: {(media, paginationInfo)->Void in
                 self.fetchedPosts = media as [InstagramMedia]
                 if(self.fetchedPosts.first?.link != self.posts.first?.link){
                     self.isPhotosAvailable = true
                     println("New photos ...")
                     TSMessage.showNotificationInViewController(self, title: "New Photos Available", subtitle: nil, image: nil, type: .Success, duration: -1, callback: {()->Void in
                         self.startRefresh()
-                        TSMessage.dismissActiveNotification()
-                        self.navigationController?.popToRootViewControllerAnimated(true)
+                        dispatch_async(dispatch_get_main_queue(), {
+                            TSMessage.dismissActiveNotification()
+                            self.navigationController?.popToRootViewControllerAnimated(true)
+                        })
                         }, buttonTitle: nil, buttonCallback: nil, atPosition: TSMessageNotificationPosition.Top, canBeDismissedByUser: true)
-                    
                 }
                 
                 }, failure: {(error)->Void in
                     if error != nil{
-                        println("error: \(error.description)")
+                        println("error in FetchData: \(error.description)")
                     }
             })
+        })
         }
     }
 
@@ -139,12 +167,8 @@ class Posts_TableViewController: UITableViewController {
             let destVC = segue.destinationViewController as Comments_TableViewController
             let index = sender as Int
             destVC.media = self.posts[index]
-        }else if(segue.identifier == "presentWebView"){
-            let VC: ViewController = segue.destinationViewController as ViewController
-            VC.delegate = self
         }
     }
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -174,9 +198,7 @@ class Posts_TableViewController: UITableViewController {
         cell.cellIndex = indexPath.row
         cell.setTimeTakenLabel(self.timeSinceTaken(userPost.createdDate))
         cell.setNumOfComments(String(userPost.commentCount))
-        
-
-          
+ 
         return cell
     }
 
@@ -221,9 +243,6 @@ class Posts_TableViewController: UITableViewController {
             return "No time avail."
         }
     }
-    
-
-    
 }
 
 extension Posts_TableViewController: PostsTabeViewCellDelegate{
@@ -236,19 +255,4 @@ extension Posts_TableViewController: PostsTabeViewCellDelegate{
     
 }
 
-// MARK: ViewControllerDelegate Methods
-extension Posts_TableViewController: ViewControllerDelegate{
-    func accessTokenReceived(accessToken: String!) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-        self.accessToken = accessToken
-        self.sharedIGEngine.accessToken = accessToken
-        
-        // Refresh screen or request current location, now that we have token
-        if (self.ManagerSingleton.currentLocation != nil){
-            self.startRefresh()
-        }else{
-            self.ManagerSingleton.findCurrentLocation()
-        }
-    }
-}
 

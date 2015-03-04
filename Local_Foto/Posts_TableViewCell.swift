@@ -87,7 +87,7 @@ class Posts_TableViewCell: UITableViewCell {
                 self.profilePhoto.image = image
             })
             }, failure: {(request, response, error)->Void in
-                println("failed to get photos")
+                println("failed to get photos - Post Table View cell")
         })
     }
     func setPostPhoto(thumbnailURL: NSURL!, standardResURL: NSURL!){
